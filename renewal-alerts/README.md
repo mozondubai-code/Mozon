@@ -12,8 +12,9 @@ a Google Sheet.
    (or the manifest file in the editor) and replace it with
    [`appsscript.json`](./appsscript.json), adjusting `timeZone` to yours.
 4. In `Code.gs`, edit the `CONFIG` block at the top if needed:
-   - `ALERT_EMAIL`: where alerts are sent (defaults to
-     `gasulgachuu@gmail.com`).
+   - `ALERT_EMAILS`: list of addresses alerts are sent to. Defaults to
+     `gasulgachuu@gmail.com`, `alidaymart@gmail.com`,
+     `musthafadaymart@gmail.com` (all three receive every alert).
    - `ALERT_DAYS`: `[30, 7, 3]` by default.
    - `TRIGGER_HOUR`: hour of day the daily check runs.
 5. In the Apps Script editor toolbar, select the function `setupSheet` and

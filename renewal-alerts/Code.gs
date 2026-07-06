@@ -17,7 +17,11 @@
 // ---------------------- CONFIG ----------------------
 const CONFIG = {
   SHEET_NAME: 'Renewals',
-  ALERT_EMAIL: 'gasulgachuu@gmail.com',
+  ALERT_EMAILS: [
+    'gasulgachuu@gmail.com',
+    'alidaymart@gmail.com',
+    'musthafadaymart@gmail.com',
+  ],
   ALERT_DAYS: [30, 7, 3],
   TRIGGER_HOUR: 8, // 24h, script timezone
 };
@@ -122,7 +126,7 @@ function sendAlertEmail(name, renewalDate, daysUntil, amount, notes) {
   ];
   if (amount) lines.push(`Amount: ${amount}`);
   if (notes) lines.push(`Notes: ${notes}`);
-  MailApp.sendEmail(CONFIG.ALERT_EMAIL, subject, lines.join('\n'));
+  MailApp.sendEmail(CONFIG.ALERT_EMAILS.join(','), subject, lines.join('\n'));
 }
 
 function stripTime(date) {
