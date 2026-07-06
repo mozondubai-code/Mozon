@@ -21,10 +21,13 @@ a Google Sheet.
    click **Run**. Approve the Google account permission prompt (it needs
    access to the spreadsheet and to send email as you). This creates a
    `Renewals` sheet tab with the right headers.
-6. Select the function `createDailyTrigger` and click **Run** once. This
+6. (Optional) Select the function `seedInitialData` and click **Run** once
+   to auto-fill the sheet with the known Mozon items (tenancy, trade
+   license, Emirates ID). Safe to run again — it won't create duplicates.
+7. Select the function `createDailyTrigger` and click **Run** once. This
    installs a time-based trigger that runs `checkRenewals` every day at
    `TRIGGER_HOUR`. You only need to do this once.
-7. Fill in the `Renewals` sheet, one row per subscription/payment:
+8. Fill in the `Renewals` sheet, one row per subscription/payment:
 
    | Name          | Renewal Date | Amount | Recurrence | Notes         | Last Alert Sent |
    |---------------|--------------|--------|------------|---------------|------------------|

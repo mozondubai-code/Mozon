@@ -47,6 +47,57 @@ function setupSheet() {
 }
 
 /**
+ * One-time helper: fills the sheet with the known renewal items.
+ * Only adds a row if a row with the same Name isn't already present,
+ * so it's safe to run more than once (no duplicates). Extracted from
+ * the Mozon / Lusso Chicken documents.
+ */
+function seedInitialData() {
+  setupSheet();
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAME);
+
+  // [Name, Renewal Date, Amount, Recurrence, Notes]
+  const seed = [
+    [
+      'Tenancy Contract - Mozon (BAKS Al Nahda S03)',
+      new Date(2026, 8, 30), // 30 Sep 2026
+      'AED 151,798 / yr (AED 159,388 incl VAT)',
+      'Yearly',
+      'Ejari No 0120171002003325; SBK Real Estate; Unit S03; Owner Beit Al Khair Society',
+    ],
+    [
+      'Trade License 537107 - Mozon Restaurant & Cafeteria',
+      new Date(2026, 7, 27), // 27 Aug 2026
+      '',
+      'Yearly',
+      'DED-Dubai; License No 537107',
+    ],
+    [
+      'Emirates ID - Muhammadali Chandroth (Sales Manager)',
+      new Date(2026, 9, 30), // 30 Oct 2026
+      '',
+      'None',
+      'EID 784-1970-5142984-9; renew before expiry then update this date',
+    ],
+  ];
+
+  const existing = sheet.getLastRow() > 1
+    ? sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues().map((r) => String(r[0]).trim())
+    : [];
+
+  const toAdd = seed.filter((row) => existing.indexOf(String(row[0]).trim()) === -1);
+  if (toAdd.length === 0) return;
+
+  // Pad each row to full column width (Last Alert Sent stays blank).
+  const rows = toAdd.map((row) => {
+    const full = row.slice();
+    while (full.length < COLUMNS.length) full.push('');
+    return full;
+  });
+  sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, COLUMNS.length).setValues(rows);
+}
+
+/**
  * One-time setup: installs the daily trigger that runs checkRenewals().
  * Run this once from the Apps Script editor and approve the auth prompt.
  */
