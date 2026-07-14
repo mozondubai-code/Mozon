@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life OS — Gazul</title>
+  <meta name="description" content="Personal command center: accounts, daily tasks, credit ledger, reminders." />
+  <meta name="theme-color" content="#2f6df6" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232f6df6'/><text x='50' y='70' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>L</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">L</div>
+        <div>
+          <h1>Life OS</h1>
+          <small>Gazul · Al Nahda 2</small>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <button data-view="dashboard" class="active"><span class="ic">▦</span><span class="lbl">Dashboard</span></button>
+        <button data-view="tasks"><span class="ic">✓</span><span class="lbl">Tasks</span></button>
+        <button data-view="finances"><span class="ic">₳</span><span class="lbl">Accounts</span></button>
+        <button data-view="credit"><span class="ic">⇄</span><span class="lbl">Credit Ledger</span></button>
+        <button data-view="reminders"><span class="ic">⏰</span><span class="lbl">Reminders</span></button>
+        <button data-view="ideas"><span class="ic">💡</span><span class="lbl">Ideas</span></button>
+      </nav>
+      <div class="side-foot">
+        <button class="btn ghost sm" id="exportBtn">⬇ Export data</button>
+        <button class="btn ghost sm" id="importBtn">⬆ Import data</button>
+        <input type="file" id="importFile" accept="application/json" class="hidden" />
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <h2 id="viewTitle">Dashboard</h2>
+        <span class="bizdate" id="bizDate"></span>
+      </div>
+      <div id="views"></div>
+    </main>
+  </div>
+
+  <div class="modal-back" id="modalBack">
+    <div class="modal" id="modal"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
