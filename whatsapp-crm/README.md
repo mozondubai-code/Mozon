@@ -1,142 +1,78 @@
-# Mozon WhatsApp Business CRM (Google Apps Script)
+# Mozon WhatsApp — Simple Manual Broadcast
 
-Turns one Google Sheet into a lightweight WhatsApp CRM for Mozon:
+No API, no automation. You keep a customer list in a Google Sheet and send
+broadcasts **by hand through WhatsApp Web**. The script only does one clever
+thing: it makes a **click-to-send link** for each customer with your message
+already typed in. You click, WhatsApp opens, you press send.
 
-1. **Contact list** — every customer who messages lands in a `Customers` tab.
-2. **Customer behaviour** — messages/orders/complaints counted per customer and
-   labelled **New / Regular / VIP / At-Risk / Dormant**.
-3. **Late-delivery complaints** — auto-detected by keywords and tracked in a
-   `Complaints` tab.
-4. **Unattended-message alerts** — emails `gasulgachuu@gmail.com` (and optionally
-   WhatsApps you) when an incoming message goes **5 minutes** without a reply.
+## What you get
 
----
+- **Customers** tab — your contact list (Phone, Name, Group, Orders,
+  Complaints, Late Deliveries, Last Contacted, Notes). You fill it in by hand.
+- **Broadcast** tab — type one message, optionally pick a Group.
+- A **📣 Mozon WhatsApp** menu in the sheet with three buttons.
 
-## ⚠️ Read this first: what CallMeBot can and can't do
-
-CallMeBot (your API key `2220210`) can **only _send_ WhatsApp messages**
-(outbound). It **cannot read incoming messages**. So the two halves of the
-system use two different channels:
-
-| Direction | Channel | Used for |
-|-----------|---------|----------|
-| **Outbound** (script → you/customer) | **CallMeBot** | staff alerts, replies |
-| **Inbound** (customer → script) | **a webhook → this script's `/exec` URL** | logging messages, behaviour, complaints, the 5-min rule |
-
-**Because CallMeBot can't receive, the inbound feed must come from one of these
-(pick one):**
-
-- **A. WhatsApp Business Cloud API (Meta)** — the proper business option. Point
-  its webhook at your `/exec` URL. Gives you real inbound messages automatically.
-- **B. Make / Zapier** — a "WhatsApp Business → Webhook (POST)" scenario that
-  forwards each incoming message to your `/exec` URL. (You have Make connected.)
-- **C. Manual / Google Form** — type rows into the `Messages` tab yourself, or
-  wire a Google Form. Zero cost, but not automatic.
-
-The script accepts **all three** payload shapes, so you can start with C today
-and upgrade to A/B later without changing the code.
-
-> If you only ever use CallMeBot and never connect an inbound feed, you still get
-> outbound alerts, but the customer list / behaviour / 5-min rule stay empty
-> because nothing is feeding messages in.
-
----
-
-## Setup
+## Setup (once)
 
 1. Open your Google Sheet →
    [the Mozon sheet](https://docs.google.com/spreadsheets/d/1hxWAwxYWD7u3EceGgnDcZuCvAgegMJm7NxEU_Unu4kM/edit).
 2. **Extensions → Apps Script.** Paste [`Code.gs`](./Code.gs) over the default
-   file. Open the manifest (**Project Settings → “Show appsscript.json”**) and
-   replace it with [`appsscript.json`](./appsscript.json).
-3. Edit the `CONFIG` block at the top of `Code.gs`:
-   - `ALERT_EMAIL` — already `gasulgachuu@gmail.com`.
-   - `CALLMEBOT_API_KEY` — already `2220210`.
-   - `OWNER_WHATSAPP` — **set this** to the number CallMeBot is registered to,
-     in full international form (e.g. `+9715XXXXXXXX`), to also get WhatsApp
-     alerts. Leave `''` for email-only.
-   - `UNATTENDED_MINUTES` — `5` by default.
-   - `META_VERIFY_TOKEN` — any secret word; only used for option A.
-4. In the editor, select **`setupSheets`** → **Run**, and approve the permission
-   prompt. This creates the `Customers`, `Messages`, and `Complaints` tabs.
-5. Select **`createTriggers`** → **Run** once. Installs:
-   - `checkUnattendedMessages` every minute (the 5-min rule), and
-   - `refreshCustomerBehaviours` nightly at 03:00.
-6. **Deploy the webhook:** **Deploy → New deployment → Web app**, execute as
-   *me*, access *Anyone*. Copy the `/exec` URL — that is your inbound webhook.
-   (It matches the App Script URL you already have.)
-7. Test it: select **`simulateIncoming`** → **Run**. You should see a row in
-   `Messages` (category *Late Delivery*), a customer in `Customers`, and a row
-   in `Complaints`. Wait 5 min and the minute-trigger emails you the unattended
-   alert. To test CallMeBot outbound, set `OWNER_WHATSAPP` then run
-   **`testWhatsApp`**.
+   file and **Save** (💾).
+3. Close the editor and **reload the sheet**. A **📣 Mozon WhatsApp** menu
+   appears at the top.
+4. Click **📣 Mozon WhatsApp → 1. Set up sheets** and approve the one-time
+   permission prompt. This creates the `Customers` and `Broadcast` tabs (with
+   one example row you can delete).
 
----
+## Everyday use — sending a broadcast
 
-## Connecting a real inbound feed
+1. In **Customers**, add a row per customer. **Phone must be full
+   international format**, e.g. `+9715XXXXXXXX` (spaces/dashes are fine — the
+   script cleans them). `Group` is optional (e.g. `VIP`, `Delivery`).
+2. Go to the **Broadcast** tab. In **A2**, type your message. Use **`{name}`**
+   anywhere to drop in the customer's name, e.g.
+   `Hello {name}, Mozon's Friday offer: 2 shawarma for AED 15 🌯`.
+3. (Optional) In **B4**, type a Group name to send only to that group. Leave it
+   blank to include everyone.
+4. Click **📣 Mozon WhatsApp → 2. Generate send links**.
+5. Back in **Customers**, a **“▶ Send to …”** link now sits in the **Send**
+   column for each customer. **Click one** → WhatsApp Web (or your phone app)
+   opens that chat with the message already typed → press **send**. Repeat down
+   the list.
+6. Select the rows you sent to and click
+   **📣 Mozon WhatsApp → 3. Mark selected rows as contacted** to stamp today's
+   date in *Last Contacted*.
 
-### Option A — WhatsApp Business Cloud API (Meta)
-> Full walkthrough with the *why* behind each step:
-> **[CONNECT-BUSINESS-WHATSAPP.md](./CONNECT-BUSINESS-WHATSAPP.md).**
+> **You must be logged into [WhatsApp Web](https://web.whatsapp.com)** (or have
+> WhatsApp on the phone) for the links to open a chat. Nothing sends by itself —
+> you always press send, so you stay in full control.
 
-1. In Meta’s app dashboard, WhatsApp → Configuration → **Webhook**.
-2. Callback URL = your `/exec` URL. Verify token = your `META_VERIFY_TOKEN`.
-   Meta calls `doGet` with `hub.challenge`; the script echoes it back.
-3. Subscribe to the **messages** field. Incoming messages now POST to `doPost`
-   and are logged automatically.
+## Tracking customers & complaints (manual)
 
-### Option B — Make (you have it connected)
-1. New scenario: trigger **WhatsApp Business → Watch messages**.
-2. Action **HTTP → Make a request**: `POST` to your `/exec` URL, body type
-   *JSON*:
-   ```json
-   { "phone": "{{sender number}}", "name": "{{sender name}}", "message": "{{text}}" }
-   ```
-That’s the shape the script expects (`phone` + `message`, optional `name`).
+Just type into the Customers columns as things happen:
+- `Orders` — bump the number when they order.
+- `Complaints` / `Late Deliveries` — bump when one happens; use `Notes` for
+  detail. Sort or filter the sheet by these columns any time to see who's a
+  VIP or who's unhappy.
+- `Group` lets you target broadcasts (VIP offers, apology to late-delivery
+  customers, etc.).
 
----
+## Menu reference
 
-## The tabs
+| Menu item | What it does |
+|-----------|--------------|
+| **1. Set up sheets** | Create the `Customers` + `Broadcast` tabs. |
+| **2. Generate send links** | Build a click-to-send WhatsApp link per customer. |
+| **3. Mark selected rows as contacted** | Stamp today's date on selected rows. |
+| **Clear send links** | Empty the Send column. |
 
-**Customers** — one row per phone:
-`Phone · Name · First Seen · Last Seen · Total Messages · Total Orders ·
-Complaints · Late Deliveries · Behaviour · Notes`.
-`Behaviour` is auto-set (VIP ≥ 10 orders, Regular ≥ 3, At-Risk ≥ 2 complaints,
-Dormant if silent > 60 days, else New). `Notes` is yours — it’s preserved across
-nightly refreshes.
+## Notes
 
-**Messages** — the full log:
-`Timestamp · Phone · Name · Direction · Message · Category · Status ·
-Attended At · Alerted`.
-`Category` = Late Delivery / Complaint / Order / Message / Outbound.
-`Status` starts **New** for incoming. A message is “attended” when you change
-its Status away from *New*, **or** when a later outbound message to that phone is
-logged (auto-detected). Only unattended-past-5-min rows trigger an alert, once
-each (`Alerted = Yes`).
-
-**Complaints** — every complaint/late delivery:
-`Timestamp · Phone · Name · Type · Order Ref · Details · Status · Resolved At`.
-Fill `Order Ref`/`Resolved At` and flip `Status` to *Resolved* as you handle them.
-
----
-
-## Functions you can run
-
-| Function | What it does |
-|----------|--------------|
-| `setupSheets` | Create the three tabs (safe to re-run). |
-| `createTriggers` | Install the minute + nightly triggers. |
-| `checkUnattendedMessages` | The 5-min watcher (also runs on the trigger). |
-| `refreshCustomerBehaviours` | Rebuild the Customers tab from the log. |
-| `sendWhatsApp(phone, text)` | Send an outbound WhatsApp via CallMeBot. |
-| `testWhatsApp` | Send yourself a CallMeBot test message. |
-| `simulateIncoming` | Inject a fake “late delivery” message to test end-to-end. |
-
-## Why this design
-
-- **Sheet as the database** — free, editable from your phone, no hosting.
-- **Two channels, one script** — CallMeBot for cheap outbound, a webhook for
-  inbound, so you’re never locked into one provider.
-- **Minute trigger, not hourly** — 5-minute promises need minute granularity.
-- **Idempotent + self-healing** — every setup function is safe to re-run, and
-  `refreshCustomerBehaviours` can rebuild the whole customer view from the log.
+- **Send-only, one click each.** WhatsApp doesn't allow true bulk auto-send from
+  a sheet (and doing so gets numbers banned). Click-to-send is the safe manual
+  way and works with a brand-new customer who hasn't saved your number.
+- Want a real one-to-many blast instead? WhatsApp's own **Broadcast Lists**
+  (in the app: *New broadcast*) send one message to many saved contacts — use
+  this sheet to keep the master list, then recreate the broadcast list in the
+  app. The click-links here don't need contacts to save your number, which is
+  why they're the default.
