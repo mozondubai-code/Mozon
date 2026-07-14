@@ -65,6 +65,7 @@ const PREFIX = {
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('Life OS')
+    .addItem('Setup (build sheet + triggers)', 'setup')
     .addItem('Build / repair sheet', 'buildSheet')
     .addItem('Install daily triggers', 'createTriggers')
     .addSeparator()
@@ -77,7 +78,17 @@ function onOpen() {
 
 /* --------------------------- SHEET HELPERS ------------------------------ */
 function ss_()          { return SpreadsheetApp.openById(CONFIG.SHEET_ID); }
-function sh_(name)      { return ss_().getSheetByName(name); }
+function sh_(name) {
+  const ss = ss_();
+  let s = ss.getSheetByName(name);
+  if (!s && HEADERS[name]) {                       // auto-create if missing
+    s = ss.insertSheet(name);
+    s.getRange(1,1,1,HEADERS[name].length).setValues([HEADERS[name]]).setFontWeight('bold');
+    s.setFrozenRows(1);
+  }
+  return s;
+}
+function toast_(msg) { try { const a = SpreadsheetApp.getActive(); if (a) a.toast(msg); } catch (e) {} }
 function stripTime_(d)  { const x = new Date(d); x.setHours(0,0,0,0); return x; }
 function bizToday_()    { const n = new Date(); n.setHours(n.getHours() - CONFIG.BIZ_CUTOFF_HOUR); return stripTime_(n); }
 function isoDate_(d)    { return Utilities.formatDate(new Date(d), CONFIG.TIMEZONE, 'yyyy-MM-dd'); }
@@ -135,7 +146,14 @@ function buildSheet() {
   if (junk && ss.getSheets().length > 1) ss.deleteSheet(junk);
 
   log_('buildSheet','System','tabs='+Object.values(TABS).length,'OK');
-  SpreadsheetApp.getUi && SpreadsheetApp.getActive().toast && SpreadsheetApp.getActive().toast('Sheet built ✓');
+  toast_('Sheet built ✓');
+}
+
+/* One-shot setup: build the sheet AND install triggers in a single run. */
+function setup() {
+  buildSheet();
+  createTriggers();
+  toast_('Life OS ready ✓');
 }
 
 function dropdown_(tabName, col, values) {
@@ -508,5 +526,5 @@ function createTriggers() {
   ScriptApp.newTrigger('runEveningPush').timeBased().atHour(CONFIG.NUDGE.eveningPush).everyDays(1).inTimezone(CONFIG.TIMEZONE).create();
   ScriptApp.newTrigger('runNightReview').timeBased().atHour(CONFIG.NUDGE.nightReview).everyDays(1).inTimezone(CONFIG.TIMEZONE).create();
   log_('createTriggers','System','12/19/02','OK');
-  try { SpreadsheetApp.getActive().toast('3 daily triggers installed ✓'); } catch(e){}
+  toast_('3 daily triggers installed ✓');
 }
