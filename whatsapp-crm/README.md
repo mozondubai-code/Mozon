@@ -76,6 +76,9 @@ and upgrade to A/B later without changing the code.
 ## Connecting a real inbound feed
 
 ### Option A — WhatsApp Business Cloud API (Meta)
+> Full walkthrough with the *why* behind each step:
+> **[CONNECT-BUSINESS-WHATSAPP.md](./CONNECT-BUSINESS-WHATSAPP.md).**
+
 1. In Meta’s app dashboard, WhatsApp → Configuration → **Webhook**.
 2. Callback URL = your `/exec` URL. Verify token = your `META_VERIFY_TOKEN`.
    Meta calls `doGet` with `hub.challenge`; the script echoes it back.
