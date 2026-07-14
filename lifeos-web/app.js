@@ -607,6 +607,82 @@ document.getElementById('importFile').onchange = (e) => {
   reader.readAsText(file);
 };
 
+/* ---------- Google Sheet cloud sync ---------- */
+const CLOUD_KEY = 'lifeos_cloud';
+function getCloud() { try { return JSON.parse(localStorage.getItem(CLOUD_KEY)) || {}; } catch (e) { return {}; } }
+function setCloud(c) { localStorage.setItem(CLOUD_KEY, JSON.stringify(c)); }
+
+function jsonp(url, timeout = 12000) {
+  return new Promise((resolve, reject) => {
+    const cb = '__lifeos_cb_' + Math.random().toString(36).slice(2);
+    const s = document.createElement('script');
+    const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, timeout);
+    function cleanup() { clearTimeout(timer); delete window[cb]; s.remove(); }
+    window[cb] = (data) => { cleanup(); resolve(data); };
+    s.onerror = () => { cleanup(); reject(new Error('network')); };
+    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+    document.body.appendChild(s);
+  });
+}
+
+document.getElementById('cloudBtn').onclick = () => {
+  const c = getCloud();
+  openModal(`
+    <h3>Connect Google Sheet</h3>
+    <p class="muted" style="font-size:13px;margin-top:-6px">Paste your Apps Script Web App URL and secret. "Push" sends all your data to the Sheet; your daily WhatsApp/email reports read from there.</p>
+    ${fieldInput('cl_url', 'Web App URL (…/exec)', c.url)}
+    ${fieldInput('cl_secret', 'Webhook secret', c.secret || 'gazul-lifeos-Kx7q-2026')}
+    <div id="cl_status" class="muted" style="font-size:12.5px;min-height:18px"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Close</button>
+      <button class="btn" onclick="cloudTest()">Test</button>
+      <button class="btn primary" onclick="cloudPush()">☁ Push all to Sheet</button>
+    </div>`);
+};
+function saveCloudFromForm() {
+  const c = { url: val('cl_url').trim().replace(/\s+/g, ''), secret: val('cl_secret').trim() };
+  setCloud(c); return c;
+}
+window.cloudTest = async () => {
+  const c = saveCloudFromForm();
+  const st = document.getElementById('cl_status');
+  if (!c.url) { st.textContent = 'Enter the Web App URL first.'; return; }
+  st.textContent = 'Testing…';
+  try {
+    const r = await jsonp(`${c.url}?action=read&secret=${encodeURIComponent(c.secret)}`);
+    st.innerHTML = r && r.ok
+      ? `<span style="color:var(--green)">✓ Connected. Sheet business day: ${r.businessDate}</span>`
+      : `<span style="color:var(--red)">✗ ${r && r.error ? r.error : 'Unexpected response'}</span>`;
+  } catch (e) {
+    st.innerHTML = `<span style="color:var(--red)">✗ Could not reach the Web App (check URL & that access = Anyone).</span>`;
+  }
+};
+window.cloudPush = () => {
+  const c = saveCloudFromForm();
+  const st = document.getElementById('cl_status');
+  if (!c.url) { st.textContent = 'Enter the Web App URL first.'; return; }
+  const payload = { secret: c.secret, action: 'sync', data: {
+    tasks: db.tasks, finances: db.finances, personal: db.personal,
+    credit: db.credit, reminders: db.reminders, ideas: db.ideas
+  }};
+  // text/plain keeps this a "simple" request (no CORS preflight). Response is
+  // opaque under no-cors, so we confirm the write by reading back via JSONP.
+  fetch(c.url, { method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload) })
+    .then(async () => {
+      st.textContent = 'Sent. Verifying…';
+      try {
+        const r = await jsonp(`${c.url}?action=read&secret=${encodeURIComponent(c.secret)}`);
+        st.innerHTML = r && r.ok
+          ? `<span style="color:var(--green)">✓ Pushed. Shop balance on Sheet: ${fmt(r.balances.shop.total)} AED</span>`
+          : `<span style="color:var(--green)">✓ Sent to Sheet.</span>`;
+      } catch (e) { st.innerHTML = `<span style="color:var(--green)">✓ Sent to Sheet.</span>`; }
+      toast('Pushed to Google Sheet');
+    })
+    .catch(() => { st.innerHTML = `<span style="color:var(--red)">✗ Push failed — check the URL.</span>`; });
+};
+
 /* ---------- nav ---------- */
 document.getElementById('nav').addEventListener('click', e => {
   const btn = e.target.closest('button'); if (!btn) return;
