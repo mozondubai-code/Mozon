@@ -75,6 +75,24 @@ function diagnostics(){
   return out;
 }
 
+/** Trivial test — run this FIRST. If even this errors, the problem is the
+    Google project/account, not the code (reload the editor or make a new project). */
+function hello(){ var s = 'hello ✓ ' + fmt_(now_(),'yyyy-MM-dd HH:mm:ss'); Logger.log(s); return s; }
+
+/** FRESH START: deletes this system's tabs (Orders, Coupons, HappyHours,
+    Members, Referrals) and rebuilds them clean, then runs setup. Use when you
+    don't need the old data. Your other tabs (Promo Codes, etc.) are untouched. */
+function freshStart(){
+  var ss = ss_();
+  [TAB.ORDERS, TAB.COUPONS, TAB.HAPPY, TAB.MEMBERS, TAB.REFERRALS].forEach(function(n){
+    var sh = ss.getSheetByName(n);
+    if (sh){ try { ss.deleteSheet(sh); } catch(e){} }
+  });
+  var r = setup();
+  Logger.log('FRESH START done → ' + r);
+  return r;
+}
+
 function ensureSheets_(){
   var ss = ss_();
   ensureHeaders_(ss, TAB.ORDERS,    ORDER_COLS);
