@@ -609,6 +609,10 @@ document.getElementById('importFile').onchange = (e) => {
 
 /* ---------- Google Sheet cloud sync ---------- */
 const CLOUD_KEY = 'lifeos_cloud';
+// Pre-filled with the owner's deployed Apps Script Web App so the ☁ panel
+// connects to the Sheet out of the box.
+const DEFAULT_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzSGkiYYJ_d9fwkXti_EuSPzMxRnnov5sgUovHWAPpUvCi-z6E1zOLGeMZICXsrZ0w/exec';
+const DEFAULT_WEBHOOK_SECRET = 'gazul-lifeos-Kx7q-2026';
 function getCloud() { try { return JSON.parse(localStorage.getItem(CLOUD_KEY)) || {}; } catch (e) { return {}; } }
 function setCloud(c) { localStorage.setItem(CLOUD_KEY, JSON.stringify(c)); }
 
@@ -630,8 +634,8 @@ document.getElementById('cloudBtn').onclick = () => {
   openModal(`
     <h3>Connect Google Sheet</h3>
     <p class="muted" style="font-size:13px;margin-top:-6px">Paste your Apps Script Web App URL and secret. "Push" sends all your data to the Sheet; your daily WhatsApp/email reports read from there.</p>
-    ${fieldInput('cl_url', 'Web App URL (…/exec)', c.url)}
-    ${fieldInput('cl_secret', 'Webhook secret', c.secret || 'gazul-lifeos-Kx7q-2026')}
+    ${fieldInput('cl_url', 'Web App URL (…/exec)', c.url || DEFAULT_WEBHOOK_URL)}
+    ${fieldInput('cl_secret', 'Webhook secret', c.secret || DEFAULT_WEBHOOK_SECRET)}
     <div id="cl_status" class="muted" style="font-size:12.5px;min-height:18px"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeModal()">Close</button>
