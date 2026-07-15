@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mozon Broast — Command Center</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --red:#C8102E; --red2:#ff1a3e; --dark:#8B0000; --gold:#FFD700;
+    --green:#00e676; --green2:#1faa59; --blue:#00b4ff; --purple:#a855f7;
+    --bg:#06080e; --card:#0f1320; --card2:#141829;
+    --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.12);
+    --ink:#f0f2f8; --muted:#6b7280; --muted2:#9ca3af;
+    --font:'Segoe UI',system-ui,-apple-system,sans-serif; --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;}
+  ::selection{background:var(--red);color:#fff;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px 60px;}
+  ::-webkit-scrollbar{width:7px;height:7px;}
+  ::-webkit-scrollbar-thumb{background:var(--red);border-radius:4px;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:22px;gap:12px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--red),var(--dark));display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .brand .name{font-size:17px;font-weight:800;}
+  .brand .sub{font-size:11px;color:var(--muted2);}
+  .clock{text-align:center;}
+  .clock .t{font-size:24px;font-weight:800;letter-spacing:2px;font-variant-numeric:tabular-nums;}
+  .clock .d{font-size:11px;color:var(--muted);}
+  .topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+  .pill{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border2);padding:7px 13px;border-radius:100px;font-size:12px;font-weight:600;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);}
+  .dot.err{background:#ff4d4d;box-shadow:0 0 8px #ff4d4d;}
+  .btn{background:linear-gradient(135deg,var(--red),var(--dark));color:#fff;border:none;padding:9px 16px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;}
+  .btn:hover{filter:brightness(1.1);} .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  .biz-note{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--muted2);margin-bottom:20px;}
+  .biz-note b{color:var(--gold);}
+
+  .section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:26px 0 14px;display:flex;align-items:center;gap:8px;}
+  .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;}
+  @media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;}
+  .kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px;background:rgba(255,255,255,.05);}
+  .kpi-label{font-size:11px;color:var(--muted2);font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+  .kpi-val{font-size:26px;font-weight:900;margin-top:4px;font-variant-numeric:tabular-nums;}
+  .kpi-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+  .c-red .kpi-val{color:#ff4d6a;} .c-green .kpi-val{color:var(--green);} .c-gold .kpi-val{color:var(--gold);}
+  .c-blue .kpi-val{color:var(--blue);} .c-purple .kpi-val{color:#c084fc;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px;}
+  .card-title{font-size:13px;font-weight:700;color:var(--muted2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .card-title .badge{margin-left:auto;background:rgba(255,255,255,.06);color:var(--muted2);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
+
+  .charts-row{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;}
+  @media(max-width:700px){.charts-row{grid-template-columns:1fr;}}
+  canvas{max-height:280px;width:100%!important;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:700px){.grid2{grid-template-columns:1fr;}}
+
+  .form-grid{display:grid;gap:12px;align-items:end;}
+  .fg-coupon{grid-template-columns:repeat(6,1fr);} .fg-hh{grid-template-columns:repeat(6,1fr);}
+  @media(max-width:900px){.fg-coupon,.fg-hh{grid-template-columns:1fr 1fr;}}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted2);}
+  input,select,textarea{background:var(--card2);border:1px solid var(--border2);border-radius:10px;color:var(--ink);font-size:13px;font-weight:600;padding:10px 12px;outline:none;font-family:var(--font);width:100%;}
+  input:focus,select:focus{border-color:var(--red);}
+  input[type=date]::-webkit-calendar-picker-indicator,input[type=time]::-webkit-calendar-picker-indicator{filter:invert(.6);}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;padding:8px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}
+  td{padding:10px;border-bottom:1px solid var(--border);color:var(--muted2);}
+  tr:last-child td{border-bottom:none;}
+  .code{font-weight:800;font-size:12px;letter-spacing:1px;background:linear-gradient(135deg,var(--red),var(--dark));color:#fff;padding:4px 9px;border-radius:7px;display:inline-block;}
+  .badge-active{background:rgba(0,230,118,.12);color:var(--green);border:1px solid rgba(0,230,118,.25);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
+  .badge-expired{background:rgba(200,16,46,.1);color:#ff4d6a;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
+  .badge-upcoming{background:rgba(255,215,0,.1);color:var(--gold);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
+  .btn-del{background:rgba(200,16,46,.1);border:1px solid rgba(200,16,46,.2);color:#ff4d6a;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;}
+  .tbl-wrap{overflow-x:auto;}
+  .empty{text-align:center;color:var(--muted);padding:22px;font-size:13px;}
+  .hh-days{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;margin-top:6px;}
+  .hh-days label{display:flex;align-items:center;gap:5px;background:var(--card2);padding:6px 10px;border-radius:8px;cursor:pointer;border:1px solid var(--border);}
+  .hint{font-size:11px;color:var(--muted);margin-top:4px;}
+
+  .offer-prev{display:flex;flex-direction:column;gap:8px;}
+  .op-row{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13px;}
+  .op-row .op-tag{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
+  .op-live{border-left:3px solid var(--green);} .op-soon{border-left:3px solid var(--gold);} .op-hh{border-left:3px solid var(--purple);}
+
+  .toast{position:fixed;bottom:22px;right:22px;background:var(--card2);border:1px solid var(--border2);border-radius:12px;padding:13px 18px;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:999;transform:translateY(80px);opacity:0;transition:.3s;}
+  .toast.show{transform:translateY(0);opacity:1;} .toast.success{border-color:rgba(0,230,118,.3);} .toast.error{border-color:rgba(200,16,46,.3);}
+  .load{text-align:center;padding:50px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🍗</div>
+      <div><div class="name">MOZON BROAST</div><div class="sub">Operations Command Center</div></div>
+    </div>
+    <div class="clock"><div class="t" id="clock">--:--:--</div><div class="d" id="dateStr">Loading…</div></div>
+    <div class="topbar-right">
+      <div class="pill"><span class="dot" id="dot"></span><span id="statusLabel">Live</span> · <span id="countdown">60s</span></div>
+      <button class="btn" onclick="manualRefresh()">↻ Refresh</button>
+    </div>
+  </nav>
+
+  <div class="biz-note">📅 <b>Business day</b> runs <b>12:00 PM → 2:00 AM</b> (Dubai). All "Today" numbers below use this window, and the email report is sent every day at ~2 AM for the day that just closed. Current business day: <b id="bizDay">—</b></div>
+
+  <div id="main"><div class="load"><div>Connecting to live data…</div></div></div>
+
+  <!-- ═══ OFFERS / COUPONS ═══ -->
+  <div class="section-label">🎟️ Offers &amp; Coupon Codes</div>
+
+  <div class="card">
+    <div class="card-title">➕ Add / Update Coupon</div>
+    <div class="form-grid fg-coupon">
+      <div class="field"><label>Code</label><input id="cp-code" placeholder="SAVE20" maxlength="20" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+      <div class="field"><label>Type</label>
+        <select id="cp-type" onchange="cpTypeChange()">
+          <option value="percent">Percentage (%)</option>
+          <option value="flat">Flat amount (AED)</option>
+          <option value="freeitem">Free item (gift)</option>
+        </select>
+      </div>
+      <div class="field" id="cp-value-field"><label>Value</label><input id="cp-value" type="number" placeholder="15" min="0"></div>
+      <div class="field"><label>Min order (AED)</label><input id="cp-min" type="number" placeholder="0" min="0"></div>
+      <div class="field" id="cp-free-field" style="display:none"><label>Free item name</label><input id="cp-free" placeholder="e.g. Pepsi Can"></div>
+      <div class="field"><label>Valid from</label><input id="cp-from" type="date"></div>
+      <div class="field"><label>Valid until</label><input id="cp-until" type="date"></div>
+      <div class="field"><label>&nbsp;</label><button class="btn" id="cpBtn" onclick="addCoupon()">➕ Save Coupon</button></div>
+    </div>
+    <div class="hint">💡 "Order above X → free Y": pick <b>Free item</b>, set <b>Min order</b> = X and <b>Free item name</b> = Y. Percentage/flat coupons can also carry a min-order threshold.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏷️ Active Coupons <span class="badge" id="couponCount">0</span></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Code</th><th>Reward</th><th>Min</th><th>Free item</th><th>From</th><th>Until</th><th>Uses</th><th>Status</th><th></th></tr></thead>
+      <tbody id="couponBody"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+    </table></div>
+  </div>
+
+  <!-- customer-facing offer preview -->
+  <div class="card">
+    <div class="card-title">👀 What customers see now <span class="badge">LIVE PREVIEW</span></div>
+    <div class="offer-prev" id="offerPreview"><div class="empty">—</div></div>
+  </div>
+
+  <!-- ═══ HAPPY HOUR ═══ -->
+  <div class="section-label">⏰ Happy Hour Scheduler</div>
+  <div class="card">
+    <div class="card-title">Add / Update Happy Hour</div>
+    <div class="form-grid fg-hh">
+      <div class="field"><label>Name</label><input id="hh-name" placeholder="Lunch Rush"></div>
+      <div class="field"><label>Discount %</label><input id="hh-disc" type="number" min="1" max="100" placeholder="15"></div>
+      <div class="field"><label>Start</label><input id="hh-start" type="time"></div>
+      <div class="field"><label>End</label><input id="hh-end" type="time"></div>
+      <div class="field"><label>Applies to</label><select id="hh-applies"><option value="food">Food only</option><option value="all">Everything</option></select></div>
+      <div class="field"><label>One-off date (optional)</label><input id="hh-date" type="date"></div>
+    </div>
+    <div class="hint">Repeat on (leave all unchecked = every day):</div>
+    <div class="hh-days" id="hh-days">
+      <label><input type="checkbox" value="0">Sun</label><label><input type="checkbox" value="1">Mon</label><label><input type="checkbox" value="2">Tue</label><label><input type="checkbox" value="3">Wed</label><label><input type="checkbox" value="4">Thu</label><label><input type="checkbox" value="5">Fri</label><label><input type="checkbox" value="6">Sat</label>
+    </div>
+    <button class="btn" style="margin-top:12px" onclick="addHappyHour()">⏰ Save Happy Hour</button>
+  </div>
+  <div class="card">
+    <div class="card-title">🔥 Active Happy Hours <span class="badge" id="hhCount">0</span></div>
+    <div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Discount</th><th>When</th><th>Applies</th><th></th></tr></thead>
+      <tbody id="happyBody"><tr><td colspan="5" class="empty">None yet.</td></tr></tbody></table></div>
+  </div>
+
+  <!-- ═══ LOYALTY & REFERRAL ═══ -->
+  <div class="section-label">🏆 Loyalty &amp; Referral Program</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Loyalty Settings</div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr">
+        <div class="field"><label>Points per AED spent</label><input id="loy-ppa" type="number" min="0" step="0.1" value="1"></div>
+        <div class="field"><label>Points to redeem AED 1</label><input id="loy-redeem" type="number" min="1" value="20"></div>
+      </div>
+      <div class="hint">Tiers — name, min points, % reward, perks:</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Tier</th><th>Min pts</th><th>% reward</th><th>Perks</th><th></th></tr></thead><tbody id="tierBody"></tbody></table></div>
+      <button class="btn-del" style="margin-top:10px" onclick="addTierRow()">➕ Add Tier</button>
+      <button class="btn" style="margin-top:10px" onclick="saveLoyalty()">💾 Save Loyalty</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Referral Program</div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr">
+        <div class="field"><label>Enabled</label><select id="ref-enabled"><option value="yes">On</option><option value="no">Off</option></select></div>
+        <div class="field"><label>Friend gets (type)</label><select id="ref-type"><option value="percent">Percentage %</option><option value="flat">Flat AED</option></select></div>
+        <div class="field"><label>Friend gets (value)</label><input id="ref-value" type="number" min="0" value="15"></div>
+        <div class="field"><label>Min order for friend</label><input id="ref-min" type="number" min="0" value="25"></div>
+        <div class="field"><label>Referrer earns (points)</label><input id="ref-points" type="number" min="0" value="100"></div>
+      </div>
+      <div class="field" style="margin-top:10px"><label>Customer note</label><input id="ref-note" placeholder="Give AED, get points…"></div>
+      <button class="btn" style="margin-top:12px" onclick="saveReferral()">💾 Save Referral</button>
+      <div class="hint">Every customer's referral code is <b>MOZ + last 4 digits</b> of their phone. Friends type it on their first order → friend saves, referrer earns points.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⭐ Top Loyalty Members <span class="badge" id="memCount">0</span></div>
+    <div class="tbl-wrap"><table><thead><tr><th>Member</th><th>Tier</th><th>Points</th><th>Spend</th></tr></thead>
+      <tbody id="memberBody"><tr><td colspan="4" class="empty">No members yet.</td></tr></tbody></table></div>
+  </div>
+
+  <!-- ═══ CUSTOMER TARGETING ═══ -->
+  <div class="section-label">🎯 Customer Targeting</div>
+  <div class="card">
+    <div class="card-title">Smart Segments <span class="badge" id="custTotal">0</span><button class="btn-del" style="margin-left:auto" onclick="fetchCustomers(true)">↻ Refresh</button></div>
+    <div class="hint" style="margin-bottom:10px">Tap "Copy" then paste into a WhatsApp broadcast. Target each group at their ordering time.</div>
+    <div id="segCards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">🗂️ Customer List <input id="custSearch" placeholder="Search name / area / number" oninput="renderCustTable()" style="max-width:220px;margin-left:auto"></div>
+    <div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Number</th><th>Orders</th><th>Spend</th><th>Window</th><th>Best ping</th><th>Fav</th><th>Status</th></tr></thead>
+      <tbody id="custBody"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody></table></div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════ CONFIG ══════════════ */
+var API = "https://script.google.com/macros/s/AKfycbwniwtzbN7a0_MLxzjn1u2Q9SNRzkYU_160bI-5Go5IPNeXlDyL2eK2D9nujakzJe0/exec";
+var REFRESH = 60;
+
+var charts={}, countdown=REFRESH, refreshCount=0, lastUpdated=null, isLoading=false, cdI=null, data=null, custData=null, lastCust=0;
+var aed=function(n){return 'AED '+Math.round(+n||0).toLocaleString();};
+
+/* clock */
+function tick(){ var n=new Date();
+  document.getElementById('clock').textContent=n.toLocaleTimeString('en-US',{hour12:false});
+  document.getElementById('dateStr').textContent=n.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+}
+setInterval(tick,1000); tick();
+
+function startCd(){ clearInterval(cdI); countdown=REFRESH; cdI=setInterval(function(){ countdown--; var e=document.getElementById('countdown'); if(e)e.textContent=countdown+'s'; if(countdown<=0){clearInterval(cdI);load();} },1000); }
+function status(s){ var d=document.getElementById('dot'),l=document.getElementById('statusLabel'); if(!d)return; d.className='dot'; if(s==='live')l.textContent='Live'; else if(s==='loading')l.textContent='Syncing'; else{d.className='dot err';l.textContent='Offline';} }
+
+/* ══════════════ LOAD ══════════════ */
+function load(){
+  if(isLoading)return; isLoading=true; status('loading');
+  fetch(API+'?t='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    if(d.error) throw new Error(d.error);
+    refreshCount++; lastUpdated=new Date(); data=d;
+    render(d); status('live');
+  }).catch(function(e){
+    status('error');
+    if(!data) document.getElementById('main').innerHTML='<div class="card"><div class="empty">⚠️ Could not reach the dashboard API.<br><small>'+e+'</small><br><br><button class="btn" onclick="manualRefresh()">Try again</button></div></div>';
+  }).then(function(){ isLoading=false; startCd(); });
+}
+function manualRefresh(){ clearInterval(cdI); load(); }
+
+/* ══════════════ RENDER ══════════════ */
+function render(d){
+  destroyCharts();
+  document.getElementById('bizDay').textContent = d.businessDay||'—';
+  var net=(d.todayRevenue||0)-(d.todayDiscount||0);
+  var discRate=d.todayRevenue>0?((d.todayDiscount/(d.todayRevenue))*100).toFixed(1):0;
+
+  document.getElementById('main').innerHTML =
+    '<div class="section-label">Today · business day (12 PM → 2 AM)</div>'
+    + '<div class="kpi-grid">'
+    + kpi('c-red','📦','Orders Today',(d.todayOrders||0).toLocaleString(),'Lifetime: '+(d.allOrders||0).toLocaleString())
+    + kpi('c-green','💰','Revenue Today',aed(d.todayRevenue),'Net after discount: '+aed(net))
+    + kpi('c-gold','🎯','Avg Order',aed(d.avgOrder),'Per order')
+    + kpi('c-purple','🏷️','Discounts Today',aed(d.todayDiscount),discRate+'% of revenue')
+    + kpi('c-blue','📈','All-Time Orders',(d.allOrders||0).toLocaleString(),'Since launch')
+    + kpi('c-green','🏦','All-Time Revenue',aed(d.allRevenue),'Total collected')
+    + '</div>'
+    + '<div class="section-label">Sales Analysis</div>'
+    + '<div class="charts-row">'
+    +   '<div class="card"><div class="card-title">🏅 Top Items <span class="badge">ALL TIME</span></div><canvas id="itemChart"></canvas></div>'
+    +   '<div class="card"><div class="card-title">💳 Payment Methods</div><canvas id="payChart"></canvas></div>'
+    + '</div>'
+    + '<div class="grid2">'
+    +   '<div class="card"><div class="card-title">📍 Orders by Area</div><canvas id="areaChart"></canvas></div>'
+    +   '<div class="card"><div class="card-title">🔴 Recent Orders (today) <span class="badge" id="recCount">0</span></div>'+renderFeed(d.recent)+'</div>'
+    + '</div>';
+
+  requestAnimationFrame(function(){
+    itemChart(d.topItems||[]); payChart(d.payCount||{}); areaChart(d.areaCount||{});
+  });
+  var rc=document.getElementById('recCount'); if(rc) rc.textContent=(d.recent||[]).length;
+
+  renderCoupons(); renderOfferPreview(); renderHappy(); renderLoyalty(); renderReferral(); renderMembers();
+  maybeFetchCustomers();
+}
+function kpi(cls,ic,label,val,sub){ return '<div class="kpi '+cls+'"><div class="kpi-icon">'+ic+'</div><div class="kpi-label">'+label+'</div><div class="kpi-val">'+val+'</div><div class="kpi-sub">'+sub+'</div></div>'; }
+function renderFeed(recent){
+  if(!recent||!recent.length) return '<div class="empty">No orders yet this business day.</div>';
+  return '<div style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto">'+recent.map(function(o){
+    return '<div style="display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:9px 12px">'
+      +'<div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--red),var(--dark));display:flex;align-items:center;justify-content:center;font-weight:800">'+(String(o.name||'?').charAt(0).toUpperCase())+'</div>'
+      +'<div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">'+(o.name||'Guest')+'</div><div style="font-size:11px;color:var(--muted2)">📍 '+(o.area||'—')+'</div></div>'
+      +'<div style="text-align:right"><div style="font-weight:800;color:var(--green)">AED '+Math.round(o.total||0)+'</div><div style="font-size:10px;color:var(--muted)">'+(o.time||'')+'</div></div></div>';
+  }).join('')+'</div>';
+}
+
+/* ══════════════ CHARTS ══════════════ */
+function destroyCharts(){ Object.keys(charts).forEach(function(k){try{charts[k].destroy();}catch(e){}}); charts={}; }
+var chBase={responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#141829',borderColor:'rgba(255,255,255,.08)',borderWidth:1}}};
+function itemChart(items){ var t=items.slice(0,8),c=document.getElementById('itemChart'); if(!c||!t.length)return;
+  charts.item=new Chart(c,{type:'bar',data:{labels:t.map(function(i){return i[0];}),datasets:[{data:t.map(function(i){return i[1];}),backgroundColor:t.map(function(_,i){return 'hsla('+(350+i*4)+',80%,'+(48+i*2)+'%,'+(1-i*.06)+')';}),borderRadius:7}]},options:Object.assign({indexAxis:'y'},chBase,{scales:{x:{ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#f0f2f8',font:{weight:'600'}},grid:{display:false}}}})}); }
+function payChart(pay){ var l=Object.keys(pay),v=Object.values(pay),c=document.getElementById('payChart'); if(!c||!l.length)return;
+  charts.pay=new Chart(c,{type:'doughnut',data:{labels:l,datasets:[{data:v,backgroundColor:['#C8102E','#FFD700','#00e676','#00b4ff','#a855f7'],borderColor:'#0f1320',borderWidth:3}]},options:{responsive:true,cutout:'62%',plugins:{legend:{position:'bottom',labels:{color:'#9ca3af',padding:12,font:{size:11}}}}}}); }
+function areaChart(a){ var s=Object.entries(a).sort(function(x,y){return y[1]-x[1];}),c=document.getElementById('areaChart'); if(!c||!s.length)return;
+  charts.area=new Chart(c,{type:'bar',data:{labels:s.map(function(r){return r[0];}),datasets:[{data:s.map(function(r){return r[1];}),backgroundColor:s.map(function(_,i){return 'rgba(200,16,46,'+(1-i*.12)+')';}),borderRadius:7}]},options:Object.assign({},chBase,{scales:{x:{ticks:{color:'#9ca3af'},grid:{display:false}},y:{ticks:{color:'#6b7280'},grid:{color:'rgba(255,255,255,.04)'}}}})}); }
+
+/* ══════════════ COUPONS ══════════════ */
+function post(payload){ return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},mode:'no-cors',body:JSON.stringify(payload)}); }
+function afterWrite(m){ toast(m,'success'); setTimeout(load,1400); }
+function cpTypeChange(){ var t=document.getElementById('cp-type').value; document.getElementById('cp-free-field').style.display=t==='freeitem'?'flex':'none'; document.getElementById('cp-value-field').style.display=t==='freeitem'?'none':'flex'; }
+function cStatus(from,until){ var t=new Date().toISOString().slice(0,10); if(from&&t<from)return'upcoming'; if(until&&t>until)return'expired'; return'active'; }
+function renderCoupons(){
+  var list=(data&&data.coupons)||[]; document.getElementById('couponCount').textContent=list.length;
+  var tb=document.getElementById('couponBody');
+  if(!list.length){ tb.innerHTML='<tr><td colspan="9" class="empty">No coupons yet. Add one above.</td></tr>'; return; }
+  tb.innerHTML=list.map(function(c){
+    var st=cStatus(c.from,c.until);
+    var sb=st==='active'?'<span class="badge-active">● Active</span>':st==='expired'?'<span class="badge-expired">Expired</span>':'<span class="badge-upcoming">Upcoming</span>';
+    var rew=c.type==='flat'?('AED '+c.value):c.type==='freeitem'?'🎁 Free item':(c.value+'%');
+    return '<tr><td><span class="code">'+c.code+'</span></td><td style="color:var(--gold);font-weight:800">'+rew+'</td><td>'+(c.minOrder||'—')+'</td><td>'+(c.freeItem||'—')+'</td><td>'+(c.from||'—')+'</td><td>'+(c.until||'—')+'</td><td style="color:var(--ink);font-weight:700">'+(c.uses||0)+'</td><td>'+sb+'</td><td><button class="btn-del" onclick="delCoupon(\''+c.code+'\')">✕</button></td></tr>';
+  }).join('');
+}
+function addCoupon(){
+  var code=document.getElementById('cp-code').value.trim().toUpperCase();
+  var type=document.getElementById('cp-type').value;
+  var value=+document.getElementById('cp-value').value||0;
+  var min=+document.getElementById('cp-min').value||0;
+  var free=document.getElementById('cp-free').value.trim();
+  var from=document.getElementById('cp-from').value, until=document.getElementById('cp-until').value;
+  if(!code){toast('Enter a coupon code.','error');return;}
+  if(type==='percent'&&(value<=0||value>100)){toast('Percentage must be 1–100.','error');return;}
+  if(type==='flat'&&value<=0){toast('Enter a flat amount.','error');return;}
+  if(type==='freeitem'&&!free){toast('Name the free item.','error');return;}
+  if(from&&until&&from>until){toast('From must be before Until.','error');return;}
+  post({action:'addCoupon',code:code,type:type,value:value,minOrder:min,freeItem:free,from:from,until:until,active:true});
+  document.getElementById('cp-code').value=''; document.getElementById('cp-value').value=''; document.getElementById('cp-free').value=''; document.getElementById('cp-min').value='';
+  afterWrite('Coupon "'+code+'" is LIVE for customers!');
+}
+function delCoupon(code){ post({action:'deleteCoupon',code:code}); afterWrite('Coupon "'+code+'" removed.'); }
+
+/* offer preview (what customers see) */
+function renderOfferPreview(){
+  var cs=document.getElementById('offerPreview');
+  var t=new Date().toISOString().slice(0,10);
+  var list=(data&&data.coupons)||[]; var run=[],soon=[];
+  list.forEach(function(c){ var st=cStatus(c.from,c.until);
+    var lab=c.type==='flat'?('AED '+c.value+' off'):c.type==='freeitem'?('Free '+(c.freeItem||'item')):(c.value+'% off');
+    if(c.minOrder) lab+=' · min AED '+c.minOrder;
+    if(st==='active') run.push({c:c.code,l:lab,u:c.until}); else if(st==='upcoming') soon.push({c:c.code,l:lab,f:c.from});
+  });
+  var html='';
+  run.forEach(function(o){ html+='<div class="op-row op-live"><span class="op-tag" style="color:var(--green)">🔥 Running now</span> · <b>'+o.l+'</b> — code <span class="code">'+o.c+'</span>'+(o.u?(' until '+o.u):'')+'</div>'; });
+  soon.forEach(function(o){ html+='<div class="op-row op-soon"><span class="op-tag" style="color:var(--gold)">🗓️ Upcoming</span> · <b>'+o.l+'</b> — code <b>'+o.c+'</b> starts '+(o.f||'soon')+'</div>'; });
+  var hhs=(data&&data.happyHours)||[]; if(hhs.length) html+='<div class="op-row op-hh"><span class="op-tag" style="color:#c084fc">⚡ Happy hours</span> · '+hhs.length+' scheduled (auto-applies in its window)</div>';
+  cs.innerHTML=html||'<div class="empty">No active offers — customers just see the menu.</div>';
+}
+
+/* ══════════════ HAPPY HOUR ══════════════ */
+function renderHappy(){
+  var list=(data&&data.happyHours)||[]; document.getElementById('hhCount').textContent=list.length;
+  var tb=document.getElementById('happyBody'); var dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  if(!list.length){ tb.innerHTML='<tr><td colspan="5" class="empty">None yet.</td></tr>'; return; }
+  tb.innerHTML=list.map(function(h){
+    var when=h.date?h.date:(String(h.days||'ALL').toUpperCase()==='ALL'?'Every day':String(h.days).split(',').map(function(x){return dn[+x]||x;}).join(' '));
+    if(h.start||h.end) when+=' · '+(h.start||'')+'–'+(h.end||'');
+    return '<tr><td style="color:var(--ink);font-weight:700">'+h.name+'</td><td style="color:var(--gold);font-weight:800">'+h.discount+'%</td><td style="font-size:12px">'+when+'</td><td>'+(h.appliesTo==='all'?'All':'Food')+'</td><td><button class="btn-del" onclick="delHappy(\''+String(h.name).replace(/\x27/g,'')+'\')">✕</button></td></tr>';
+  }).join('');
+}
+function addHappyHour(){
+  var name=document.getElementById('hh-name').value.trim(), disc=+document.getElementById('hh-disc').value||0;
+  if(!name){toast('Name your happy hour.','error');return;} if(disc<=0||disc>100){toast('Enter 1–100%.','error');return;}
+  var days=[].slice.call(document.querySelectorAll('#hh-days input:checked')).map(function(c){return c.value;});
+  post({action:'saveHappyHour',name:name,discount:disc,days:days.length?days.join(','):'ALL',start:document.getElementById('hh-start').value,end:document.getElementById('hh-end').value,date:document.getElementById('hh-date').value,appliesTo:document.getElementById('hh-applies').value,active:true});
+  document.getElementById('hh-name').value=''; document.getElementById('hh-disc').value='';
+  afterWrite('Happy Hour "'+name+'" is LIVE!');
+}
+function delHappy(name){ post({action:'deleteHappyHour',name:name}); afterWrite('Happy Hour removed.'); }
+
+/* ══════════════ LOYALTY ══════════════ */
+var tiersDirty=false;
+function renderLoyalty(){
+  var cfg=(data&&data.loyaltyConfig)||{};
+  var ppa=document.getElementById('loy-ppa'), rd=document.getElementById('loy-redeem');
+  if(document.activeElement!==ppa) ppa.value=cfg.pointsPerAed!=null?cfg.pointsPerAed:1;
+  if(document.activeElement!==rd) rd.value=cfg.redeemRate!=null?cfg.redeemRate:20;
+  var tb=document.getElementById('tierBody');
+  if(!tiersDirty){ var t=cfg.tiers||[]; tb.innerHTML=(t.length?t:[{name:'',minPoints:0,rewardValue:0,perks:''}]).map(tierRow).join(''); }
+}
+function tierRow(t){ t=t||{}; return '<tr>'
+  +'<td><input class="t-name" oninput="tiersDirty=true" value="'+String(t.name||'').replace(/"/g,'')+'"></td>'
+  +'<td><input class="t-min" type="number" oninput="tiersDirty=true" value="'+(t.minPoints||0)+'"></td>'
+  +'<td><input class="t-rew" type="number" oninput="tiersDirty=true" value="'+(t.rewardValue||0)+'"></td>'
+  +'<td><input class="t-perk" oninput="tiersDirty=true" value="'+String(t.perks||'').replace(/"/g,'')+'"></td>'
+  +'<td><button class="btn-del" onclick="this.closest(\'tr\').remove();tiersDirty=true">✕</button></td></tr>'; }
+function addTierRow(){ tiersDirty=true; document.getElementById('tierBody').insertAdjacentHTML('beforeend',tierRow({})); }
+function saveLoyalty(){
+  var tiers=[].slice.call(document.querySelectorAll('#tierBody tr')).map(function(tr){
+    return {name:tr.querySelector('.t-name').value.trim(),minPoints:+tr.querySelector('.t-min').value||0,rewardType:'percent',rewardValue:+tr.querySelector('.t-rew').value||0,perks:tr.querySelector('.t-perk').value.trim()};
+  }).filter(function(t){return t.name;});
+  post({action:'saveLoyaltyConfig',pointsPerAed:+document.getElementById('loy-ppa').value||1,redeemRate:+document.getElementById('loy-redeem').value||20,tiers:tiers});
+  tiersDirty=false; afterWrite('Loyalty program saved!');
+}
+
+/* ══════════════ REFERRAL ══════════════ */
+function renderReferral(){
+  var r=(data&&data.referralConfig)||{};
+  if(document.activeElement && document.activeElement.id && document.activeElement.id.indexOf('ref-')===0) return;
+  document.getElementById('ref-enabled').value=r.enabled===false?'no':'yes';
+  document.getElementById('ref-type').value=r.refereeType||'percent';
+  document.getElementById('ref-value').value=r.refereeValue!=null?r.refereeValue:15;
+  document.getElementById('ref-min').value=r.refereeMinOrder!=null?r.refereeMinOrder:25;
+  document.getElementById('ref-points').value=r.referrerPoints!=null?r.referrerPoints:100;
+  document.getElementById('ref-note').value=r.note||'';
+}
+function saveReferral(){
+  post({action:'saveReferralConfig',enabled:document.getElementById('ref-enabled').value==='yes',refereeType:document.getElementById('ref-type').value,refereeValue:+document.getElementById('ref-value').value||0,refereeMinOrder:+document.getElementById('ref-min').value||0,referrerPoints:+document.getElementById('ref-points').value||0,note:document.getElementById('ref-note').value.trim()});
+  afterWrite('Referral program saved!');
+}
+
+/* ══════════════ MEMBERS ══════════════ */
+function renderMembers(){
+  var m=(data&&data.topMembers)||[]; document.getElementById('memCount').textContent=m.length;
+  var tb=document.getElementById('memberBody');
+  tb.innerHTML=m.length?m.map(function(x){return '<tr><td style="color:var(--ink);font-weight:700">'+(x.name||x.phone)+'</td><td>'+(x.tier||'')+'</td><td style="color:var(--gold);font-weight:800">'+x.points+'</td><td>AED '+x.spend+'</td></tr>';}).join('')
+    :'<tr><td colspan="4" class="empty">No members yet.</td></tr>';
+}
+
+/* ══════════════ CUSTOMER TARGETING ══════════════ */
+function maybeFetchCustomers(){ if(Date.now()-lastCust>55000) fetchCustomers(false); }
+function fetchCustomers(force){ if(!force&&Date.now()-lastCust<55000)return; lastCust=Date.now();
+  fetch(API+'?action=customers&t='+Date.now()).then(function(r){return r.json();}).then(function(d){custData=d;renderSegments();renderCustTable();}).catch(function(){}); }
+function segCard(name,o,em){ o=o||{count:0,copy:''}; return '<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px"><div style="font-size:12px;color:var(--gold);font-weight:800">'+em+' '+name+'</div><div style="font-size:24px;font-weight:900;margin:4px 0">'+(o.count||0)+'</div><button class="btn" style="width:100%;padding:7px;font-size:12px" onclick="copyNums(this.dataset.n,\''+name+'\')" data-n="'+String(o.copy||'').replace(/"/g,'')+'">📋 Copy</button></div>'; }
+function renderSegments(){ if(!custData)return; document.getElementById('custTotal').textContent=custData.total||0;
+  var s=custData.segments||{},r=custData.recency||{},v=custData.vip||{};
+  document.getElementById('segCards').innerHTML=
+    segCard('Lunch',s['Lunch'],'🍽️')+segCard('Dinner',s['Dinner'],'🌆')+segCard('Afternoon',s['Afternoon'],'☕')+segCard('Breakfast',s['Breakfast'],'🌅')+segCard('Late Night',s['Late Night'],'🌙')
+    +segCard('Active (7d)',r['Active'],'✅')+segCard('Slipping',r['Slipping'],'⚠️')+segCard('Lapsed',r['Lapsed'],'💤')+segCard('VIP (3+)',v,'💎'); }
+function renderCustTable(){ var tb=document.getElementById('custBody'); if(!custData||!custData.customers){tb.innerHTML='<tr><td colspan="8" class="empty">Loading…</td></tr>';return;}
+  var q=(document.getElementById('custSearch').value||'').toLowerCase();
+  var rows=custData.customers.filter(function(c){return !q||String(c.name||'').toLowerCase().indexOf(q)>=0||String(c.area||'').toLowerCase().indexOf(q)>=0||String(c.phone||'').indexOf(q)>=0;});
+  if(!rows.length){tb.innerHTML='<tr><td colspan="8" class="empty">No matches.</td></tr>';return;}
+  tb.innerHTML=rows.slice(0,200).map(function(c){ var b=c.recency==='Active'?'<span class="badge-active">Active</span>':c.recency==='Slipping'?'<span class="badge-upcoming">Slipping</span>':'<span class="badge-expired">Lapsed</span>';
+    return '<tr><td style="color:var(--ink);font-weight:700">'+c.name+'</td><td><span class="code" style="cursor:pointer" onclick="copyNums(\''+c.intl+'\',\''+String(c.name).replace(/\x27/g,'')+'\')">'+c.intl+'</span></td><td style="text-align:center">'+c.orders+'</td><td>AED '+c.spend+'</td><td>'+c.dutyWindow+'</td><td style="color:var(--gold);font-weight:700">'+c.bestSend+'</td><td>'+c.fav+'</td><td>'+b+'</td></tr>';
+  }).join(''); }
+function copyNums(str,label){ if(!str){toast('No numbers in this segment yet.','error');return;}
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(str).then(function(){toast('Copied '+label+' numbers!','success');}).catch(function(){fb(str,label);}); } else fb(str,label); }
+function fb(str,label){ var t=document.createElement('textarea');t.value=str;document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(e){}t.remove();toast('Copied '+label+'!','success'); }
+
+/* ══════════════ TOAST ══════════════ */
+var toastT=null;
+function toast(m,type){ var t=document.getElementById('toast'); t.className='toast '+(type||'success'); t.textContent=(type==='error'?'❌ ':'✅ ')+m; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove('show');},3300); }
+
+/* ══════════════ BOOT ══════════════ */
+window.addEventListener('DOMContentLoaded',function(){ var d=new Date().toISOString().split('T')[0]; var f=document.getElementById('cp-from'); if(f)f.value=d; });
+load(); fetchCustomers(true);
+</script>
+</body>
+</html>

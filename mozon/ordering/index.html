@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mozon Broast — Order Online</title>
+<meta property="og:title" content="Mozon Broast — Order on WhatsApp">
+<meta property="og:description" content="Lusso Chicken · Al Nahda 2, Dubai. Tap to order, earn points, unlock offers.">
+<style>
+  :root{
+    --red:#C8102E; --red2:#ff1a3e; --dark:#8B0000; --gold:#FFD700;
+    --green:#1faa59; --bg:#0d0f14; --card:#161922; --card2:#1e222e;
+    --ink:#f4f5f8; --muted:#9aa1ad; --border:rgba(255,255,255,.08);
+    --radius:16px; --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);padding-bottom:120px;}
+  .wrap{max-width:560px;margin:0 auto;}
+  img{max-width:100%;}
+
+  /* HEADER */
+  .hero{background:linear-gradient(135deg,var(--red),var(--dark));padding:22px 18px 18px;text-align:center;}
+  .hero .logo{font-size:34px;}
+  .hero h1{font-size:22px;font-weight:900;letter-spacing:.5px;margin-top:4px;}
+  .hero .sub{font-size:12px;opacity:.9;margin-top:2px;}
+
+  /* OFFERS PANEL */
+  .offers{margin:14px;display:flex;flex-direction:column;gap:10px;}
+  .offer-card{border-radius:14px;padding:13px 15px;position:relative;overflow:hidden;}
+  .offer-live{background:linear-gradient(120deg,#FF6F00,#C8102E);color:#fff;box-shadow:0 4px 14px rgba(200,16,46,.28);}
+  .offer-soon{background:var(--card2);border:1px dashed var(--gold);color:var(--ink);}
+  .offer-hh{background:linear-gradient(120deg,#7b2ff7,#C8102E);color:#fff;}
+  .offer-card .ot{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:.9;}
+  .offer-card .om{font-size:16px;font-weight:900;margin:3px 0;}
+  .offer-card .od{font-size:12px;opacity:.95;}
+  .offer-card .code{display:inline-block;background:#fff;color:var(--red);font-weight:800;padding:2px 10px;border-radius:7px;letter-spacing:1.5px;font-size:12px;margin-top:5px;}
+  .countdown{font-variant-numeric:tabular-nums;font-weight:800;}
+
+  /* SECTIONS */
+  .sec{margin:16px 14px 6px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+  .steps{margin:0 14px;display:flex;gap:8px;flex-wrap:wrap;}
+  .step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 11px;font-size:12px;display:flex;gap:7px;align-items:center;color:var(--muted);}
+  .step .num{background:var(--red);color:#fff;width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+
+  /* CATEGORY TABS */
+  .cats{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;scrollbar-width:none;}
+  .cats::-webkit-scrollbar{display:none;}
+  .cat{white-space:nowrap;background:var(--card);border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;}
+  .cat.active{background:var(--red);color:#fff;border-color:var(--red);}
+
+  /* MENU */
+  #menu{padding:0 14px;}
+  .cat-block{margin-bottom:18px;}
+  .cat-head{font-size:15px;font-weight:800;margin:8px 0 10px;display:flex;align-items:center;gap:8px;}
+  .item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;}
+  .item-info{flex:1;min-width:0;}
+  .item-nm{font-size:14px;font-weight:700;}
+  .item-ds{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.35;}
+  .item-pr{font-size:13px;font-weight:800;color:var(--gold);margin-top:4px;}
+  .item-add{flex-shrink:0;display:flex;align-items:center;gap:8px;}
+  .qbtn{width:32px;height:32px;border-radius:9px;border:none;font-size:18px;font-weight:800;cursor:pointer;background:var(--card2);color:var(--ink);}
+  .qbtn.plus{background:var(--red);color:#fff;}
+  .qty{min-width:18px;text-align:center;font-weight:800;font-size:15px;}
+  .spicy-toggle{margin-top:8px;font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer;}
+  .spicy-toggle input{accent-color:var(--red);}
+
+  /* FORM */
+  .form{margin:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+  .form label{display:block;font-size:12px;font-weight:700;margin:12px 0 5px;color:var(--ink);}
+  .form label:first-child{margin-top:0;}
+  .req{color:var(--red2);}
+  .form input,.form select,.form textarea{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--ink);border-radius:10px;padding:11px 13px;font-size:14px;font-family:var(--font);outline:none;}
+  .form input:focus,.form select:focus,.form textarea:focus{border-color:var(--red);}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;}
+  .pill{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;}
+  .pill.active{background:var(--red);color:#fff;border-color:var(--red);}
+  .promo-feedback{font-size:12.5px;margin-top:6px;font-weight:600;min-height:16px;}
+  .member-box{margin-top:8px;font-size:12.5px;font-weight:600;color:var(--gold);min-height:16px;}
+  .earn-box{margin-top:6px;font-size:12px;color:var(--green);font-weight:600;}
+  .refcode{display:none;margin-top:10px;background:var(--card2);border:1px dashed var(--gold);border-radius:10px;padding:10px 12px;font-size:12px;}
+  .refcode b{color:var(--gold);letter-spacing:1px;}
+
+  /* CART BAR */
+  .bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:12px 16px;z-index:50;}
+  .bar-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;}
+  .bar-total{flex:1;}
+  .bar-total .lbl{font-size:11px;color:var(--muted);}
+  .bar-total .amt{font-size:20px;font-weight:900;}
+  .bar-total .strike{font-size:12px;color:var(--muted);text-decoration:line-through;margin-left:6px;}
+  .bar-total .save{font-size:11px;color:var(--green);font-weight:700;margin-left:6px;}
+  .go{background:linear-gradient(135deg,var(--red),var(--dark));color:#fff;border:none;padding:14px 22px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(200,16,46,.3);}
+  .go:disabled{opacity:.5;}
+
+  /* SUCCESS */
+  .success{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .success.show{display:flex;}
+  .success-card{background:var(--card);border-radius:20px;padding:30px 24px;text-align:center;max-width:340px;}
+  .success-card .big{font-size:52px;}
+  .success-card h2{font-size:20px;margin:10px 0 6px;}
+  .success-card p{font-size:13px;color:var(--muted);line-height:1.5;}
+  .success-card button{margin-top:16px;background:var(--red);color:#fff;border:none;padding:11px 20px;border-radius:10px;font-weight:800;cursor:pointer;}
+  .foot{text-align:center;font-size:11px;color:var(--muted);padding:20px 14px 0;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="logo">🍗</div>
+    <h1>MOZON BROAST</h1>
+    <div class="sub">Lusso Chicken · Al Nahda 2, Dubai</div>
+  </div>
+
+  <!-- LIVE OFFERS (populated from dashboard) -->
+  <div class="offers" id="offers"></div>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div>Tap items</div>
+    <div class="step"><div class="num">2</div>Add your details</div>
+    <div class="step"><div class="num">3</div>Send on WhatsApp</div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cats" id="cats"></div>
+
+  <!-- MENU -->
+  <div id="menu"></div>
+
+  <!-- BROAST OPTIONS (shown when a broast item is in the cart) -->
+  <div id="broastOpts" style="display:none">
+    <div class="sec">Broast Preference</div>
+    <div class="form" style="margin-top:6px">
+      <label>Spice Level</label>
+      <div class="pills" id="spicePills">
+        <div class="pill active" onclick="setSpice(this,'Spicy')">🌶️ Spicy</div>
+        <div class="pill" onclick="setSpice(this,'Normal')">😋 Normal</div>
+      </div>
+      <label>Kubus / Bread</label>
+      <div class="pills" id="kubusPills">
+        <div class="pill active" onclick="setKubus(this,'Paket Kubus')">Paket Kubus</div>
+        <div class="pill" onclick="setKubus(this,'Home Made Kubus')">Home Made Kubus</div>
+        <div class="pill" onclick="setKubus(this,'No Kubus')">No Kubus</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAILS -->
+  <div class="sec">Your Details</div>
+  <div class="form">
+    <label>Name <span class="req">*</span></label>
+    <input type="text" id="name" placeholder="Your name">
+
+    <label>Phone Number <span class="req">*</span> <span style="font-weight:400;color:var(--muted)">— this is your loyalty ID</span></label>
+    <input type="tel" id="phone" placeholder="05X XXX XXXX" onblur="lookupMember()">
+    <div class="member-box" id="memberBox"></div>
+
+    <label>Area <span class="req">*</span></label>
+    <div class="pills" id="areaPills">
+      <div class="pill" onclick="setArea(this,'Al Nahda 1')">Al Nahda 1</div>
+      <div class="pill" onclick="setArea(this,'Al Nahda 2')">Al Nahda 2</div>
+    </div>
+
+    <label>Building / Flat Name <span class="req">*</span></label>
+    <input type="text" id="building" placeholder="e.g. Al Nahda Tower">
+
+    <label>Flat / Villa No. (optional)</label>
+    <input type="text" id="flatno" placeholder="e.g. 1203">
+
+    <label>📍 Location Link (optional)</label>
+    <input type="text" id="loclink" placeholder="Paste a Google Maps link">
+
+    <label>Payment</label>
+    <select id="payment">
+      <option>Cash on Delivery</option>
+      <option>Card on Delivery</option>
+    </select>
+
+    <label>🎟️ Coupon / Referral Code (optional)</label>
+    <input type="text" id="promo" placeholder="Have a code? Enter it here" oninput="onPromoInput()">
+    <div class="promo-feedback" id="promoFeedback"></div>
+    <div class="earn-box" id="earnBox"></div>
+
+    <div class="refcode" id="refShare"></div>
+
+    <label>Notes (optional)</label>
+    <textarea id="notes" rows="2" placeholder="Any special request?"></textarea>
+  </div>
+
+  <div class="foot">Powered by Mozon Broast · Al Nahda 2, Dubai</div>
+</div>
+
+<!-- CART BAR -->
+<div class="bar">
+  <div class="bar-inner">
+    <div class="bar-total">
+      <div class="lbl" id="cartCount">0 items</div>
+      <div><span class="amt" id="barAmt">AED 0</span><span class="strike" id="barStrike"></span><span class="save" id="barSave"></span></div>
+    </div>
+    <button class="go" id="goBtn" onclick="buildAndGo()">Order on WhatsApp</button>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success" id="success">
+  <div class="success-card">
+    <div class="big">✅</div>
+    <h2>Order sent!</h2>
+    <p id="successMsg">Your order opened in WhatsApp. Just press send and we'll start cooking. You earned loyalty points! 🎉</p>
+    <button onclick="document.getElementById('success').classList.remove('show')">Done</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════ CONFIG ══════════════ */
+/* PASTE your Apps Script Web App /exec URL here (same one used by the dashboard) */
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwniwtzbN7a0_MLxzjn1u2Q9SNRzkYU_160bI-5Go5IPNeXlDyL2eK2D9nujakzJe0/exec";
+var WHATSAPP   = "971524877701";
+
+/* ══════════════ MENU DATA ══════════════ */
+var menuData = {
+  "Lusso Chicken Combos":[
+    {id:"l1",nm:"2 Pcs Combo",ds:"Garlic, Ketchup, Fries, Pitta Bread",pr:14,broast:true,hasFries:true,spicyFee:1},
+    {id:"l2",nm:"4 Pcs Combo",ds:"Garlic, Ketchup, Fries, Pitta Bread",pr:24,broast:true,hasFries:true,spicyFee:1},
+    {id:"l3",nm:"Burger Combo",ds:"2 Pcs Chicken, 1 Burger, Fries, Pitta Bread, 2 Garlic, 2 Ketchup",pr:29,broast:true,hasFries:true,spicyFee:2},
+  ],
+  "Mozon Broast Combos":[
+    {id:"mo1",nm:"8 Pcs Combo",ds:"Garlic, Ketchup, French Fries, Pitta Bread",pr:47,broast:true,hasFries:true,spicyFee:2},
+    {id:"mo2",nm:"Single Combo",ds:"2 Pcs Chicken, 2 Pcs Chi. Strips, Mini Drink, Coleslaw, Garlic, Ketchup, Fries",pr:26,broast:true,drinkIncluded:true,hasFries:true,spicyFee:2},
+    {id:"mo3",nm:"16 Pcs Combo",ds:"Garlic Dip, Ketchup, French Fries, Pitta Bread, Drink",pr:95,broast:true,drinkIncluded:true,hasFries:true,spicyFee:2},
+    {id:"mo4",nm:"20 Pcs Combo",ds:"Garlic Dip, Ketchup, Coleslaw, French Fries, Pitta Bread, Drink",pr:115,broast:true,drinkIncluded:true,hasFries:true,spicyFee:2},
+    {id:"mo5",nm:"Value Meal",ds:"6 Pcs Chicken, 4 Pcs Strips, Coleslaw, Garlic, Ketchup, French Fries, Pitta Bread, Drink",pr:68,broast:true,drinkIncluded:true,hasFries:true,spicyFee:2},
+    {id:"mo6",nm:"Deluxe Meal",ds:"8 Pcs Chicken, 4 Pcs Strips, 5 Garlic Dip, 5 Ketchup, Fries, Pitta Bread, Pepsi",pr:75,broast:true,drinkIncluded:true,hasFries:true,spicyFee:2},
+  ],
+  "Madhooth & Rice":[
+    {id:"md1",nm:"Chicken Madhooth (Quarter)",ds:"Spiced rice & chicken",pr:16},
+    {id:"md2",nm:"Chicken Madhooth (Half)",ds:"Spiced rice & chicken",pr:30},
+    {id:"md3",nm:"Chicken Madhooth (Full)",ds:"Spiced rice & chicken",pr:55},
+    {id:"md4",nm:"Chicken Madhooth Family",ds:"Spiced rice & chicken — feeds 10",pr:135},
+    {id:"md5",nm:"Madhooth (Quarter) + 2 Pcs Broasted",ds:"Rice, chicken & 2 pcs broasted",pr:20,broast:true},
+    {id:"md6",nm:"Madhooth (Half) + 4 Pcs Broasted",ds:"Rice, chicken & 4 pcs broasted",pr:37,broast:true},
+    {id:"md7",nm:"Madhooth (Full) + 8 Pcs Broasted",ds:"Rice, chicken & 8 pcs broasted",pr:70,broast:true},
+  ],
+  "Burgers & Sandwiches":[
+    {id:"bg1",nm:"Truffle Beef Burger",ds:"Single",pr:21},
+    {id:"bg1m",nm:"Truffle Beef Burger Meal",ds:"With fries & Pepsi",pr:27},
+    {id:"bg2",nm:"Beef Classic Burger",ds:"Single",pr:20},
+    {id:"bg2m",nm:"Beef Classic Burger Meal",ds:"With fries & Pepsi",pr:26},
+    {id:"bg3",nm:"Lusso Zinger Chicken Burger",ds:"Single",pr:14},
+    {id:"bg3m",nm:"Lusso Zinger Chicken Burger Meal",ds:"With fries & Pepsi",pr:20},
+    {id:"bg4",nm:"Grilled Chicken Burger",ds:"Single",pr:16},
+    {id:"bg4m",nm:"Grilled Chicken Burger Meal",ds:"With fries & Pepsi",pr:22},
+  ],
+  "Loaded Fries & Dynamite":[
+    {id:"lf1",nm:"Lusso Chicken Fries",ds:"Loaded fries with chicken & jalapeños",pr:21},
+    {id:"lf2",nm:"Chicken Dynamite (6 Pcs)",ds:"Crispy chicken bites, sesame",pr:21},
+    {id:"lf3",nm:"Beef Loaded Fries",ds:"Beef, cheese & sauces",pr:23},
+    {id:"lf4",nm:"Shrimp Dynamite (6 Pcs)",ds:"Crispy shrimp bites, sesame",pr:26},
+    {id:"lf5",nm:"Normal Loaded Fries",ds:"Cheese loaded fries",pr:17},
+  ],
+  "Wraps & Sandwiches":[
+    {id:"wr1",nm:"Chicken Fajita Wrap",ds:"Sandwich wrap",pr:10},
+    {id:"wr2",nm:"Strips Wrap",ds:"Sandwich wrap",pr:10},
+    {id:"wr3",nm:"Dynamite Chicken Wrap",ds:"Sandwich wrap",pr:12},
+    {id:"wr4",nm:"Shrimp Wrap",ds:"Sandwich wrap",pr:13},
+    {id:"wr5",nm:"Truffle Beef Tortilla Wrap",ds:"Sandwich wrap",pr:14},
+  ],
+  "Fries & Sides":[
+    {id:"f1",nm:"French Fries",ds:"Regular",pr:8,hasFries:true,spicyFee:2},
+    {id:"f2",nm:"Cheese Fries",ds:"Loaded",pr:12},
+  ],
+  "Sauces & Dips":[
+    {id:"s1",nm:"Coleslaw",ds:"Small cup",pr:6},
+    {id:"s2",nm:"Garlic Sauce (Large)",ds:"Extra large cup",pr:6},
+    {id:"s3",nm:"Dynamite Sauce",ds:"Extra cup",pr:3},
+  ],
+  "Extras & Add-ons":[
+    {id:"e1",nm:"Extra Home Made Kubus",ds:"per piece",pr:1},
+    {id:"e2",nm:"Extra Paket Kubus",ds:"per packet",pr:2},
+    {id:"e3",nm:"Extra Mayo (2 pcs)",ds:"",pr:1},
+    {id:"e4",nm:"Extra Ketchup (2 pcs)",ds:"",pr:1},
+  ],
+  "Soft Drinks & Water":[
+    {id:"d1",nm:"Soft Drink Can",ds:"330ml",pr:3,drink:true},
+    {id:"d3",nm:"Water",ds:"500ml",pr:1,drink:true},
+  ],
+  "Juices & Beverages":[
+    {id:"j1",nm:"Orange Juice",ds:"Fresh",pr:11,drink:true},
+    {id:"j2",nm:"Mango Juice",ds:"Fresh",pr:12,drink:true},
+    {id:"j3",nm:"Avocado Juice",ds:"Fresh",pr:12,drink:true},
+    {id:"j4",nm:"Lemon Mint",ds:"Fresh",pr:9,drink:true},
+    {id:"j5",nm:"Lusso Signature",ds:"House special",pr:15,drink:true},
+    {id:"j6",nm:"Crystal",ds:"House special",pr:15,drink:true},
+    {id:"j7",nm:"Musthani",ds:"House special",pr:15,drink:true},
+    {id:"j8",nm:"Emarathi",ds:"House special",pr:16,drink:true},
+    {id:"j9",nm:"Green Apple Mojito",ds:"Mocktail",pr:11,drink:true},
+    {id:"j10",nm:"Passion Fruit Mojito",ds:"Mocktail",pr:11,drink:true},
+    {id:"j11",nm:"Watermelon Mojito",ds:"Mocktail",pr:11,drink:true},
+    {id:"j12",nm:"Blue Lemonade Mojito",ds:"Mocktail",pr:11,drink:true},
+    {id:"j13",nm:"Saudi Champagne",ds:"Non-alcoholic, serves a group",pr:22,drink:true},
+    {id:"j14",nm:"Mocktail Jug",ds:"Large jug, serves a group",pr:40,drink:true},
+  ],
+};
+
+/* ══════════════ STATE ══════════════ */
+var cart = {};              // id -> {qty, spicy}
+var spiceLevel = "Spicy", kubusType = "Paket Kubus", selectedArea = "";
+var LIVE = { coupons:[], happyHours:[], loyalty:{pointsPerAed:1,tiers:[]}, referral:{}, offers:{running:[],upcoming:[],happyHour:null} };
+var memberInfo = null;      // loyalty lookup result for current phone
+
+/* ══════════════ RENDER MENU ══════════════ */
+var cats = Object.keys(menuData);
+function findItem(id){ for (var c in menuData){ var a=menuData[c]; for (var i=0;i<a.length;i++) if(a[i].id===id) return a[i]; } return null; }
+
+function renderCats(){
+  var el = document.getElementById('cats');
+  el.innerHTML = cats.map(function(c,i){ return '<div class="cat'+(i===0?' active':'')+'" data-c="'+i+'" onclick="jumpCat('+i+')">'+c+'</div>'; }).join('');
+}
+function renderMenu(){
+  var html='';
+  cats.forEach(function(cat,ci){
+    html += '<div class="cat-block" id="cat'+ci+'"><div class="cat-head">'+cat+'</div>';
+    menuData[cat].forEach(function(it){
+      html += '<div class="item"><div class="item-info">'
+        + '<div class="item-nm">'+it.nm+'</div>'
+        + (it.ds?'<div class="item-ds">'+it.ds+'</div>':'')
+        + '<div class="item-pr">AED '+it.pr+'</div>'
+        + (it.hasFries?'<label class="spicy-toggle"><input type="checkbox" onchange="toggleSpicy(\''+it.id+'\',this.checked)"> 🌶️ Spicy fries (+AED '+it.spicyFee+')</label>':'')
+        + '</div><div class="item-add" id="add-'+it.id+'">'+addControls(it.id)+'</div></div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('menu').innerHTML = html;
+}
+function addControls(id){
+  var q = cart[id] ? cart[id].qty : 0;
+  if (!q) return '<button class="qbtn plus" onclick="chg(\''+id+'\',1)">+</button>';
+  return '<button class="qbtn" onclick="chg(\''+id+'\',-1)">−</button><span class="qty">'+q+'</span><button class="qbtn plus" onclick="chg(\''+id+'\',1)">+</button>';
+}
+function chg(id,d){
+  var c = cart[id] || {qty:0,spicy:false};
+  c.qty = Math.max(0, c.qty + d);
+  if (c.qty===0) delete cart[id]; else cart[id]=c;
+  document.getElementById('add-'+id).innerHTML = addControls(id);
+  updateTotal(); refreshBroastOpts();
+}
+function toggleSpicy(id,on){ if(cart[id]) cart[id].spicy=on; updateTotal(); }
+function jumpCat(i){
+  document.querySelectorAll('.cat').forEach(function(x){ x.classList.toggle('active', +x.dataset.c===i); });
+  var el=document.getElementById('cat'+i); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function refreshBroastOpts(){
+  var has=false; for (var id in cart){ var it=findItem(id); if(it&&it.broast){has=true;break;} }
+  document.getElementById('broastOpts').style.display = has?'block':'none';
+}
+
+/* ══════════════ SELECTORS ══════════════ */
+function setSpice(el,v){ spiceLevel=v; sel(el); }
+function setKubus(el,v){ kubusType=v; sel(el); }
+function setArea(el,v){ selectedArea=v; sel(el); }
+function sel(el){ var p=el.parentNode; p.querySelectorAll('.pill').forEach(function(x){x.classList.remove('active');}); el.classList.add('active'); }
+
+/* ══════════════ DUBAI TIME (UTC+4, no DST) ══════════════ */
+function dubaiNow(){ var d=new Date(); return new Date(d.getTime() + (240 + d.getTimezoneOffset())*60000); }
+function dubaiIso(){ var d=dubaiNow(); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
+function p2(n){ return (n<10?'0':'')+n; }
+function nowMins(){ var d=dubaiNow(); return d.getHours()*60+d.getMinutes(); }
+
+/* ══════════════ OFFER / PROMO ENGINE ══════════════ */
+function hhActive(){
+  var L=LIVE.happyHours||[], iso=dubaiIso(), dow=dubaiNow().getDay(), mins=nowMins(), best=null;
+  L.forEach(function(h){
+    if (h.active===false) return;
+    if (h.date && h.date!==iso) return;
+    if (!h.date){ var days=String(h.days||'ALL').toUpperCase(); if(days!=='ALL' && days.split(',').indexOf(String(dow))<0) return; }
+    var s=toMin(h.start), e=toMin(h.end);
+    var on = (s==null||e==null)?true:(s<=e?(mins>=s&&mins<e):(mins>=s||mins<e));
+    if (on && (!best || (+h.discount||0)>best.value)) best={value:+h.discount||0,scope:h.appliesTo||'food',label:h.name||'Happy Hour',end:e};
+  });
+  return best;
+}
+function toMin(t){ if(!t) return null; var m=String(t).match(/(\d{1,2}):(\d{2})/); return m?(+m[1]*60+ +m[2]):null; }
+function findCoupon(raw){
+  var L=LIVE.coupons||[], iso=dubaiIso();
+  for (var i=0;i<L.length;i++){ var c=L[i];
+    if (String(c.code).toUpperCase()!==raw) continue;
+    if (c.from && iso<c.from) return {status:'early',c:c};
+    if (c.until && iso>c.until) return {status:'expired',c:c};
+    return {status:'ok',c:c};
+  }
+  return {status:'invalid'};
+}
+
+/* Evaluate the code typed by the customer: coupon OR referral. */
+function evaluateCode(){
+  var raw=(document.getElementById('promo').value||'').trim().toUpperCase();
+  if (!raw) return {kind:'none'};
+  var fc = findCoupon(raw);
+  if (fc.status==='ok')      return {kind:'coupon',status:'ok',c:fc.c};
+  if (fc.status==='early')   return {kind:'coupon',status:'early',c:fc.c};
+  if (fc.status==='expired') return {kind:'coupon',status:'expired',c:fc.c};
+  // maybe a referral code
+  var ref=LIVE.referral||{};
+  if (ref.enabled && /^MOZ\d{4}$/.test(raw)) return {kind:'referral',status:'maybe',code:raw};
+  return {kind:'invalid'};
+}
+
+function updateTotal(){
+  var food=0, bev=0;
+  for (var id in cart){ var it=findItem(id); if(!it) continue; var q=cart[id].qty;
+    var fee=(it.hasFries && cart[id].spicy)? (it.spicyFee||0):0;
+    var line=(it.pr+fee)*q; if(it.drink) bev+=line; else food+=line;
+  }
+  var sub=food+bev, disc=0, label='', freeItem='';
+
+  // Happy hour (auto)
+  var hh=hhActive();
+  if (hh){ var base=hh.scope==='all'?sub:food; var d=Math.round(base*hh.value/100); if(d>disc){disc=d;label=hh.label+' '+hh.value+'%';} }
+
+  // Typed code
+  var ev=evaluateCode();
+  if (ev.kind==='coupon' && ev.status==='ok'){
+    var c=ev.c;
+    if (!c.minOrder || sub>=c.minOrder){
+      if (c.type==='flat'){ if(c.value>disc){disc=c.value;label='Code '+c.code;} }
+      else if (c.type==='freeitem'){ freeItem=c.freeItem||'Free gift'; if(!label) label='Code '+c.code; }
+      else { var dp=Math.round(sub*(+c.value||0)/100); if(dp>disc){disc=dp;label='Code '+c.code+' '+c.value+'%';} }
+    }
+  }
+  // Referral first-order discount (only if new customer)
+  if (ev.kind==='referral' && (!memberInfo || !memberInfo.found)){
+    var ref=LIVE.referral||{};
+    if (!ref.minOrder || sub>=ref.minOrder){
+      var rd = ref.type==='flat' ? (+ref.value||0) : Math.round(sub*(+ref.value||0)/100);
+      if (rd>disc){ disc=rd; label='Referral '+ev.code; }
+    }
+  }
+  disc=Math.min(disc,sub);
+  var total=Math.max(0,sub-disc);
+
+  // Loyalty earn preview
+  var ppa=(LIVE.loyalty&&LIVE.loyalty.pointsPerAed)||1;
+  var eb=document.getElementById('earnBox');
+  eb.textContent = total>0 ? ('⭐ You\'ll earn '+Math.round(total*ppa)+' points on this order') : '';
+
+  // Bar
+  document.getElementById('barAmt').textContent='AED '+total;
+  document.getElementById('barStrike').textContent = disc>0?('AED '+sub):'';
+  document.getElementById('barSave').textContent = disc>0?('You save AED '+disc):(freeItem?('+ '+freeItem):'');
+  var n=0; for(var k in cart) n+=cart[k].qty;
+  document.getElementById('cartCount').textContent = n+' item'+(n===1?'':'s');
+  document.getElementById('goBtn').disabled = n===0;
+
+  return {food:food,bev:bev,sub:sub,discount:disc,total:total,label:label,freeItem:freeItem,code:ev};
+}
+
+function onPromoInput(){ updateTotal(); showPromoFeedback(); }
+function showPromoFeedback(){
+  var fb=document.getElementById('promoFeedback'); var ev=evaluateCode();
+  if (ev.kind==='none'){ fb.textContent=''; return; }
+  if (ev.kind==='coupon'){
+    if (ev.status==='ok'){ fb.style.color='#1faa59'; var c=ev.c;
+      var t=c.type==='flat'?('AED '+c.value+' off'):c.type==='freeitem'?('Free '+(c.freeItem||'gift')):(c.value+'% off');
+      fb.textContent='✅ '+c.code+' applied — '+t+(c.minOrder?(' (min AED '+c.minOrder+')'):''); }
+    else if (ev.status==='early'){ fb.style.color='#FF6F00'; fb.textContent='⏳ This code isn\'t active yet.'; }
+    else { fb.style.color='#999'; fb.textContent='⌛ This code has expired.'; }
+  } else if (ev.kind==='referral'){
+    if (memberInfo && memberInfo.found){ fb.style.color='#999'; fb.textContent='Referral codes are for first-time customers only.'; }
+    else { fb.style.color='#1faa59'; var r=LIVE.referral||{}; var rt=r.type==='flat'?('AED '+r.value+' off'):(r.value+'% off'); fb.textContent='🎁 Referral applied — '+rt+' on your first order!'; }
+  } else { fb.style.color='#ff6b6b'; fb.textContent='❌ Code not recognised.'; }
+}
+
+/* ══════════════ LOYALTY LOOKUP ══════════════ */
+function lookupMember(){
+  var raw=(document.getElementById('phone').value||'').trim(); if(raw.length<7){ return; }
+  fetch(SCRIPT_URL+'?action=member&phone='+encodeURIComponent(raw)+'&t='+Date.now())
+    .then(function(r){return r.json();}).then(function(m){
+      memberInfo=m; var mb=document.getElementById('memberBox');
+      if (m.found){
+        mb.innerHTML='⭐ Welcome back! <b>'+m.points+' points</b> · '+(m.tier||'')
+          + (m.redeemableAed>0?(' · worth AED '+m.redeemableAed):'')
+          + (m.nextTier?('<br><span style="color:var(--muted);font-weight:400">'+m.nextTier.need+' pts to '+m.nextTier.name+'</span>'):'');
+      } else {
+        mb.innerHTML='✨ New here? Your first order starts earning points!';
+      }
+      // Referral share card
+      if (m.referralCode){
+        var rs=document.getElementById('refShare'); rs.style.display='block';
+        var r=LIVE.referral||{}; var give=r.type==='flat'?('AED '+r.value):(r.value+'%');
+        rs.innerHTML='🎁 <b>Your referral code: '+m.referralCode+'</b><br>Share it — friends get '+give+' off their first order, and you earn bonus points when they order.';
+      }
+      showPromoFeedback(); updateTotal();
+    }).catch(function(){});
+}
+
+/* ══════════════ LIVE OFFERS PANEL ══════════════ */
+function renderOffers(){
+  var el=document.getElementById('offers'); var o=LIVE.offers||{}; var html='';
+  var hh=o.happyHour;
+  if (hh){
+    html+='<div class="offer-card offer-hh"><div class="ot">⚡ Happy Hour — Live now</div>'
+      +'<div class="om">'+hh.discount+'% OFF '+(hh.appliesTo==='all'?'everything':'food')+'</div>'
+      +'<div class="od">'+hh.name+(hh.endsIn!=null?' · <span class="countdown" data-ends="'+hh.endsIn+'">ends soon</span>':'')+'</div></div>';
+  }
+  (o.running||[]).forEach(function(c){
+    html+='<div class="offer-card offer-live"><div class="ot">🔥 Offer running now</div>'
+      +'<div class="om">'+c.label+'</div>'
+      +'<div class="od">Use code <span class="code">'+c.code+'</span>'+(c.endsOn?(' · until '+c.endsOn):'')+'</div></div>';
+  });
+  (o.upcoming||[]).forEach(function(c){
+    html+='<div class="offer-card offer-soon"><div class="ot">🗓️ Coming soon</div>'
+      +'<div class="om">'+c.label+'</div>'
+      +'<div class="od">Code <b>'+c.code+'</b> starts '+(c.startsOn||'soon')+'</div></div>';
+  });
+  if (!html) html='<div class="offer-card offer-soon"><div class="om">🍗 Freshly broasted, made to order</div><div class="od">Tap items below and order in seconds.</div></div>';
+  el.innerHTML=html;
+}
+/* live countdown for happy hour */
+setInterval(function(){
+  document.querySelectorAll('.countdown[data-ends]').forEach(function(el){
+    var mins=+el.dataset.ends; if(isNaN(mins)) return;
+    // recompute from live hh each tick for accuracy
+    var hh=hhActive(); if(!hh||hh.end==null){ el.textContent=''; return; }
+    var left=hh.end-nowMins(); if(left<0) left+=1440;
+    var h=Math.floor(left/60), m=left%60;
+    el.textContent='ends in '+(h>0?(h+'h '):'')+m+'m';
+  });
+},1000);
+
+/* ══════════════ LOAD CONFIG ══════════════ */
+(function(){
+  fetch(SCRIPT_URL+'?action=getconfig&t='+Date.now()).then(function(r){return r.json();}).then(function(j){
+    LIVE={ coupons:j.coupons||[], happyHours:j.happyHours||[], loyalty:j.loyalty||{pointsPerAed:1,tiers:[]},
+           referral:j.referral||{}, offers:j.offers||{running:[],upcoming:[],happyHour:null} };
+    renderOffers(); updateTotal(); showPromoFeedback();
+  }).catch(function(){ renderOffers(); });
+})();
+
+/* ══════════════ BUILD ORDER & GO ══════════════ */
+function buildAndGo(){
+  var name=document.getElementById('name').value.trim();
+  var phone=document.getElementById('phone').value.trim();
+  var building=document.getElementById('building').value.trim();
+  var flatno=document.getElementById('flatno').value.trim();
+  var payment=document.getElementById('payment').value;
+  var notes=document.getElementById('notes').value.trim();
+  var loc=document.getElementById('loclink').value.trim();
+
+  if (!Object.keys(cart).length){ alert('Please tap at least one item to order.'); return; }
+  if (!name){ alert('Please enter your name.'); return; }
+  if (!phone){ alert('Please enter your phone number.'); return; }
+  if (!selectedArea){ alert('Please choose your area.'); return; }
+  if (!building){ alert('Please enter your building / flat name.'); return; }
+
+  var calc=updateTotal();
+  var hasBroast=false, itemsTxt='';
+  for (var id in cart){ var it=findItem(id); if(it.broast) hasBroast=true;
+    var fee=(it.hasFries && cart[id].spicy)? (it.spicyFee||0):0;
+    var line=(it.pr+fee)*cart[id].qty;
+    var note=it.hasFries?(cart[id].spicy?' (🌶️ Spicy Fries +AED'+fee+')':' (Normal Fries)'):'';
+    itemsTxt+='• '+it.nm+note+' x'+cart[id].qty+' — AED '+line+'\n';
+  }
+
+  var msg='🍗 *NEW ORDER — MOZON BROAST*\n\n*Items:*\n'+itemsTxt+'\n';
+  if (hasBroast) msg+='*Broast:* '+spiceLevel+' · '+kubusType+'\n\n';
+  msg+='*Name:* '+name+'\n*Phone:* '+phone+'\n*Area:* '+selectedArea+'\n*Building:* '+building+'\n';
+  if (flatno) msg+='*Flat/Villa:* '+flatno+'\n';
+  if (loc) msg+='*📍 Location:* '+loc+'\n';
+  msg+='*Payment:* '+payment+'\n';
+  if (calc.discount>0) msg+='*Discount:* '+(calc.label||'Offer')+' (−AED '+calc.discount+')\n';
+  if (calc.freeItem) msg+='*Free gift:* '+calc.freeItem+'\n';
+  msg+='\n*TOTAL: AED '+calc.total+'*\n';
+  if (notes) msg+='\n*Notes:* '+notes;
+
+  var codeVal=(document.getElementById('promo').value||'').trim().toUpperCase();
+  var isReferral = calc.code && calc.code.kind==='referral';
+  var data={
+    action:'order',
+    name:name, phone:phone, company:building, office:selectedArea+(flatno?' / '+flatno:''),
+    area:selectedArea, flat:flatno, payment:payment,
+    items:itemsTxt.replace(/\n/g,'; '),
+    foodSubtotal:calc.food, drinksTotal:calc.bev,
+    promoCode:(!isReferral && calc.discount>0)?codeVal:'',
+    referralCode:isReferral?codeVal:'',
+    discount:calc.discount, freeItem:calc.freeItem, total:calc.total,
+    notes:notes, spice:hasBroast?spiceLevel:'', kubus:hasBroast?kubusType:'', location:loc
+  };
+  try{ fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)}); }catch(e){}
+
+  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg),'_blank');
+  var ppa=(LIVE.loyalty&&LIVE.loyalty.pointsPerAed)||1;
+  document.getElementById('successMsg').textContent='Your order opened in WhatsApp — just press send. You earned '+Math.round(calc.total*ppa)+' loyalty points! 🎉';
+  document.getElementById('success').classList.add('show');
+}
+
+/* ══════════════ BOOT ══════════════ */
+renderCats(); renderMenu(); updateTotal();
+</script>
+</body>
+</html>
