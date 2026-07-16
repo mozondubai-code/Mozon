@@ -1,0 +1,13 @@
+{
+  "name": "Mozon Broast",
+  "short_name": "Mozon",
+  "description": "Crispy broasted chicken, burgers & combos — 100% halal. Free delivery to Al Nahda 1 & 2, Dubai.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0d12",
+  "theme_color": "#0d0f14",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
