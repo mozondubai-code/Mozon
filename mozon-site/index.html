@@ -315,7 +315,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
         <button data-lang="ar">ع</button>
         <button data-lang="hi">हि</button>
       </div>
-      <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="btn btn-primary nav-order" data-i18n="cta_order">Order Now</a>
+      <a href="order.html" target="_blank" rel="noopener" class="btn btn-primary nav-order" data-i18n="cta_order">Order Now</a>
       <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -330,7 +330,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
   <a href="#offers" data-i18n="nav_offers">Offers</a>
   <a href="#branches" data-i18n="nav_branches">Branches</a>
   <a href="#faq" data-i18n="nav_faq">FAQ</a>
-  <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="cta_order">Order Now</a>
+  <a href="order.html" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="cta_order">Order Now</a>
 </div>
 
 <!-- HERO -->
@@ -344,7 +344,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
     </h1>
     <p class="lead" data-i18n="hero_sub">Dubai's favourite broasted chicken — pressure-fried crispy outside, tender inside. 100% halal, made fresh to order in Al Nahda 2.</p>
     <div class="hero-cta">
-      <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="btn btn-primary pulse" data-i18n="cta_order_free">🍗 Order Online — Free Delivery</a>
+      <a href="order.html" target="_blank" rel="noopener" class="btn btn-primary pulse" data-i18n="cta_order_free">🍗 Order Online — Free Delivery</a>
       <a href="#menu" class="btn btn-ghost" data-i18n="cta_menu">View Menu</a>
     </div>
   </div>
@@ -391,7 +391,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
     <div class="menu-grid" id="menuGrid"></div>
     <p class="menu-note" data-i18n="menu_note">Prices in AED. Spicy fries available on selected combos. Full menu on our ordering page.</p>
     <div style="text-align:center;margin-top:18px">
-      <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="cta_order">Order Now</a>
+      <a href="order.html" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="cta_order">Order Now</a>
     </div>
   </div>
 </section>
@@ -415,7 +415,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
       <h2 class="title" data-i18n="order_title">Order <span class="hl">Online</span> Now</h2>
       <p style="color:var(--muted);max-width:520px;margin:0 auto 6px" data-i18n="order_sub">Free delivery to Al Nahda 1 &amp; Al Nahda 2. Or order via your favourite app.</p>
       <div style="margin-top:22px">
-        <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="btn btn-primary pulse" style="font-size:16px;padding:16px 32px" data-i18n="order_btn">🍗 Order on Mozon — Free Delivery</a>
+        <a href="order.html" target="_blank" rel="noopener" class="btn btn-primary pulse" style="font-size:16px;padding:16px 32px" data-i18n="order_btn">🍗 Order on Mozon — Free Delivery</a>
       </div>
       <div class="plats">
         <a href="#" data-i18n-attr class="plat" target="_blank" rel="noopener"><span class="p-ico">🛵</span> Talabat</a>
@@ -529,7 +529,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
       </div>
       <div class="foot">
         <h5 data-i18n="foot_order">Order</h5>
-        <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener">Mozon Online</a>
+        <a href="order.html" target="_blank" rel="noopener">Mozon Online</a>
         <a href="#order">Talabat / Keeta / Noon</a>
         <a href="tel:+971524877701">+971 52 487 7701</a>
       </div>
@@ -541,11 +541,11 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
 <!-- FLOATERS -->
 <div class="floaters">
   <a href="https://wa.me/971524877701" target="_blank" rel="noopener" class="fab wa" aria-label="WhatsApp">💬</a>
-  <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="fab order" aria-label="Order">🍗</a>
+  <a href="order.html" target="_blank" rel="noopener" class="fab order" aria-label="Order">🍗</a>
 </div>
 <div class="mobile-order-bar">
   <a href="tel:+971524877701" class="btn btn-ghost">📞</a>
-  <a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="cta_order_free">🍗 Order — Free Delivery</a>
+  <a href="order.html" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="cta_order_free">🍗 Order — Free Delivery</a>
 </div>
 
 <!-- LIGHTBOX -->
@@ -555,6 +555,7 @@ footer{background:#08090d;border-top:1px solid var(--line);padding:44px 0 120px}
 <script>
 /* ============ DATA ============ */
 var DRIVE = function(id,w){ return 'https://drive.google.com/thumbnail?id='+id+'&sz=w'+(w||800); };
+/* First-party ordering: all Order buttons open order.html on THIS domain (no third-party site, no access grant). */
 
 var MENU = {
   "Broasted Combos":[
@@ -625,7 +626,7 @@ var FAQ = [
   {q:"Is Mozon Broast halal?",a:"Absolutely — all our chicken and food is 100% halal certified."},
   {q:"What are your opening hours?",a:"We're open every day from 12:00 PM until 2:00 AM."},
   {q:"What is broasted chicken?",a:"Broasted chicken is marinated then pressure-fried — crispy on the outside, juicy and tender inside. It's our signature."},
-  {q:"How can I order?",a:"Order free-delivery online at mozonoffer.netlify.app, on WhatsApp, or via Talabat, Keeta and Noon Food."}
+  {q:"How can I order?",a:"Order free-delivery right here on our website, on WhatsApp, or via Talabat, Keeta and Noon Food."}
 ];
 
 /* ============ i18n ============ */
@@ -693,7 +694,7 @@ function renderMenu(){
     var card=el('div','dish');
     card.innerHTML='<div class="dish-img" style="background-image:url(\''+DRIVE(m.img,600)+'\')">'+(m.tag?'<span class="tag">'+m.tag+'</span>':'')+'</div>'
       +'<div class="dish-body"><div class="dish-name">'+m.n+'</div><div class="dish-desc">'+m.d+'</div>'
-      +'<div class="dish-foot"><span class="dish-price">AED '+m.p+'</span><a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener" class="dish-add">+</a></div></div>';
+      +'<div class="dish-foot"><span class="dish-price">AED '+m.p+'</span><a href="order.html" target="_blank" rel="noopener" class="dish-add">+</a></div></div>';
     g.appendChild(card);
   });
 }
@@ -708,7 +709,7 @@ function renderBranches(){
     c.innerHTML='<h4>📍 '+b.n+'</h4><div class="br-addr">'+b.a+'</div><div class="br-actions">'
       +'<a href="'+b.map+'" target="_blank" rel="noopener">🗺️ Directions</a>'
       +'<a href="tel:'+b.tel+'">📞 Call</a>'
-      +'<a href="https://mozonoffer.netlify.app" target="_blank" rel="noopener">🍗 Order</a></div>';
+      +'<a href="order.html" target="_blank" rel="noopener">🍗 Order</a></div>';
     g.appendChild(c);
   });
 }
