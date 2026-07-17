@@ -90,3 +90,25 @@ Name: `Mozon Broast` · Address: `Shop 1, 3 Street, Al Nahda Second, Deira, Duba
 6. [ ] Turn on the review engine (QR + WhatsApp follow-up).
 7. [ ] Make NAP identical across all delivery apps & directories.
 8. [ ] Post your first Google + Instagram promo.
+
+---
+
+## 🖼️ Premium photo slots (drop-in, optional)
+
+The site now has **photo slots** that look designed even while empty (gradient + icon), and automatically show a real photo the moment you add a file with the matching name into `assets/img/`. No code changes needed — just match the filename.
+
+| Save your photo as… | Where it shows | Best size |
+|---|---|---|
+| `assets/img/hero-broast.jpg` | Big round hero plate | 1000×1000 (square) |
+| `assets/img/gallery-1.jpg` | Gallery — tall left tile (broast) | 800×1200 |
+| `assets/img/gallery-2.jpg` | Gallery — burger tile | 800×600 |
+| `assets/img/gallery-3.jpg` | Gallery — fries tile | 800×600 |
+| `assets/img/gallery-4.jpg` | Gallery — wide bottom tile (drinks) | 1200×600 |
+| `assets/img/og-cover.jpg` | Social share preview (WhatsApp/FB) | 1200×630 |
+
+**Where to get the photos:**
+1. **Best for SEO & trust:** real photos of your actual food (phone photos in good light are fine).
+2. **Canva:** I generated a premium broast hero image in your Canva account — *"Tempting Broasted Chicken with Sides and Mojito"* — open it in **Projects**, or use the download link your assistant provided, then save it as `assets/img/hero-broast.jpg`.
+3. Canva's stock photos (search "broasted chicken", "fried chicken platter").
+
+> Tip: keep images under ~300 KB each (export as JPG, quality ~80) so the site stays fast — page speed is a ranking factor.

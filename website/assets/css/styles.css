@@ -353,3 +353,104 @@ section { position: relative; }
 .crave-meter { display:inline-flex; align-items:center; gap:12px; margin-top: 8px; font-weight:600; font-size:0.9rem; color: var(--text-dim); }
 .crave-meter .bar { width: 160px; height: 8px; border-radius: 100px; background: var(--line); overflow:hidden; }
 .crave-meter .bar i { display:block; height:100%; width:0; border-radius:100px; background: linear-gradient(90deg, var(--gold), var(--ember)); transition: width 1.2s var(--ease-out); }
+
+/* =============================================================
+   PREMIUM UPGRADE LAYER (overrides — cascade wins)
+   ============================================================= */
+:root {
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --shadow-lg: 0 40px 90px -36px rgba(20,15,12,0.45);
+}
+@media (prefers-color-scheme: dark){ :root{ --shadow-lg: 0 44px 100px -40px rgba(0,0,0,0.8); } }
+
+/* Subtle film grain for depth */
+body::after{
+  content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.site-header, .hero, section, .site-footer { position: relative; z-index: 2; }
+
+/* Editorial serif accent inside titles */
+.section-title em, .hero h1 em { font-family: var(--font-serif); font-style: italic; font-weight: 500; letter-spacing: -0.01em; }
+.section-title em { color: var(--gold-deep); }
+
+/* Refined hero headline */
+.hero h1 { letter-spacing: -0.035em; }
+.crave { filter: drop-shadow(0 6px 26px rgba(232,67,30,0.32)); }
+
+/* Premium buttons */
+.btn { border-radius: 14px; letter-spacing: 0.005em; }
+.btn--primary { box-shadow: 0 14px 30px -12px rgba(232,67,30,0.55), inset 0 1px 0 rgba(255,255,255,0.25); }
+.btn--lg { border-radius: 16px; }
+.float-order { border-radius: 100px; }
+
+/* Hero visual — real photo inside the plate, graceful fallback */
+.plate { overflow: hidden; }
+.plate-photo{
+  position:absolute; inset:0; border-radius:50%; z-index:3;
+  background-position:center; background-size:cover; background-repeat:no-repeat;
+  box-shadow: inset 0 0 70px rgba(0,0,0,0.55);
+}
+.plate-sheen{
+  position:absolute; inset:0; border-radius:50%; z-index:4; pointer-events:none;
+  background: radial-gradient(120% 90% at 30% 18%, rgba(255,255,255,0.28), transparent 42%);
+}
+.food-emoji{ z-index:2; }
+
+/* Menu tiles → premium medallions */
+.dish { border-radius: 22px; padding: 28px; }
+.dish .emo{
+  width: 78px; height: 78px; margin-bottom: 18px; border-radius: 20px;
+  display: grid; place-items: center; font-size: 2.5rem;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--gold) 26%, transparent), color-mix(in srgb, var(--ember) 14%, transparent));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 10px 22px -14px var(--ember);
+}
+.dish h3 { letter-spacing: -0.01em; }
+.dish .price{ display:inline-block; margin-top:2px; padding:5px 12px; border-radius:100px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+
+/* Section titles a touch larger & tighter */
+.section-title { letter-spacing: -0.03em; }
+
+/* ---------- Gallery ---------- */
+.gallery{
+  display:grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap:16px;
+}
+.shot{
+  position:relative; border-radius:22px; overflow:hidden; margin:0; cursor:default;
+  background-color: var(--charcoal-soft); background-size:cover; background-position:center;
+  border:1px solid var(--line); box-shadow: var(--shadow-sm);
+  display:grid; place-items:center; transition: transform .5s var(--ease-out), box-shadow .5s;
+}
+.shot::before{ content:""; position:absolute; inset:0; background:
+  radial-gradient(120% 100% at 50% 20%, color-mix(in srgb, var(--gold) 30%, transparent), transparent 55%),
+  linear-gradient(160deg, var(--charcoal-soft), var(--charcoal)); opacity:1; transition: opacity .4s; z-index:0; }
+.shot[style*="url"]::before{ opacity:0; } /* hide gradient once a photo is set */
+.shot::after{ content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(10,7,5,0.72), transparent 55%); z-index:1; }
+.shot .shot-emoji{ position:relative; z-index:2; font-size:3.4rem; filter:drop-shadow(0 10px 18px rgba(0,0,0,.45)); transition: transform .5s var(--ease-spring); }
+.shot figcaption{
+  position:absolute; z-index:3; left:18px; bottom:16px; color:#fff; font-family:var(--font-display);
+  font-weight:600; font-size:1rem; letter-spacing:.01em; text-shadow:0 2px 10px rgba(0,0,0,.5);
+}
+.shot:hover{ transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.shot:hover .shot-emoji{ transform: scale(1.12) rotate(-5deg); }
+.shot--tall{ grid-row: span 2; }
+.shot--wide{ grid-column: span 2; }
+@media (max-width: 780px){
+  .gallery{ grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+  .shot--wide{ grid-column: span 2; } .shot--tall{ grid-row: span 1; }
+}
+
+/* Feature cards & reviews: softer premium surface */
+.feature, .review, .dish, .loc-card { border-radius: 22px; }
+.feature:hover, .review:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+.feature, .review { transition: transform .4s var(--ease-out), box-shadow .4s; }
+
+/* Order band: richer */
+.order-band{ border-radius: 34px; box-shadow: var(--shadow-lg); }
+.order-band::after{ content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
+  background: radial-gradient(60% 80% at 85% 10%, rgba(255,255,255,0.25), transparent 60%); }
+.order-band > *{ position:relative; z-index:1; }
+
+/* Header brand type */
+.brand > span{ letter-spacing:-0.01em; }
