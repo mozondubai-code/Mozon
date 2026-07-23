@@ -1,0 +1,17 @@
+{
+  "name": "Mozon Broast Al Nahda",
+  "short_name": "Mozon Broast",
+  "description": "Crave-worthy broasted chicken delivered across Al Nahda, Dubai.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#140f0c",
+  "theme_color": "#e8431e",
+  "lang": "en-AE",
+  "icons": [
+    {
+      "src": "/assets/img/logo-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
