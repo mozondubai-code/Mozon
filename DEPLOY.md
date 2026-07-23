@@ -8,6 +8,39 @@ There are two ways to publish. **Way A** is fully automatic (your PC's Claude Co
 
 ---
 
+## Confirmed account details (from the ServerByt panel)
+
+These are the verified facts for this hosting account. The password is **not** stored here on
+purpose — reveal it in the panel (**Service Overview → FTP Details → eye icon**) only on the
+machine that actually uploads.
+
+| Setting | Value |
+| --- | --- |
+| Package | Blaze — Autoscaling Linux (Dallas, TX) |
+| Primary domain | `mozonbroast.ae` |
+| Web root | `public_html` |
+| Home path | `/home/sites/42b/7/72583f1b14/` |
+| FTP host | `ftp.us.mozonbroast.ae` |
+| FTP username | `mozonbroast.ae` |
+| IPv4 | `185.146.167.204` |
+| IPv6 | `2a07:7800:1::204` |
+| Incoming mail (IMAP) | `imap.mozonbroast.ae` |
+| Outgoing mail (SMTP) | `smtp.mozonbroast.ae` |
+| Nameservers | `ns1.serverbyt.net`, `ns2.serverbyt.net`, `ns3.serverbyt.net`, `ns4.serverbyt.net` |
+
+> ⚠️ **Do this first — nameservers.** The panel warns that **`mozonbroast.ae` is not yet using
+> the ServerByt nameservers.** Until it does, uploading the site won't make `https://mozonbroast.ae`
+> load — the domain still points elsewhere. Two ways to fix it:
+> 1. **Point the domain here (recommended):** at your domain registrar, set the nameservers to the
+>    four `ns#.serverbyt.net` above. Allow up to a few hours to propagate.
+> 2. **Test before switching DNS:** use the panel's **Temp Address / "View Temporary URL"** (Account
+>    Summary) to preview the uploaded site immediately, without touching your live domain.
+>
+> You can upload the files (Way A / Way B below) at any time — the site just won't answer on the
+> real domain until the nameservers point here.
+
+---
+
 ## Way A — Let your local Claude Code deploy it (automatic)
 
 Your Claude Code running on your Windows PC can reach the FTP server (this cloud one can't).
