@@ -5,7 +5,7 @@
   "use strict";
 
   // Central config — change the order destination in ONE place.
-  var OFFERS_URL = "https://offersmozon.ae";
+  var OFFERS_URL = "offers.html";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
