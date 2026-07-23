@@ -9,7 +9,7 @@ then give it the FTP password from your ServerByt panel when it asks.
 You are deploying my Mozon Broast website to my ServerByt (20i StackCP) hosting over FTP.
 
 Repo: https://github.com/mozondubai-code/Mozon
-Branch: claude/mozon-broast-website-canva-xrcevv
+Branch: claude/website-addition-foy98n
 The website lives in the repo's `website/` folder. The offers page (`website/offers.html`)
 must be deployed as `index.html` on the offersmozon.ae subdomain.
 
