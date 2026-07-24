@@ -13,7 +13,14 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '© OpenStreetMap contributors',
 }).addTo(map);
 
-const rechargeLayer = L.layerGroup().addTo(map);
+// Clustered layer so thousands of machines stay fast (pins group, expand on zoom).
+const rechargeLayer = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  maxClusterRadius: 48,
+  spiderfyOnMaxZoom: true,
+  chunkedLoading: true,
+});
+map.addLayer(rechargeLayer);
 const placeLayer = L.layerGroup().addTo(map);
 let userMarker = null;
 
@@ -142,22 +149,24 @@ function render() {
   const pts = selectedPoints();
   const rechargeCol = getComputedStyle(document.documentElement).getPropertyValue("--recharge").trim() || "#22c3a6";
 
+  const markers = [];
   pts.forEach((p) => {
     const color = p.verified ? "#F5B301" : rechargeCol;
     const m = L.marker(p.coords, { icon: pinIcon(color, p.verified ? "✓" : "⚡") });
     const dist = origin ? `<p class="pb" style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</p>` : "";
     m.bindPopup(`<div class="pop">
       <h4>${p.name} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
-      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${p.area}</p>`}
+      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${p.area || p.emirate || ""}</p>`}
       ${dist}
       ${svcChipsHtml(p.services)}
       <p class="pa">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</p>
       <a class="dir" target="_blank" rel="noopener"
          href="https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}">↗ Directions</a>
     </div>`, { maxWidth: 280 });
-    rechargeLayer.addLayer(m);
+    markers.push(m);
     p.__marker = m;
   });
+  rechargeLayer.addLayers(markers); // bulk add — fast for thousands
 
   selectedPlaces().forEach((pl) => {
     const meta = CATEGORY_META[pl.category] || CATEGORY_META.landmark;
@@ -175,14 +184,18 @@ function renderList(pts, origin) {
   const list = $("#list");
   list.innerHTML = "";
   $("#listTitle").textContent = state.focusName ? `Machines near ${state.focusName}` : "Recharge machines · All UAE";
-  $("#listCount").textContent = `${pts.length} found`;
+
+  const limit = (typeof CONFIG !== "undefined" && CONFIG.LIST_LIMIT) || 60;
+  const shown = pts.slice(0, limit);
+  $("#listCount").textContent = pts.length > shown.length ? `${shown.length} of ${pts.length}` : `${pts.length} found`;
+  const mc = $("#mcount"); if (mc) mc.textContent = `${RECHARGE_POINTS.length.toLocaleString()} machines loaded`;
 
   if (!pts.length) {
     list.innerHTML = `<div class="empty">No recharge machines match your filters here.<br>Try clearing service filters or search another area.</div>`;
     return;
   }
 
-  pts.forEach((p) => {
+  shown.forEach((p) => {
     const card = document.createElement("div");
     card.className = "card";
     const dist = origin ? `<span class="dist">${fmtDist(km(origin, p.coords))}</span>` : "";
@@ -310,6 +323,86 @@ $("#mtoggle").addEventListener("click", () => {
   $("#mtoggle").innerHTML = app.classList.contains("map-mode") ? "☰ List" : "🗺️ Map";
 });
 
+/* ---------- Live Google Sheet loading (thousands of machines) ---------- */
+function parseCSV(text) {
+  const rows = []; let field = "", row = [], inQ = false, i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i+1] === '"') { field += '"'; i += 2; continue; } inQ = false; i++; continue; }
+      field += c; i++; continue;
+    }
+    if (c === '"') { inQ = true; i++; continue; }
+    if (c === ",") { row.push(field); field = ""; i++; continue; }
+    if (c === "\r") { i++; continue; }
+    if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; i++; continue; }
+    field += c; i++;
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+function rowsToMachines(rows) {
+  if (!rows.length) return [];
+  const head = rows[0].map((h) => h.trim().toLowerCase());
+  const col = (names) => { for (const n of names) { const k = head.indexOf(n); if (k >= 0) return k; } return -1; };
+  const iName = col(["name","machine","shop","kiosk"]);
+  const iBld  = col(["building","bldg","tower"]);
+  const iArea = col(["area","neighbourhood","neighborhood","district","location"]);
+  const iEm   = col(["emirate","city"]);
+  const iLat  = col(["lat","latitude"]);
+  const iLng  = col(["lng","lon","long","longitude"]);
+  const iSvc  = col(["services","service","recharge"]);
+  const iHrs  = col(["hours","timing","time","open"]);
+  const iAr   = col(["around","surroundings","notes","landmark","nearby"]);
+  const iVer  = col(["verified","ver"]);
+  const out = [];
+  for (let r = 1; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row || row.every((c) => !String(c).trim())) continue;
+    const lat = parseFloat(row[iLat]), lng = parseFloat(row[iLng]);
+    if (isNaN(lat) || isNaN(lng)) continue;
+    const svc = (iSvc >= 0 ? String(row[iSvc] || "") : "").split(/[;,/|]/).map((s) => s.trim()).filter(Boolean);
+    const ver = (iVer >= 0 ? String(row[iVer] || "") : "").trim().toLowerCase();
+    out.push({
+      id: "sheet-" + r,
+      name: (iName >= 0 && String(row[iName]).trim()) || "Recharge machine",
+      building: iBld >= 0 ? String(row[iBld]).trim() : "",
+      area: iArea >= 0 ? String(row[iArea]).trim() : (iEm >= 0 ? String(row[iEm]).trim() : ""),
+      emirate: iEm >= 0 ? String(row[iEm]).trim() : "",
+      coords: [lat, lng],
+      services: svc.length ? svc : ["Recharge"],
+      hours: iHrs >= 0 ? String(row[iHrs]).trim() : "",
+      around: iAr >= 0 ? String(row[iAr]).trim() : "",
+      verified: ["yes","true","1","y","verified","✓"].includes(ver),
+    });
+  }
+  return out;
+}
+
+async function loadMachines() {
+  // Sheet URL can come from ?sheet=… in the page link, else CONFIG.SHEET_CSV_URL.
+  const param = new URLSearchParams(location.search).get("sheet");
+  const url = param || (typeof CONFIG !== "undefined" ? CONFIG.SHEET_CSV_URL : "");
+  if (!url) return; // use bundled sample data
+  try {
+    $("#listTitle").textContent = "Loading machines from your Sheet…";
+    const res = await fetch(url);
+    const machines = rowsToMachines(parseCSV(await res.text()));
+    if (machines.length) {
+      RECHARGE_POINTS.length = 0;
+      machines.forEach((m) => RECHARGE_POINTS.push(m));
+      // Make any new service names filterable.
+      machines.forEach((m) => m.services.forEach((s) => { if (!SERVICES.includes(s)) SERVICES.push(s); }));
+      buildChips();
+    }
+  } catch (e) {
+    console.warn("Could not load the Google Sheet — showing bundled data instead.", e);
+  }
+  render();
+}
+
 /* ---------- Init ---------- */
 buildChips();
 showAllUAE();
+loadMachines();

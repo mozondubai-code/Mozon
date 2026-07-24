@@ -1,8 +1,33 @@
 /* =============================================================================
    MOZON GIS — UAE Recharge Map  ·  DATA FILE
-   =============================================================================
-   This is the ONLY file you normally edit to add real locations.
-   Everything below is SAMPLE data so you can see the page working today.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   ⭐ LIVE GOOGLE SHEET — load thousands of machines without touching code.
+   -----------------------------------------------------------------------------
+   1. Put your machines in a Google Sheet with these column headers (row 1):
+        name | building | area | emirate | lat | lng | services | hours | around | verified
+      - lat / lng : decimal numbers (from Google Maps / your export)
+      - services  : separated by ; or ,   e.g.  du; Etisalat; iTunes; Botim
+      - verified  : yes/true to show the gold ✓ marker (optional, leave blank)
+      - building / area / hours / around : optional text
+   2. In the Sheet:  File → Share → Publish to web → (pick the sheet) →
+      choose "Comma-separated values (.csv)" → Publish → copy the link.
+   3. Paste that link between the quotes below, save, reload the page.
+
+   Leave it "" to use the bundled sample data instead.
+--------------------------------------------------------------------------- */
+const CONFIG = {
+  SHEET_CSV_URL: "",
+  LIST_LIMIT: 60,   // max machines listed in the sidebar at once (map shows all, clustered)
+};
+
+/* -----------------------------------------------------------------------------
+   Everything below is SAMPLE data so the page works before your Sheet is set.
+
+   HOW TO ADD A REAL RECHARGE MACHINE
+   ----------------------------------
+   Copy one { ... } block inside RECHARGE_POINTS and change the values:
 
    HOW TO ADD A REAL RECHARGE MACHINE
    ----------------------------------

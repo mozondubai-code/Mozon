@@ -8,7 +8,10 @@
 
   <!-- Leaflet map library — bundled locally (only the map background tiles need internet) -->
   <link rel="stylesheet" href="vendor/leaflet.css" />
+  <link rel="stylesheet" href="vendor/MarkerCluster.css" />
+  <link rel="stylesheet" href="vendor/MarkerCluster.Default.css" />
   <script src="vendor/leaflet.js"></script>
+  <script src="vendor/leaflet.markercluster.js"></script>
 
   <style>
     :root{
@@ -143,7 +146,7 @@
       </div>
 
       <div class="foot">
-        <b>✓ 6 verified machines</b> + demo samples. Edit <b>data.js</b> to update. ·
+        <b id="mcount">Loading…</b> · live from your Google Sheet when set (see <b>data.js</b>) ·
         Map © OpenStreetMap contributors
       </div>
     </aside>
