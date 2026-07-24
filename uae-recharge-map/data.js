@@ -57,6 +57,63 @@ const SERVICE_META = {
    Al Nahda 2 is filled in richly; others are starters you can grow.
 --------------------------------------------------------------------------- */
 const AREAS = [
+  /* ===== EMIRATE-LEVEL AREAS for the real machines (search by emirate) ===== */
+  {
+    id: "dubai",
+    name: "Dubai",
+    name_ar: "دبي",
+    emirate: "Dubai",
+    aliases: ["dubai city", "دبي"],
+    center: [25.214783, 55.244462],
+    zoom: 15,
+  },
+  {
+    id: "sharjah",
+    name: "Sharjah",
+    name_ar: "الشارقة",
+    emirate: "Sharjah",
+    aliases: ["sharjah city", "الشارقة"],
+    center: [25.349027, 55.388262],
+    zoom: 15,
+  },
+  {
+    id: "ajman",
+    name: "Ajman",
+    name_ar: "عجمان",
+    emirate: "Ajman",
+    aliases: ["ajman city", "عجمان"],
+    center: [25.394955, 55.454225],
+    zoom: 15,
+  },
+  {
+    id: "abu-dhabi",
+    name: "Abu Dhabi",
+    name_ar: "أبوظبي",
+    emirate: "Abu Dhabi",
+    aliases: ["abu dhabi city", "أبوظبي"],
+    center: [24.459227, 54.381018],
+    zoom: 15,
+  },
+  {
+    id: "ras-al-khaimah",
+    name: "Ras Al Khaimah",
+    name_ar: "رأس الخيمة",
+    emirate: "Ras Al Khaimah",
+    aliases: ["rak", "ras al khaimah city", "رأس الخيمة"],
+    center: [25.747238, 55.927540],
+    zoom: 15,
+  },
+  {
+    id: "fujairah",
+    name: "Fujairah",
+    name_ar: "الفجيرة",
+    emirate: "Fujairah",
+    aliases: ["fujairah city", "الفجيرة"],
+    center: [25.121969, 56.347127],
+    zoom: 15,
+  },
+
+  /* ===== NEIGHBOURHOOD SAMPLE AREAS (demo — safe to delete) ===== */
   {
     id: "al-nahda-2",
     name: "Al Nahda 2",
@@ -128,6 +185,81 @@ const AREAS = [
    the exact right-click coordinates from Google Maps for production.
 --------------------------------------------------------------------------- */
 const RECHARGE_POINTS = [
+  /* =========================================================================
+     ✅ YOUR REAL MACHINES — verified locations from your 2GIS pins.
+     Coordinates are exact. Fill in the real `building` name and adjust
+     `services` / `hours` when you have them.
+     ======================================================================= */
+  {
+    id: "mz-dubai",
+    name: "Mozon Recharge Machine — Dubai",
+    building: "",                      // ← add the exact building name
+    area: "dubai",
+    coords: [25.214783, 55.244462],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
+    hours: "",
+    around: "Verified location pinned from your 2GIS link.",
+    verified: true,
+  },
+  {
+    id: "mz-sharjah",
+    name: "Mozon Recharge Machine — Sharjah",
+    building: "",
+    area: "sharjah",
+    coords: [25.349027, 55.388262],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
+    hours: "",
+    around: "Verified location pinned from your 2GIS link.",
+    verified: true,
+  },
+  {
+    id: "mz-ajman",
+    name: "Mozon Recharge Machine — Ajman",
+    building: "",
+    area: "ajman",
+    coords: [25.394955, 55.454225],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
+    hours: "",
+    around: "Verified location pinned from your 2GIS link.",
+    verified: true,
+  },
+  {
+    id: "mz-abu-dhabi",
+    name: "Mozon Recharge Machine — Abu Dhabi",
+    building: "",
+    area: "abu-dhabi",
+    coords: [24.459227, 54.381018],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
+    hours: "",
+    around: "Verified location pinned from your 2GIS link.",
+    verified: true,
+  },
+  {
+    id: "mz-rak",
+    name: "Mozon Recharge Machine — Ras Al Khaimah",
+    building: "",
+    area: "ras-al-khaimah",
+    coords: [25.747238, 55.927540],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
+    hours: "",
+    around: "Verified location pinned from your 2GIS link.",
+    verified: true,
+  },
+  {
+    id: "mz-fujairah",
+    name: "Mozon Recharge Machine — Fujairah",
+    building: "",
+    area: "fujairah",
+    coords: [25.121969, 56.347127],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
+    hours: "",
+    around: "Verified location pinned from your 2GIS link.",
+    verified: true,
+  },
+
+  /* =========================================================================
+     SAMPLE / DEMO MACHINES below — safe to delete once your real list grows.
+     ======================================================================= */
   // ---- AL NAHDA 2 (Dubai) --------------------------------------------------
   {
     id: "rp-101",

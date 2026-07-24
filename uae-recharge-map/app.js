@@ -32,6 +32,7 @@ const km = (a, b) => {
 };
 const fmtDist = (d) => (d < 1 ? Math.round(d*1000) + " m" : d.toFixed(1) + " km");
 const svcColor = (s) => (SERVICE_META[s]?.c || "#888");
+const areaLabel = (id) => (AREAS.find((a) => a.id === id)?.name || id);
 
 function pinIcon(color, emoji, size = 30) {
   return L.divIcon({
@@ -90,17 +91,20 @@ function render() {
   const pts = visiblePoints();
   const origin = state.origin;
   if (origin) pts.sort((a, b) => km(origin, a.coords) - km(origin, b.coords));
+  else pts.sort((a, b) => (b.verified ? 1 : 0) - (a.verified ? 1 : 0)); // real machines first
 
   // recharge markers
   pts.forEach((p) => {
-    const m = L.marker(p.coords, { icon: pinIcon(getComputedStyle(document.documentElement).getPropertyValue("--recharge").trim() || "#22c3a6", "⚡") });
-    const dist = origin ? `<span style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</span><br>` : "";
+    const rechargeCol = getComputedStyle(document.documentElement).getPropertyValue("--recharge").trim() || "#22c3a6";
+    const color = p.verified ? "#F5B301" : rechargeCol;
+    const m = L.marker(p.coords, { icon: pinIcon(color, p.verified ? "✓" : "⚡") });
+    const dist = origin ? `<p class="pb" style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</p>` : "";
     m.bindPopup(`<div class="pop">
-      <h4>${p.name}</h4>
-      <p class="pb">🏢 ${p.building}</p>
-      ${dist ? `<p class="pb">${dist.replace("<br>","")}</p>` : ""}
+      <h4>${p.name} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
+      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${areaLabel(p.area)}</p>`}
+      ${dist}
       ${svcChipsHtml(p.services)}
-      <p class="pa">🕒 ${p.hours || "—"}<br>📍 ${p.around || ""}</p>
+      <p class="pa">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</p>
       <a class="dir" target="_blank" rel="noopener"
          href="https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}">↗ Directions</a>
     </div>`, { maxWidth: 280 });
@@ -138,11 +142,16 @@ function renderList(pts, origin) {
     const card = document.createElement("div");
     card.className = "card";
     const dist = origin ? `<span class="dist">${fmtDist(km(origin, p.coords))}</span>` : "";
+    const icon = p.verified ? "✅" : "⚡";
+    const badge = p.verified ? ' <span class="vbadge">✓ Verified</span>' : "";
+    const bld = p.building
+      ? `<div class="bld">🏢 ${p.building}</div>`
+      : `<div class="bld" style="opacity:.7">📍 ${areaLabel(p.area)}</div>`;
     card.innerHTML = `
-      <div class="top"><h3>⚡ ${p.name}</h3>${dist}</div>
-      <div class="bld">🏢 ${p.building}</div>
+      <div class="top"><h3>${icon} ${p.name}${badge}</h3>${dist}</div>
+      ${bld}
       ${svcChipsHtml(p.services)}
-      <div class="around">🕒 ${p.hours || "—"}<br>📍 ${p.around || ""}</div>`;
+      <div class="around">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</div>`;
     card.addEventListener("click", () => {
       document.querySelectorAll(".card").forEach(c=>c.classList.remove("open"));
       card.classList.add("open");
@@ -236,5 +245,5 @@ $("#mtoggle").addEventListener("click", () => {
 
 /* ---------- Init ---------- */
 buildChips();
-// Open on Al Nahda 2 as the showcase area
-focusArea(AREAS.find((a) => a.id === "al-nahda-2"));
+// Open on the whole-UAE view so all real machines are visible; users can search an area.
+showAllUAE();
