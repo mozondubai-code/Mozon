@@ -97,6 +97,15 @@
     .pop .svc{margin-bottom:8px}
     .pop .pa{font-size:12px;color:var(--muted);line-height:1.45;border-top:1px solid var(--line);padding-top:8px}
     .pop a.dir{display:inline-block;margin-top:8px;font-size:12.5px;color:var(--accent);text-decoration:none}
+    .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .acts .act{font-size:11.5px;color:var(--accent);text-decoration:none;border:1px solid var(--line);
+      padding:5px 9px;border-radius:8px;background:var(--panel);cursor:pointer;line-height:1;font-family:inherit}
+    .acts .act:hover{border-color:var(--accent)}
+    .acts button.act{color:var(--text)}
+    .btn.on{border-color:var(--accent);background:rgba(34,195,166,.15);color:var(--text)}
+    .pinhint{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:1000;
+      background:rgba(21,28,44,.95);border:1px solid var(--accent);color:var(--text);font-size:12.5px;
+      padding:8px 14px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.4)}
 
     /* Mobile */
     .mtoggle{display:none}
@@ -129,7 +138,8 @@
 
       <div class="tools">
         <button class="btn" id="btnLocate">📌 Near me</button>
-        <button class="btn alt" id="btnAll">🇦🇪 Show all UAE</button>
+        <button class="btn" id="btnPin">📍 Drop pin</button>
+        <button class="btn alt" id="btnAll">🇦🇪 All UAE</button>
       </div>
 
       <div class="filters">

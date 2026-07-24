@@ -46,6 +46,21 @@ const km = (a, b) => {
 const fmtDist = (d) => (d < 1 ? Math.round(d*1000) + " m" : d.toFixed(1) + " km");
 const svcColor = (s) => (SERVICE_META[s]?.c || "#888");
 
+/* Open-in / copy links for any coordinate (kiosk popups and the drop-pin tool). */
+function actionsHtml(lat, lng) {
+  const maps = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  const pano = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}`;
+  const dir  = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  const twogis = `https://2gis.ae/?m=${lng}%2C${lat}%2F17`; // 2GIS map centres on lng,lat
+  return `<div class="acts">
+    <a class="act" target="_blank" rel="noopener" href="${maps}">🗺️ Maps</a>
+    <a class="act" target="_blank" rel="noopener" href="${pano}">👁️ Street View</a>
+    <a class="act" target="_blank" rel="noopener" href="${twogis}">🧭 2GIS</a>
+    <a class="act" target="_blank" rel="noopener" href="${dir}">➜ Directions</a>
+    <button class="act copybtn" type="button" data-ll="${lat}, ${lng}">📍 Copy pin</button>
+  </div>`;
+}
+
 function pinIcon(color, emoji, size = 30) {
   return L.divIcon({
     className: "",
@@ -160,9 +175,8 @@ function render() {
       ${dist}
       ${svcChipsHtml(p.services)}
       <p class="pa">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</p>
-      <a class="dir" target="_blank" rel="noopener"
-         href="https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}">↗ Directions</a>
-    </div>`, { maxWidth: 280 });
+      ${actionsHtml(p.coords[0], p.coords[1])}
+    </div>`, { maxWidth: 300 });
     markers.push(m);
     p.__marker = m;
   });
@@ -270,29 +284,115 @@ function matchAreas(qRaw) {
   scored.sort((x, y) => x.score - y.score || x.a.name.length - y.a.name.length);
   return scored.slice(0, 12).map((x) => x.a);
 }
-function showSuggest(items) {
+/* Deep search across every kiosk (name / building / area). */
+function matchKiosks(qRaw) {
+  const q = qRaw.trim().toLowerCase();
+  if (q.length < 2) return [];
+  const out = [];
+  for (const p of RECHARGE_POINTS) {
+    const hay = (p.name + " " + (p.building || "") + " " + (p.area || "")).toLowerCase();
+    if (hay.includes(q)) { out.push(p); if (out.length >= 8) break; }
+  }
+  return out;
+}
+
+function updateSuggest(qRaw) {
+  const areas = matchAreas(qRaw).slice(0, 8).map((a) => ({ kind: "area", a }));
+  const kiosks = matchKiosks(qRaw).map((p) => ({ kind: "kiosk", p }));
+  const items = [...areas, ...kiosks];
   const ul = $("#suggest");
   ul.innerHTML = "";
   if (!items.length) { hideSuggest(); return; }
-  items.forEach((a) => {
+  items.forEach((it) => {
     const li = document.createElement("li");
-    const tag = a.seeded ? `${a.emirate} · ${RECHARGE_POINTS.filter(p=>p.area===a.key).length} ⚡` : a.emirate;
-    li.innerHTML = `<span>${a.name}${a.name_ar?` · ${a.name_ar}`:""}</span><small>${tag}</small>`;
-    li.addEventListener("click", () => focusArea(a));
+    if (it.kind === "area") {
+      const a = it.a;
+      const tag = a.seeded ? `${a.emirate} · ${RECHARGE_POINTS.filter((p)=>p.area===a.key).length} ⚡` : a.emirate;
+      li.innerHTML = `<span>${a.name}${a.name_ar?` · ${a.name_ar}`:""}</span><small>${tag}</small>`;
+      li.addEventListener("click", () => focusArea(a));
+    } else {
+      const p = it.p;
+      li.innerHTML = `<span>⚡ ${p.name}</span><small>${p.building || p.area || "kiosk"}</small>`;
+      li.addEventListener("click", () => focusKiosk(p));
+    }
     ul.appendChild(li);
   });
   ul.style.display = "block";
 }
 const hideSuggest = () => { $("#suggest").style.display = "none"; };
 
-$("#q").addEventListener("input", (e) => showSuggest(matchAreas(e.target.value)));
+/* Fly to a single kiosk and open its popup (expanding its cluster if needed). */
+function focusKiosk(p) {
+  state.seededAreaId = null;
+  state.origin = p.coords;
+  state.focusName = p.name;
+  $("#q").value = p.name;
+  hideSuggest();
+  map.setView(p.coords, 17, { animate: true });
+  render();
+  setTimeout(() => {
+    const m = p.__marker;
+    if (!m) return;
+    if (typeof rechargeLayer.zoomToShowLayer === "function") rechargeLayer.zoomToShowLayer(m, () => m.openPopup());
+    else m.openPopup();
+  }, 350);
+}
+
+$("#q").addEventListener("input", (e) => updateSuggest(e.target.value));
 $("#q").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const m = matchAreas(e.target.value);
-    if (m.length) focusArea(m[0]);
+    const a = matchAreas(e.target.value);
+    if (a.length) { focusArea(a[0]); return; }
+    const k = matchKiosks(e.target.value);
+    if (k.length) focusKiosk(k[0]);
   }
 });
 document.addEventListener("click", (e) => { if (!e.target.closest(".search")) hideSuggest(); });
+
+/* Copy a pin's "lat, lng" from any popup (event-delegated — popups are dynamic). */
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".copybtn");
+  if (!btn) return;
+  const ll = btn.dataset.ll || "";
+  const done = () => { const t = btn.textContent; btn.textContent = "✓ Copied"; setTimeout(() => { btn.textContent = t; }, 1200); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ll).then(done).catch(done);
+  else { const ta = document.createElement("textarea"); ta.value = ll; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (err) {} ta.remove(); done(); }
+});
+
+/* ---------- Drop-pin tool: click the map to capture coordinates for a new kiosk ---------- */
+let pinMarker = null, pinMode = false, pinHint = null;
+function openPinPopup() {
+  const { lat, lng } = pinMarker.getLatLng();
+  const la = lat.toFixed(6), lo = lng.toFixed(6);
+  pinMarker.bindPopup(`<div class="pop">
+    <h4>📍 Dropped pin</h4>
+    <p class="pb" style="font-variant-numeric:tabular-nums">${la}, ${lo}</p>
+    ${actionsHtml(la, lo)}
+    <p class="pa">Drag the pin to fine-tune. Tap <b>Copy pin</b>, then paste into the <b>lat</b>/<b>lng</b> columns of your Sheet.</p>
+  </div>`, { maxWidth: 300 }).openPopup();
+}
+$("#btnPin").addEventListener("click", () => {
+  pinMode = !pinMode;
+  $("#btnPin").classList.toggle("on", pinMode);
+  map.getContainer().style.cursor = pinMode ? "crosshair" : "";
+  if (pinMode) {
+    pinHint = document.createElement("div");
+    pinHint.className = "pinhint";
+    pinHint.textContent = "Tap the map to drop a pin and get its coordinates";
+    map.getContainer().appendChild(pinHint);
+  } else if (pinHint) { pinHint.remove(); pinHint = null; }
+});
+map.on("click", (e) => {
+  if (!pinMode) return;
+  if (pinHint) { pinHint.remove(); pinHint = null; }
+  if (pinMarker) pinMarker.setLatLng(e.latlng);
+  else {
+    pinMarker = L.marker(e.latlng, { draggable: true, icon: pinIcon("#2f7cf6", "📍", 32) }).addTo(map);
+    pinMarker.on("dragend", openPinPopup);
+  }
+  openPinPopup();
+});
 
 /* ---------- Buttons ---------- */
 $("#btnAll").addEventListener("click", showAllUAE);

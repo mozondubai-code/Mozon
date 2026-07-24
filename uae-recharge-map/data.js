@@ -526,6 +526,56 @@ const RECHARGE_POINTS = [
     hours: "9:00 AM – 11:00 PM",
     around: "Seafront near the beach entrance, food outlets on the podium level.",
   },
+
+  // ---- MORE SAMPLE KIOSKS (spread across popular areas) --------------------
+  {
+    id: "rp-107", name: "Fresh Corner Recharge", building: "Al Nahda 2 Tower B",
+    area: "al-nahda-2", coords: [25.2938, 55.3624],
+    services: ["du", "Etisalat", "Botim", "Google Play"], hours: "24 hours",
+    around: "Cafeteria block near the park's east gate; barber and laundry next door.",
+  },
+  {
+    id: "rp-108", name: "Pond View Grocery", building: "Al Nahda Pearl Building",
+    area: "al-nahda-2", coords: [25.2960, 55.3658],
+    services: ["du", "Etisalat", "iTunes", "PUBG UC"], hours: "7:00 AM – 1:00 AM",
+    around: "Facing Al Nahda Pond Park; pharmacy and clinic in the same tower.",
+  },
+  {
+    id: "rp-303", name: "Rigga Express Top-up", building: "Al Muraqqabat Plaza",
+    area: "deira", coords: [25.2662, 55.3231],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Cash Out"], hours: "24 hours",
+    around: "Busy restaurant strip on Al Muraqqabat Road; metro exit two minutes away.",
+  },
+  {
+    id: "rp-402", name: "Karama Quick Pay", building: "Karama Shopping Complex",
+    area: "bur-dubai", coords: [25.2472, 55.3045],
+    services: ["du", "Etisalat", "Botim", "Nol", "DEWA"], hours: "9:00 AM – 12:00 AM",
+    around: "Opposite Karama Park; cafeterias and mobile shops all around.",
+  },
+  {
+    id: "rp-502", name: "Barsha Mart Kiosk", building: "Al Barsha Business Point",
+    area: "al-barsha", coords: [25.1109, 55.1978],
+    services: ["du", "Etisalat", "iTunes", "Botim"], hours: "8:00 AM – 12:00 AM",
+    around: "Near Sharaf DG metro; supermarkets and clinics in the cluster.",
+  },
+  {
+    id: "rp-503", name: "JLT Cluster Recharge", building: "JLT Cluster D",
+    area: "al-barsha", coords: [25.0685, 55.1440],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "PUBG UC"], hours: "24 hours",
+    around: "Lakeside retail podium; coffee shops and a supermarket adjacent.",
+  },
+  {
+    id: "rp-203", name: "Taawun Mart Top-up", building: "Al Taawun Mall",
+    area: "al-nahda-sharjah", coords: [25.3312, 55.3826],
+    services: ["du", "Etisalat", "Botim", "iTunes"], hours: "10:00 AM – 12:00 AM",
+    around: "Near Al Taawun bus station and the corniche.",
+  },
+  {
+    id: "rp-204", name: "Ajman Corniche Kiosk", building: "Ajman Corniche Tower",
+    area: "ajman", coords: [25.4118, 55.4372],
+    services: ["du", "Etisalat", "iTunes", "Cash Out"], hours: "8:00 AM – 1:00 AM",
+    around: "Beachfront cafés and the Ajman fish market nearby.",
+  },
 ];
 
 /* -----------------------------------------------------------------------------
