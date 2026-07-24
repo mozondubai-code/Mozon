@@ -1,0 +1,14 @@
+# Netlify config for the UAE Recharge Map (static site — no build step).
+# If you connect this GitHub repo to Netlify, set the site's base directory to
+# "uae-recharge-map" in the Netlify UI, or Netlify will read this file.
+[build]
+  base    = "uae-recharge-map"
+  publish = "uae-recharge-map"
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options   = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy   = "strict-origin-when-cross-origin"
