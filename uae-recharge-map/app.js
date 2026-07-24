@@ -46,6 +46,11 @@ const km = (a, b) => {
 const fmtDist = (d) => (d < 1 ? Math.round(d*1000) + " m" : d.toFixed(1) + " km");
 const svcColor = (s) => (SERVICE_META[s]?.c || "#888");
 
+/* Escape any dynamic text before it goes into innerHTML (machine data may come
+   from an external CSV/Google Sheet — treat it as untrusted). */
+const esc = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
 /* Open-in / copy links for any coordinate (kiosk popups and the drop-pin tool). */
 function actionsHtml(lat, lng) {
   const maps = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
@@ -152,7 +157,7 @@ function selectedPlaces() {
 /* ---------- Small service chips ---------- */
 function svcChipsHtml(services) {
   return `<div class="svc">` + services.map((s) =>
-    `<span class="s" style="background:${svcColor(s)}">${s}</span>`).join("") + `</div>`;
+    `<span class="s" style="background:${svcColor(s)}">${esc(s)}</span>`).join("") + `</div>`;
 }
 
 /* ---------- Render map + list ---------- */
@@ -170,11 +175,11 @@ function render() {
     const m = L.marker(p.coords, { icon: pinIcon(color, p.verified ? "✓" : "⚡") });
     const dist = origin ? `<p class="pb" style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</p>` : "";
     m.bindPopup(`<div class="pop">
-      <h4>${p.name} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
-      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${p.area || p.emirate || ""}</p>`}
+      <h4>${esc(p.name)} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
+      ${p.building ? `<p class="pb">🏢 ${esc(p.building)}</p>` : `<p class="pb">📍 ${esc(p.area || p.emirate || "")}</p>`}
       ${dist}
       ${svcChipsHtml(p.services)}
-      <p class="pa">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</p>
+      <p class="pa">${p.hours ? `🕒 ${esc(p.hours)}<br>` : ""}📍 ${esc(p.around || "")}</p>
       ${actionsHtml(p.coords[0], p.coords[1])}
     </div>`, { maxWidth: 300 });
     markers.push(m);
@@ -216,13 +221,13 @@ function renderList(pts, origin) {
     const icon = p.verified ? "✅" : "⚡";
     const badge = p.verified ? ' <span class="vbadge">✓ Verified</span>' : "";
     const bld = p.building
-      ? `<div class="bld">🏢 ${p.building}</div>`
-      : `<div class="bld" style="opacity:.7">📍 ${p.area}</div>`;
+      ? `<div class="bld">🏢 ${esc(p.building)}</div>`
+      : `<div class="bld" style="opacity:.7">📍 ${esc(p.area)}</div>`;
     card.innerHTML = `
-      <div class="top"><h3>${icon} ${p.name}${badge}</h3>${dist}</div>
+      <div class="top"><h3>${icon} ${esc(p.name)}${badge}</h3>${dist}</div>
       ${bld}
       ${svcChipsHtml(p.services)}
-      <div class="around">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</div>`;
+      <div class="around">${p.hours ? `🕒 ${esc(p.hours)}<br>` : ""}📍 ${esc(p.around || "")}</div>`;
     card.addEventListener("click", () => {
       document.querySelectorAll(".card").forEach(c=>c.classList.remove("open"));
       card.classList.add("open");
@@ -308,11 +313,11 @@ function updateSuggest(qRaw) {
     if (it.kind === "area") {
       const a = it.a;
       const tag = a.seeded ? `${a.emirate} · ${RECHARGE_POINTS.filter((p)=>p.area===a.key).length} ⚡` : a.emirate;
-      li.innerHTML = `<span>${a.name}${a.name_ar?` · ${a.name_ar}`:""}</span><small>${tag}</small>`;
+      li.innerHTML = `<span>${esc(a.name)}${a.name_ar?` · ${esc(a.name_ar)}`:""}</span><small>${esc(tag)}</small>`;
       li.addEventListener("click", () => focusArea(a));
     } else {
       const p = it.p;
-      li.innerHTML = `<span>⚡ ${p.name}</span><small>${p.building || p.area || "kiosk"}</small>`;
+      li.innerHTML = `<span>⚡ ${esc(p.name)}</span><small>${esc(p.building || p.area || "kiosk")}</small>`;
       li.addEventListener("click", () => focusKiosk(p));
     }
     ul.appendChild(li);
@@ -480,9 +485,22 @@ function rowsToMachines(rows) {
   return out;
 }
 
+// Only allow the ?sheet= override to point at Google's publish hosts, so a
+// crafted link can't load an attacker's CSV into the page. (CONFIG.SHEET_CSV_URL,
+// set by the site owner in code, is trusted and used as-is.)
+function safeSheetParam(raw) {
+  if (!raw) return "";
+  try {
+    const u = new URL(raw, location.href);
+    const okHost = /(^|\.)docs\.google\.com$/.test(u.hostname) ||
+                   /(^|\.)googleusercontent\.com$/.test(u.hostname);
+    return (u.protocol === "https:" && okHost) ? u.href : "";
+  } catch (e) { return ""; }
+}
+
 async function loadMachines() {
-  // Sheet URL can come from ?sheet=… in the page link, else CONFIG.SHEET_CSV_URL.
-  const param = new URLSearchParams(location.search).get("sheet");
+  // Sheet URL can come from ?sheet=… (restricted to Google hosts) else CONFIG.SHEET_CSV_URL.
+  const param = safeSheetParam(new URLSearchParams(location.search).get("sheet"));
   const url = param || (typeof CONFIG !== "undefined" ? CONFIG.SHEET_CSV_URL : "");
   if (!url) return; // use bundled sample data
   try {
