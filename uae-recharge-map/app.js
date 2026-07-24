@@ -13,7 +13,14 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '© OpenStreetMap contributors',
 }).addTo(map);
 
-const rechargeLayer = L.layerGroup().addTo(map);
+// Clustered layer so thousands of machines stay fast (pins group, expand on zoom).
+const rechargeLayer = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  maxClusterRadius: 48,
+  spiderfyOnMaxZoom: true,
+  chunkedLoading: true,
+});
+map.addLayer(rechargeLayer);
 const placeLayer = L.layerGroup().addTo(map);
 let userMarker = null;
 
@@ -38,6 +45,26 @@ const km = (a, b) => {
 };
 const fmtDist = (d) => (d < 1 ? Math.round(d*1000) + " m" : d.toFixed(1) + " km");
 const svcColor = (s) => (SERVICE_META[s]?.c || "#888");
+
+/* Escape any dynamic text before it goes into innerHTML (machine data may come
+   from an external CSV/Google Sheet — treat it as untrusted). */
+const esc = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/* Open-in / copy links for any coordinate (kiosk popups and the drop-pin tool). */
+function actionsHtml(lat, lng) {
+  const maps = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  const pano = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}`;
+  const dir  = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  const twogis = `https://2gis.ae/?m=${lng}%2C${lat}%2F17`; // 2GIS map centres on lng,lat
+  return `<div class="acts">
+    <a class="act" target="_blank" rel="noopener" href="${maps}">🗺️ Maps</a>
+    <a class="act" target="_blank" rel="noopener" href="${pano}">👁️ Street View</a>
+    <a class="act" target="_blank" rel="noopener" href="${twogis}">🧭 2GIS</a>
+    <a class="act" target="_blank" rel="noopener" href="${dir}">➜ Directions</a>
+    <button class="act copybtn" type="button" data-ll="${lat}, ${lng}">📍 Copy pin</button>
+  </div>`;
+}
 
 function pinIcon(color, emoji, size = 30) {
   return L.divIcon({
@@ -130,7 +157,7 @@ function selectedPlaces() {
 /* ---------- Small service chips ---------- */
 function svcChipsHtml(services) {
   return `<div class="svc">` + services.map((s) =>
-    `<span class="s" style="background:${svcColor(s)}">${s}</span>`).join("") + `</div>`;
+    `<span class="s" style="background:${svcColor(s)}">${esc(s)}</span>`).join("") + `</div>`;
 }
 
 /* ---------- Render map + list ---------- */
@@ -142,22 +169,24 @@ function render() {
   const pts = selectedPoints();
   const rechargeCol = getComputedStyle(document.documentElement).getPropertyValue("--recharge").trim() || "#22c3a6";
 
+  const markers = [];
   pts.forEach((p) => {
     const color = p.verified ? "#F5B301" : rechargeCol;
     const m = L.marker(p.coords, { icon: pinIcon(color, p.verified ? "✓" : "⚡") });
     const dist = origin ? `<p class="pb" style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</p>` : "";
     m.bindPopup(`<div class="pop">
-      <h4>${p.name} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
-      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${p.area}</p>`}
+      <h4>${esc(p.name)} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
+      ${p.building ? `<p class="pb">🏢 ${esc(p.building)}</p>` : `<p class="pb">📍 ${esc(p.area || p.emirate || "")}</p>`}
+      ${p.placement ? `<p class="pb">🏠 ${esc(p.placement)}</p>` : ""}
       ${dist}
       ${svcChipsHtml(p.services)}
-      <p class="pa">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</p>
-      <a class="dir" target="_blank" rel="noopener"
-         href="https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}">↗ Directions</a>
-    </div>`, { maxWidth: 280 });
-    rechargeLayer.addLayer(m);
+      <p class="pa">${p.hours ? `🕒 ${esc(p.hours)}<br>` : ""}📍 ${esc(p.around || "")}</p>
+      ${actionsHtml(p.coords[0], p.coords[1])}
+    </div>`, { maxWidth: 300 });
+    markers.push(m);
     p.__marker = m;
   });
+  rechargeLayer.addLayers(markers); // bulk add — fast for thousands
 
   selectedPlaces().forEach((pl) => {
     const meta = CATEGORY_META[pl.category] || CATEGORY_META.landmark;
@@ -175,27 +204,32 @@ function renderList(pts, origin) {
   const list = $("#list");
   list.innerHTML = "";
   $("#listTitle").textContent = state.focusName ? `Machines near ${state.focusName}` : "Recharge machines · All UAE";
-  $("#listCount").textContent = `${pts.length} found`;
+
+  const limit = (typeof CONFIG !== "undefined" && CONFIG.LIST_LIMIT) || 60;
+  const shown = pts.slice(0, limit);
+  $("#listCount").textContent = pts.length > shown.length ? `${shown.length} of ${pts.length}` : `${pts.length} found`;
+  const mc = $("#mcount"); if (mc) mc.textContent = `${RECHARGE_POINTS.length.toLocaleString()} machines loaded`;
 
   if (!pts.length) {
     list.innerHTML = `<div class="empty">No recharge machines match your filters here.<br>Try clearing service filters or search another area.</div>`;
     return;
   }
 
-  pts.forEach((p) => {
+  shown.forEach((p) => {
     const card = document.createElement("div");
     card.className = "card";
     const dist = origin ? `<span class="dist">${fmtDist(km(origin, p.coords))}</span>` : "";
     const icon = p.verified ? "✅" : "⚡";
     const badge = p.verified ? ' <span class="vbadge">✓ Verified</span>' : "";
     const bld = p.building
-      ? `<div class="bld">🏢 ${p.building}</div>`
-      : `<div class="bld" style="opacity:.7">📍 ${p.area}</div>`;
+      ? `<div class="bld">🏢 ${esc(p.building)}</div>`
+      : `<div class="bld" style="opacity:.7">📍 ${esc(p.area)}</div>`;
+    const plc = p.placement ? `<div class="bld" style="opacity:.75">🏠 ${esc(p.placement)}</div>` : "";
     card.innerHTML = `
-      <div class="top"><h3>${icon} ${p.name}${badge}</h3>${dist}</div>
-      ${bld}
+      <div class="top"><h3>${icon} ${esc(p.name)}${badge}</h3>${dist}</div>
+      ${bld}${plc}
       ${svcChipsHtml(p.services)}
-      <div class="around">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</div>`;
+      <div class="around">${p.hours ? `🕒 ${esc(p.hours)}<br>` : ""}📍 ${esc(p.around || "")}</div>`;
     card.addEventListener("click", () => {
       document.querySelectorAll(".card").forEach(c=>c.classList.remove("open"));
       card.classList.add("open");
@@ -257,29 +291,115 @@ function matchAreas(qRaw) {
   scored.sort((x, y) => x.score - y.score || x.a.name.length - y.a.name.length);
   return scored.slice(0, 12).map((x) => x.a);
 }
-function showSuggest(items) {
+/* Deep search across every kiosk (name / building / area). */
+function matchKiosks(qRaw) {
+  const q = qRaw.trim().toLowerCase();
+  if (q.length < 2) return [];
+  const out = [];
+  for (const p of RECHARGE_POINTS) {
+    const hay = (p.name + " " + (p.building || "") + " " + (p.area || "")).toLowerCase();
+    if (hay.includes(q)) { out.push(p); if (out.length >= 8) break; }
+  }
+  return out;
+}
+
+function updateSuggest(qRaw) {
+  const areas = matchAreas(qRaw).slice(0, 8).map((a) => ({ kind: "area", a }));
+  const kiosks = matchKiosks(qRaw).map((p) => ({ kind: "kiosk", p }));
+  const items = [...areas, ...kiosks];
   const ul = $("#suggest");
   ul.innerHTML = "";
   if (!items.length) { hideSuggest(); return; }
-  items.forEach((a) => {
+  items.forEach((it) => {
     const li = document.createElement("li");
-    const tag = a.seeded ? `${a.emirate} · ${RECHARGE_POINTS.filter(p=>p.area===a.key).length} ⚡` : a.emirate;
-    li.innerHTML = `<span>${a.name}${a.name_ar?` · ${a.name_ar}`:""}</span><small>${tag}</small>`;
-    li.addEventListener("click", () => focusArea(a));
+    if (it.kind === "area") {
+      const a = it.a;
+      const tag = a.seeded ? `${a.emirate} · ${RECHARGE_POINTS.filter((p)=>p.area===a.key).length} ⚡` : a.emirate;
+      li.innerHTML = `<span>${esc(a.name)}${a.name_ar?` · ${esc(a.name_ar)}`:""}</span><small>${esc(tag)}</small>`;
+      li.addEventListener("click", () => focusArea(a));
+    } else {
+      const p = it.p;
+      li.innerHTML = `<span>⚡ ${esc(p.name)}</span><small>${esc(p.building || p.area || "kiosk")}</small>`;
+      li.addEventListener("click", () => focusKiosk(p));
+    }
     ul.appendChild(li);
   });
   ul.style.display = "block";
 }
 const hideSuggest = () => { $("#suggest").style.display = "none"; };
 
-$("#q").addEventListener("input", (e) => showSuggest(matchAreas(e.target.value)));
+/* Fly to a single kiosk and open its popup (expanding its cluster if needed). */
+function focusKiosk(p) {
+  state.seededAreaId = null;
+  state.origin = p.coords;
+  state.focusName = p.name;
+  $("#q").value = p.name;
+  hideSuggest();
+  map.setView(p.coords, 17, { animate: true });
+  render();
+  setTimeout(() => {
+    const m = p.__marker;
+    if (!m) return;
+    if (typeof rechargeLayer.zoomToShowLayer === "function") rechargeLayer.zoomToShowLayer(m, () => m.openPopup());
+    else m.openPopup();
+  }, 350);
+}
+
+$("#q").addEventListener("input", (e) => updateSuggest(e.target.value));
 $("#q").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const m = matchAreas(e.target.value);
-    if (m.length) focusArea(m[0]);
+    const a = matchAreas(e.target.value);
+    if (a.length) { focusArea(a[0]); return; }
+    const k = matchKiosks(e.target.value);
+    if (k.length) focusKiosk(k[0]);
   }
 });
 document.addEventListener("click", (e) => { if (!e.target.closest(".search")) hideSuggest(); });
+
+/* Copy a pin's "lat, lng" from any popup (event-delegated — popups are dynamic). */
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".copybtn");
+  if (!btn) return;
+  const ll = btn.dataset.ll || "";
+  const done = () => { const t = btn.textContent; btn.textContent = "✓ Copied"; setTimeout(() => { btn.textContent = t; }, 1200); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ll).then(done).catch(done);
+  else { const ta = document.createElement("textarea"); ta.value = ll; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (err) {} ta.remove(); done(); }
+});
+
+/* ---------- Drop-pin tool: click the map to capture coordinates for a new kiosk ---------- */
+let pinMarker = null, pinMode = false, pinHint = null;
+function openPinPopup() {
+  const { lat, lng } = pinMarker.getLatLng();
+  const la = lat.toFixed(6), lo = lng.toFixed(6);
+  pinMarker.bindPopup(`<div class="pop">
+    <h4>📍 Dropped pin</h4>
+    <p class="pb" style="font-variant-numeric:tabular-nums">${la}, ${lo}</p>
+    ${actionsHtml(la, lo)}
+    <p class="pa">Drag the pin to fine-tune. Tap <b>Copy pin</b>, then paste into the <b>lat</b>/<b>lng</b> columns of your Sheet.</p>
+  </div>`, { maxWidth: 300 }).openPopup();
+}
+$("#btnPin").addEventListener("click", () => {
+  pinMode = !pinMode;
+  $("#btnPin").classList.toggle("on", pinMode);
+  map.getContainer().style.cursor = pinMode ? "crosshair" : "";
+  if (pinMode) {
+    pinHint = document.createElement("div");
+    pinHint.className = "pinhint";
+    pinHint.textContent = "Tap the map to drop a pin and get its coordinates";
+    map.getContainer().appendChild(pinHint);
+  } else if (pinHint) { pinHint.remove(); pinHint = null; }
+});
+map.on("click", (e) => {
+  if (!pinMode) return;
+  if (pinHint) { pinHint.remove(); pinHint = null; }
+  if (pinMarker) pinMarker.setLatLng(e.latlng);
+  else {
+    pinMarker = L.marker(e.latlng, { draggable: true, icon: pinIcon("#2f7cf6", "📍", 32) }).addTo(map);
+    pinMarker.on("dragend", openPinPopup);
+  }
+  openPinPopup();
+});
 
 /* ---------- Buttons ---------- */
 $("#btnAll").addEventListener("click", showAllUAE);
@@ -310,6 +430,101 @@ $("#mtoggle").addEventListener("click", () => {
   $("#mtoggle").innerHTML = app.classList.contains("map-mode") ? "☰ List" : "🗺️ Map";
 });
 
+/* ---------- Live Google Sheet loading (thousands of machines) ---------- */
+function parseCSV(text) {
+  const rows = []; let field = "", row = [], inQ = false, i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i+1] === '"') { field += '"'; i += 2; continue; } inQ = false; i++; continue; }
+      field += c; i++; continue;
+    }
+    if (c === '"') { inQ = true; i++; continue; }
+    if (c === ",") { row.push(field); field = ""; i++; continue; }
+    if (c === "\r") { i++; continue; }
+    if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; i++; continue; }
+    field += c; i++;
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+function rowsToMachines(rows) {
+  if (!rows.length) return [];
+  const head = rows[0].map((h) => h.trim().toLowerCase());
+  const col = (names) => { for (const n of names) { const k = head.indexOf(n); if (k >= 0) return k; } return -1; };
+  const iName = col(["name","machine","shop","kiosk"]);
+  const iBld  = col(["building","bldg","tower"]);
+  const iArea = col(["area","neighbourhood","neighborhood","district","location"]);
+  const iEm   = col(["emirate","city"]);
+  const iLat  = col(["lat","latitude"]);
+  const iLng  = col(["lng","lon","long","longitude"]);
+  const iSvc  = col(["services","service","recharge"]);
+  const iHrs  = col(["hours","timing","time","open"]);
+  const iAr   = col(["around","surroundings","notes","landmark","nearby"]);
+  const iPlc  = col(["placement","type","location","building type","placement type"]);
+  const iVer  = col(["verified","ver"]);
+  const out = [];
+  for (let r = 1; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row || row.every((c) => !String(c).trim())) continue;
+    const lat = parseFloat(row[iLat]), lng = parseFloat(row[iLng]);
+    if (isNaN(lat) || isNaN(lng)) continue;
+    const svc = (iSvc >= 0 ? String(row[iSvc] || "") : "").split(/[;,/|]/).map((s) => s.trim()).filter(Boolean);
+    const ver = (iVer >= 0 ? String(row[iVer] || "") : "").trim().toLowerCase();
+    out.push({
+      id: "sheet-" + r,
+      name: (iName >= 0 && String(row[iName]).trim()) || "Recharge machine",
+      building: iBld >= 0 ? String(row[iBld]).trim() : "",
+      area: iArea >= 0 ? String(row[iArea]).trim() : (iEm >= 0 ? String(row[iEm]).trim() : ""),
+      emirate: iEm >= 0 ? String(row[iEm]).trim() : "",
+      coords: [lat, lng],
+      services: svc.length ? svc : ["Recharge"],
+      hours: iHrs >= 0 ? String(row[iHrs]).trim() : "",
+      around: iAr >= 0 ? String(row[iAr]).trim() : "",
+      placement: iPlc >= 0 ? String(row[iPlc]).trim() : "",
+      verified: ["yes","true","1","y","verified","✓"].includes(ver),
+    });
+  }
+  return out;
+}
+
+// Only allow the ?sheet= override to point at Google's publish hosts, so a
+// crafted link can't load an attacker's CSV into the page. (CONFIG.SHEET_CSV_URL,
+// set by the site owner in code, is trusted and used as-is.)
+function safeSheetParam(raw) {
+  if (!raw) return "";
+  try {
+    const u = new URL(raw, location.href);
+    const okHost = /(^|\.)docs\.google\.com$/.test(u.hostname) ||
+                   /(^|\.)googleusercontent\.com$/.test(u.hostname);
+    return (u.protocol === "https:" && okHost) ? u.href : "";
+  } catch (e) { return ""; }
+}
+
+async function loadMachines() {
+  // Sheet URL can come from ?sheet=… (restricted to Google hosts) else CONFIG.SHEET_CSV_URL.
+  const param = safeSheetParam(new URLSearchParams(location.search).get("sheet"));
+  const url = param || (typeof CONFIG !== "undefined" ? CONFIG.SHEET_CSV_URL : "");
+  if (!url) return; // use bundled sample data
+  try {
+    $("#listTitle").textContent = "Loading machines from your Sheet…";
+    const res = await fetch(url);
+    const machines = rowsToMachines(parseCSV(await res.text()));
+    if (machines.length) {
+      RECHARGE_POINTS.length = 0;
+      machines.forEach((m) => RECHARGE_POINTS.push(m));
+      // Make any new service names filterable.
+      machines.forEach((m) => m.services.forEach((s) => { if (!SERVICES.includes(s)) SERVICES.push(s); }));
+      buildChips();
+    }
+  } catch (e) {
+    console.warn("Could not load the Google Sheet — showing bundled data instead.", e);
+  }
+  render();
+}
+
 /* ---------- Init ---------- */
 buildChips();
 showAllUAE();
+loadMachines();
