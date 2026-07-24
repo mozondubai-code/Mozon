@@ -177,6 +177,7 @@ function render() {
     m.bindPopup(`<div class="pop">
       <h4>${esc(p.name)} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
       ${p.building ? `<p class="pb">🏢 ${esc(p.building)}</p>` : `<p class="pb">📍 ${esc(p.area || p.emirate || "")}</p>`}
+      ${p.placement ? `<p class="pb">🏠 ${esc(p.placement)}</p>` : ""}
       ${dist}
       ${svcChipsHtml(p.services)}
       <p class="pa">${p.hours ? `🕒 ${esc(p.hours)}<br>` : ""}📍 ${esc(p.around || "")}</p>
@@ -223,9 +224,10 @@ function renderList(pts, origin) {
     const bld = p.building
       ? `<div class="bld">🏢 ${esc(p.building)}</div>`
       : `<div class="bld" style="opacity:.7">📍 ${esc(p.area)}</div>`;
+    const plc = p.placement ? `<div class="bld" style="opacity:.75">🏠 ${esc(p.placement)}</div>` : "";
     card.innerHTML = `
       <div class="top"><h3>${icon} ${esc(p.name)}${badge}</h3>${dist}</div>
-      ${bld}
+      ${bld}${plc}
       ${svcChipsHtml(p.services)}
       <div class="around">${p.hours ? `🕒 ${esc(p.hours)}<br>` : ""}📍 ${esc(p.around || "")}</div>`;
     card.addEventListener("click", () => {
@@ -460,6 +462,7 @@ function rowsToMachines(rows) {
   const iSvc  = col(["services","service","recharge"]);
   const iHrs  = col(["hours","timing","time","open"]);
   const iAr   = col(["around","surroundings","notes","landmark","nearby"]);
+  const iPlc  = col(["placement","type","location","building type","placement type"]);
   const iVer  = col(["verified","ver"]);
   const out = [];
   for (let r = 1; r < rows.length; r++) {
@@ -479,6 +482,7 @@ function rowsToMachines(rows) {
       services: svc.length ? svc : ["Recharge"],
       hours: iHrs >= 0 ? String(row[iHrs]).trim() : "",
       around: iAr >= 0 ? String(row[iAr]).trim() : "",
+      placement: iPlc >= 0 ? String(row[iPlc]).trim() : "",
       verified: ["yes","true","1","y","verified","✓"].includes(ver),
     });
   }

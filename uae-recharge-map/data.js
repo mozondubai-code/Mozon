@@ -6,9 +6,12 @@
    ⭐ LIVE GOOGLE SHEET — load thousands of machines without touching code.
    -----------------------------------------------------------------------------
    1. Put your machines in a Google Sheet with these column headers (row 1):
-        name | building | area | emirate | lat | lng | services | hours | around | verified
+        name | building | area | emirate | lat | lng | services | hours | placement | around | verified
       - lat / lng : decimal numbers (from Google Maps / your export)
       - services  : separated by ; or ,   e.g.  du; Etisalat; iTunes; Botim
+      - placement : where the machine sits — "Inside residential building" or
+                    "In front of residential building" (this map lists only
+                    residential-building machines)
       - verified  : yes/true to show the gold ✓ marker (optional, leave blank)
       - building / area / hours / around : optional text
    2. In the Sheet:  File → Share → Publish to web → (pick the sheet) →
@@ -312,6 +315,7 @@ const RECHARGE_POINTS = [
     services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
     hours: "24 hours",
     around: "Verified location pinned from your 2GIS link.",
+    placement: "Residential building",
     verified: true,
   },
   {
@@ -323,6 +327,7 @@ const RECHARGE_POINTS = [
     services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
     hours: "24 hours",
     around: "Verified location pinned from your 2GIS link.",
+    placement: "Residential building",
     verified: true,
   },
   {
@@ -334,6 +339,7 @@ const RECHARGE_POINTS = [
     services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
     hours: "24 hours",
     around: "Verified location pinned from your 2GIS link.",
+    placement: "Residential building",
     verified: true,
   },
   {
@@ -345,6 +351,7 @@ const RECHARGE_POINTS = [
     services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
     hours: "24 hours",
     around: "Verified location pinned from your 2GIS link.",
+    placement: "Residential building",
     verified: true,
   },
   {
@@ -356,6 +363,7 @@ const RECHARGE_POINTS = [
     services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
     hours: "24 hours",
     around: "Verified location pinned from your 2GIS link.",
+    placement: "Residential building",
     verified: true,
   },
   {
@@ -367,214 +375,98 @@ const RECHARGE_POINTS = [
     services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
     hours: "24 hours",
     around: "Verified location pinned from your 2GIS link.",
+    placement: "Residential building",
     verified: true,
   },
 
   /* =========================================================================
-     SAMPLE / DEMO MACHINES below — safe to delete once your real list grows.
+     SAMPLE / DEMO MACHINES — RESIDENTIAL BUILDINGS ONLY (in front of / inside).
+     Safe to delete once your real list grows. Every entry here sits at a
+     residential building, matching the machines you deploy.
      ======================================================================= */
-  // ---- AL NAHDA 2 (Dubai) --------------------------------------------------
   {
-    id: "rp-101",
-    name: "Al Nahda Star Grocery",
-    building: "Al Nahda 2 Residential Tower A",
-    area: "al-nahda-2",
-    coords: [25.2951, 55.3612],
-    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"],
-    hours: "8:00 AM – 1:00 AM",
-    around: "Ground floor, facing Al Nahda Pond Park. Next to a laundry and a pharmacy.",
+    id: "rp-101", name: "Tower A Lobby Recharge", building: "Al Nahda 2 Residential Tower A",
+    area: "Al Nahda 2", coords: [25.2951, 55.3612],
+    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim"], hours: "24 hours",
+    placement: "Inside residential building", type: "residential",
+    around: "Ground-floor lobby of the residential tower, facing Al Nahda Pond Park.",
   },
   {
-    id: "rp-102",
-    name: "Quick Recharge Kiosk",
-    building: "Union Coop Al Nahda",
-    area: "al-nahda-2",
-    coords: [25.2948, 55.3689],
-    services: ["du", "Etisalat", "Salik", "Nol", "DEWA"],
-    hours: "8:00 AM – 12:00 AM",
-    around: "Just inside the Union Coop main entrance, beside the customer service desk.",
-  },
-  {
-    id: "rp-103",
-    name: "City Mart Supermarket",
-    building: "Zulekha Plaza",
-    area: "al-nahda-2",
-    coords: [25.2965, 55.3638],
-    services: ["du", "Etisalat", "Botim", "PUBG UC", "iTunes"],
-    hours: "24 hours",
-    around: "Opposite Zulekha Hospital, on the corner. Bus stop and taxi stand outside.",
-  },
-  {
-    id: "rp-104",
-    name: "Smart Pay Center",
-    building: "Al Nahda Plaza",
-    area: "al-nahda-2",
-    coords: [25.2933, 55.3667],
-    services: ["du", "Etisalat", "Salik", "Nol", "Cash Out", "DEWA"],
-    hours: "9:00 AM – 11:00 PM",
-    around: "Near Al Nahda Metro Station (Green Line). Money exchange and mobile shops nearby.",
-  },
-  {
-    id: "rp-105",
-    name: "Baqala Al Reef",
-    building: "Sunrise Building",
-    area: "al-nahda-2",
-    coords: [25.2919, 55.3705],
-    services: ["du", "Etisalat", "Botim", "Google Play"],
-    hours: "7:00 AM – 2:00 AM",
-    around: "Beside NMC Specialty Hospital Al Nahda. Cafeteria and salon in the same building.",
-  },
-  {
-    id: "rp-106",
-    name: "West Zone Fresh Kiosk",
-    building: "Al Nahda 2 Tower C",
-    area: "al-nahda-2",
-    coords: [25.2972, 55.3599],
-    services: ["du", "Etisalat", "iTunes", "Nol"],
-    hours: "8:00 AM – 12:00 AM",
-    around: "Residential cluster near the park's south gate. School and nursery across the road.",
-  },
-
-  // ---- AL NAHDA (Sharjah side) --------------------------------------------
-  {
-    id: "rp-201",
-    name: "Digital Top-up Point",
-    building: "Sahara Centre",
-    area: "al-nahda-sharjah",
-    coords: [25.3245, 55.3912],
-    services: ["du", "Etisalat", "iTunes", "Google Play", "PUBG UC"],
-    hours: "10:00 AM – 12:00 AM",
-    around: "Food court level, near the cinema entrance in Sahara Centre.",
-  },
-  {
-    id: "rp-202",
-    name: "Ansar Recharge Desk",
-    building: "Ansar Mall",
-    area: "al-nahda-sharjah",
-    coords: [25.3199, 55.3846],
-    services: ["du", "Etisalat", "Botim", "Cash Out"],
-    hours: "10:00 AM – 11:00 PM",
-    around: "Ground floor kiosk row, opposite the electronics section.",
-  },
-
-  // ---- DEIRA ---------------------------------------------------------------
-  {
-    id: "rp-301",
-    name: "Al Rigga Mobile Center",
-    building: "Al Rigga Business Tower",
-    area: "deira",
-    coords: [25.2685, 55.3205],
-    services: ["du", "Etisalat", "iTunes", "Google Play", "Botim", "PUBG UC"],
-    hours: "9:00 AM – 1:00 AM",
-    around: "On Al Rigga Road, dense with restaurants and mobile shops. Metro exit nearby.",
-  },
-  {
-    id: "rp-302",
-    name: "Naif Grocery & Recharge",
-    building: "Naif Souq Building",
-    area: "deira",
-    coords: [25.2735, 55.3078],
-    services: ["du", "Etisalat", "Cash Out"],
-    hours: "8:00 AM – 12:00 AM",
-    around: "Inside Naif area, close to the textile souq and money exchanges.",
-  },
-
-  // ---- BUR DUBAI -----------------------------------------------------------
-  {
-    id: "rp-401",
-    name: "Meena Bazaar Recharge",
-    building: "Al Fahidi Shopping Complex",
-    area: "bur-dubai",
-    coords: [25.2588, 55.2975],
-    services: ["du", "Etisalat", "iTunes", "Botim"],
-    hours: "9:30 AM – 11:00 PM",
-    around: "Textile market lanes, next to gold and tailoring shops.",
-  },
-
-  // ---- AL BARSHA -----------------------------------------------------------
-  {
-    id: "rp-501",
-    name: "MOE Kiosk Point",
-    building: "Mall of the Emirates",
-    area: "al-barsha",
-    coords: [25.1181, 55.2003],
-    services: ["du", "Etisalat", "iTunes", "Google Play", "Nol"],
-    hours: "10:00 AM – 12:00 AM",
-    around: "Metro-link level near the carpark travelator, beside the pharmacy.",
-  },
-
-  // ---- SHARJAH AL MAJAZ ----------------------------------------------------
-  {
-    id: "rp-601",
-    name: "Majaz Corniche Kiosk",
-    building: "Al Majaz Waterfront",
-    area: "al-majaz",
-    coords: [25.3268, 55.3789],
-    services: ["du", "Etisalat", "Botim", "iTunes"],
-    hours: "10:00 AM – 1:00 AM",
-    around: "Promenade cafés and the musical fountain area.",
-  },
-
-  // ---- ABU DHABI -----------------------------------------------------------
-  {
-    id: "rp-701",
-    name: "Corniche Recharge Stand",
-    building: "Nation Towers",
-    area: "abu-dhabi-corniche",
-    coords: [24.4758, 54.3325],
-    services: ["du", "Etisalat", "iTunes", "DEWA", "Cash Out"],
-    hours: "9:00 AM – 11:00 PM",
-    around: "Seafront near the beach entrance, food outlets on the podium level.",
-  },
-
-  // ---- MORE SAMPLE KIOSKS (spread across popular areas) --------------------
-  {
-    id: "rp-107", name: "Fresh Corner Recharge", building: "Al Nahda 2 Tower B",
-    area: "al-nahda-2", coords: [25.2938, 55.3624],
+    id: "rp-102", name: "Tower B Entrance Kiosk", building: "Al Nahda 2 Residential Tower B",
+    area: "Al Nahda 2", coords: [25.2938, 55.3624],
     services: ["du", "Etisalat", "Botim", "Google Play"], hours: "24 hours",
-    around: "Cafeteria block near the park's east gate; barber and laundry next door.",
+    placement: "In front of residential building", type: "residential",
+    around: "At the main entrance of the residential building, next to the lifts.",
   },
   {
-    id: "rp-108", name: "Pond View Grocery", building: "Al Nahda Pearl Building",
-    area: "al-nahda-2", coords: [25.2960, 55.3658],
-    services: ["du", "Etisalat", "iTunes", "PUBG UC"], hours: "7:00 AM – 1:00 AM",
-    around: "Facing Al Nahda Pond Park; pharmacy and clinic in the same tower.",
+    id: "rp-103", name: "Pearl Residence Recharge", building: "Al Nahda Pearl Residence",
+    area: "Al Nahda 2", coords: [25.2960, 55.3658],
+    services: ["du", "Etisalat", "iTunes", "PUBG UC"], hours: "24 hours",
+    placement: "Inside residential building", type: "residential",
+    around: "Residential building lobby; pharmacy and clinic in the same tower.",
   },
   {
-    id: "rp-303", name: "Rigga Express Top-up", building: "Al Muraqqabat Plaza",
-    area: "deira", coords: [25.2662, 55.3231],
-    services: ["du", "Etisalat", "iTunes", "Google Play", "Cash Out"], hours: "24 hours",
-    around: "Busy restaurant strip on Al Muraqqabat Road; metro exit two minutes away.",
+    id: "rp-104", name: "Sunrise Residence Kiosk", building: "Sunrise Residential Building",
+    area: "Al Nahda 2", coords: [25.2919, 55.3705],
+    services: ["du", "Etisalat", "Botim", "Google Play"], hours: "24 hours",
+    placement: "In front of residential building", type: "residential",
+    around: "Outside the residential building entrance, beside the cafeteria.",
   },
   {
-    id: "rp-402", name: "Karama Quick Pay", building: "Karama Shopping Complex",
-    area: "bur-dubai", coords: [25.2472, 55.3045],
-    services: ["du", "Etisalat", "Botim", "Nol", "DEWA"], hours: "9:00 AM – 12:00 AM",
-    around: "Opposite Karama Park; cafeterias and mobile shops all around.",
+    id: "rp-105", name: "Sky Tower Lobby Point", building: "Al Nahda Sky Tower",
+    area: "Al Nahda 2", coords: [25.2972, 55.3599],
+    services: ["du", "Etisalat", "iTunes", "Nol"], hours: "24 hours",
+    placement: "Inside residential building", type: "residential",
+    around: "Residential tower lobby near the south gate of the park.",
   },
   {
-    id: "rp-502", name: "Barsha Mart Kiosk", building: "Al Barsha Business Point",
-    area: "al-barsha", coords: [25.1109, 55.1978],
-    services: ["du", "Etisalat", "iTunes", "Botim"], hours: "8:00 AM – 12:00 AM",
-    around: "Near Sharaf DG metro; supermarkets and clinics in the cluster.",
+    id: "rp-106", name: "Muraqqabat Residence Recharge", building: "Al Muraqqabat Residential Building",
+    area: "Deira", coords: [25.2662, 55.3231],
+    services: ["du", "Etisalat", "iTunes", "Google Play"], hours: "24 hours",
+    placement: "In front of residential building", type: "residential",
+    around: "At the residential building entrance on Al Muraqqabat Road.",
   },
   {
-    id: "rp-503", name: "JLT Cluster Recharge", building: "JLT Cluster D",
-    area: "al-barsha", coords: [25.0685, 55.1440],
-    services: ["du", "Etisalat", "iTunes", "Google Play", "PUBG UC"], hours: "24 hours",
-    around: "Lakeside retail podium; coffee shops and a supermarket adjacent.",
+    id: "rp-107", name: "Abu Hail Family Tower Kiosk", building: "Abu Hail Residential Tower",
+    area: "Deira", coords: [25.2820, 55.3360],
+    services: ["du", "Etisalat", "Botim"], hours: "24 hours",
+    placement: "Inside residential building", type: "residential",
+    around: "Residential tower ground floor near the family park.",
   },
   {
-    id: "rp-203", name: "Taawun Mart Top-up", building: "Al Taawun Mall",
-    area: "al-nahda-sharjah", coords: [25.3312, 55.3826],
-    services: ["du", "Etisalat", "Botim", "iTunes"], hours: "10:00 AM – 12:00 AM",
-    around: "Near Al Taawun bus station and the corniche.",
+    id: "rp-108", name: "Karama Block Recharge", building: "Karama Residential Block 12",
+    area: "Karama", coords: [25.2472, 55.3045],
+    services: ["du", "Etisalat", "Botim", "DEWA"], hours: "24 hours",
+    placement: "Inside residential building", type: "residential",
+    around: "Inside the residential block entrance, opposite Karama Park.",
   },
   {
-    id: "rp-204", name: "Ajman Corniche Kiosk", building: "Ajman Corniche Tower",
-    area: "ajman", coords: [25.4118, 55.4372],
-    services: ["du", "Etisalat", "iTunes", "Cash Out"], hours: "8:00 AM – 1:00 AM",
-    around: "Beachfront cafés and the Ajman fish market nearby.",
+    id: "rp-109", name: "Mankhool Residence Kiosk", building: "Mankhool Residential Building",
+    area: "Bur Dubai", coords: [25.2540, 55.2930],
+    services: ["du", "Etisalat", "iTunes"], hours: "24 hours",
+    placement: "In front of residential building", type: "residential",
+    around: "In front of the residential building, near the grocery.",
+  },
+  {
+    id: "rp-110", name: "Barsha Residence Point", building: "Al Barsha Residential Building",
+    area: "Al Barsha 1", coords: [25.1109, 55.1978],
+    services: ["du", "Etisalat", "iTunes", "Botim"], hours: "24 hours",
+    placement: "In front of residential building", type: "residential",
+    around: "At the residential building entrance near Sharaf DG metro.",
+  },
+  {
+    id: "rp-111", name: "Taawun Tower Lobby Kiosk", building: "Al Taawun Residential Tower",
+    area: "Al Taawun", coords: [25.3312, 55.3826],
+    services: ["du", "Etisalat", "Botim", "iTunes"], hours: "24 hours",
+    placement: "Inside residential building", type: "residential",
+    around: "Residential tower lobby near Al Taawun corniche.",
+  },
+  {
+    id: "rp-112", name: "Ajman Corniche Residence Kiosk", building: "Ajman Corniche Residential Tower",
+    area: "Ajman Corniche", coords: [25.4118, 55.4372],
+    services: ["du", "Etisalat", "iTunes", "Cash Out"], hours: "24 hours",
+    placement: "In front of residential building", type: "residential",
+    around: "Outside the residential tower facing the Ajman corniche.",
   },
 ];
 
