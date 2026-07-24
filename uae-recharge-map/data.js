@@ -21,10 +21,11 @@
    Leave it "" to use the bundled sample data instead.
 --------------------------------------------------------------------------- */
 const CONFIG = {
-  // Owner's Google Sheet (reads live as CSV). Requires the sheet's sharing to be
-  // "Anyone with the link → Viewer" (or File → Publish to web). Falls back to the
-  // sample data below if the sheet is private/unreachable.
-  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/1pi6g4iMUkzn-bSW53Tky0419sAofyXKJFwVZcc419Yg/gviz/tq?tqx=out:csv",
+  // Owner's Google Sheet — paste the normal sheet link, a bare ID, or a CSV link;
+  // the app derives a working CSV endpoint automatically. The sheet's sharing must
+  // be "Anyone with the link → Viewer" (or File → Publish to web). Falls back to the
+  // sample data below (with an on-screen note) if the sheet is private/unreachable.
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/1pi6g4iMUkzn-bSW53Tky0419sAofyXKJFwVZcc419Yg/edit",
   LIST_LIMIT: 60,   // max machines listed in the sidebar at once (map shows all, clustered)
 };
 

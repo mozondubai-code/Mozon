@@ -502,26 +502,58 @@ function safeSheetParam(raw) {
   } catch (e) { return ""; }
 }
 
-async function loadMachines() {
-  // Sheet URL can come from ?sheet=… (restricted to Google hosts) else CONFIG.SHEET_CSV_URL.
-  const param = safeSheetParam(new URLSearchParams(location.search).get("sheet"));
-  const url = param || (typeof CONFIG !== "undefined" ? CONFIG.SHEET_CSV_URL : "");
-  if (!url) return; // use bundled sample data
-  try {
-    $("#listTitle").textContent = "Loading machines from your Sheet…";
-    const res = await fetch(url);
-    const machines = rowsToMachines(parseCSV(await res.text()));
-    if (machines.length) {
-      RECHARGE_POINTS.length = 0;
-      machines.forEach((m) => RECHARGE_POINTS.push(m));
-      // Make any new service names filterable.
-      machines.forEach((m) => m.services.forEach((s) => { if (!SERVICES.includes(s)) SERVICES.push(s); }));
-      buildChips();
-    }
-  } catch (e) {
-    console.warn("Could not load the Google Sheet — showing bundled data instead.", e);
+// From any Google Sheets input (edit URL, bare ID, or a ready CSV link) build the
+// list of CSV endpoints to try, most-reliable first. This means the owner can paste
+// a normal sheet link and the map still finds a format that works with their sharing.
+function sheetCandidates(input) {
+  if (!input) return [];
+  const s = String(input).trim();
+  const out = [];
+  if (/output=csv|tqx=out:csv|format=csv/.test(s)) out.push(s); // already a CSV link
+  let id = "";
+  const m = s.match(/\/spreadsheets\/d\/(?:e\/)?([a-zA-Z0-9\-_]+)/);
+  if (m) id = m[1];
+  else if (/^[a-zA-Z0-9\-_]{20,}$/.test(s)) id = s; // bare id
+  if (id) {
+    out.push(`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv`);
+    out.push(`https://docs.google.com/spreadsheets/d/${id}/export?format=csv`);
   }
+  return [...new Set(out)];
+}
+
+// Non-blocking status line (reuses the footer counter).
+function showSheetStatus(msg) { const el = $("#mcount"); if (el) el.textContent = msg; }
+
+async function loadMachines() {
+  // Source: ?sheet= override (restricted to Google hosts) else CONFIG.SHEET_CSV_URL.
+  const param = safeSheetParam(new URLSearchParams(location.search).get("sheet"));
+  const cfg = param || (typeof CONFIG !== "undefined" ? CONFIG.SHEET_CSV_URL : "");
+  const candidates = sheetCandidates(cfg);
+  if (!candidates.length) return; // no sheet configured — use bundled sample data
+
+  $("#listTitle").textContent = "Loading machines from your Sheet…";
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { redirect: "follow" });
+      if (!res.ok) continue;
+      const text = await res.text();
+      // A private sheet returns an HTML sign-in page, not CSV — skip it.
+      if (/^\s*</.test(text) || /<html|<!doctype/i.test(text.slice(0, 300))) continue;
+      const machines = rowsToMachines(parseCSV(text));
+      if (machines.length) {
+        RECHARGE_POINTS.length = 0;
+        machines.forEach((m) => RECHARGE_POINTS.push(m));
+        machines.forEach((m) => m.services.forEach((s) => { if (!SERVICES.includes(s)) SERVICES.push(s); }));
+        buildChips();
+        render();
+        showSheetStatus(`✓ ${machines.length.toLocaleString()} machines loaded live from your Sheet`);
+        return;
+      }
+    } catch (e) { /* try the next endpoint */ }
+  }
+  // Nothing loaded — keep the sample data but say why, clearly (no silent failure).
   render();
+  showSheetStatus("⚠ Live sheet not reachable — showing samples. Set sharing to “Anyone with the link → Viewer”.");
 }
 
 /* ---------- Init ---------- */
