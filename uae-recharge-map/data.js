@@ -21,7 +21,10 @@
    Leave it "" to use the bundled sample data instead.
 --------------------------------------------------------------------------- */
 const CONFIG = {
-  SHEET_CSV_URL: "",
+  // Owner's Google Sheet (reads live as CSV). Requires the sheet's sharing to be
+  // "Anyone with the link → Viewer" (or File → Publish to web). Falls back to the
+  // sample data below if the sheet is private/unreachable.
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/1pi6g4iMUkzn-bSW53Tky0419sAofyXKJFwVZcc419Yg/gviz/tq?tqx=out:csv",
   LIST_LIMIT: 60,   // max machines listed in the sidebar at once (map shows all, clustered)
 };
 
