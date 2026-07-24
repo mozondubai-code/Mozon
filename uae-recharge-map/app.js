@@ -1,11 +1,12 @@
 /* =============================================================================
    MOZON GIS — UAE Recharge Map  ·  APP LOGIC
-   Depends on data.js (AREAS, RECHARGE_POINTS, PLACES, SERVICES, *_META)
+   Depends on data.js (AREAS, AREA_GROUPS, RECHARGE_POINTS, PLACES, SERVICES,
+   *_META, CATEGORY_META)
    ========================================================================== */
 
 /* ---------- Map setup ---------- */
 const map = L.map("map", { zoomControl: true, attributionControl: true })
-  .setView([25.2946, 55.3646], 12); // UAE / Al Nahda default
+  .setView([24.9, 55.0], 8); // whole UAE
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
@@ -16,11 +17,16 @@ const rechargeLayer = L.layerGroup().addTo(map);
 const placeLayer = L.layerGroup().addTo(map);
 let userMarker = null;
 
+/* ---------- Tunables ---------- */
+const RADIUS_KM = 20;      // "near" radius around a searched area
+const MIN_RESULTS = 3;     // if fewer machines within radius, show nearest this many
+
 /* ---------- State ---------- */
 const state = {
-  activeArea: null,          // area id, or null = all UAE
-  activeServices: new Set(), // service filters
-  origin: null,              // [lat,lng] for distance sorting (area center or user)
+  origin: null,        // [lat,lng] anchor for distance sorting / "near"
+  focusName: null,     // label for the list header ("Al Barsha 1", "Your location"…)
+  seededAreaId: null,  // id of a rich seeded area (to show its curated surroundings)
+  activeServices: new Set(),
 };
 
 /* ---------- Helpers ---------- */
@@ -32,7 +38,6 @@ const km = (a, b) => {
 };
 const fmtDist = (d) => (d < 1 ? Math.round(d*1000) + " m" : d.toFixed(1) + " km");
 const svcColor = (s) => (SERVICE_META[s]?.c || "#888");
-const areaLabel = (id) => (AREAS.find((a) => a.id === id)?.name || id);
 
 function pinIcon(color, emoji, size = 30) {
   return L.divIcon({
@@ -44,7 +49,43 @@ function pinIcon(color, emoji, size = 30) {
   });
 }
 
-/* ---------- Build service filter chips ---------- */
+/* ---------- Unified searchable area index ----------
+   Seeded areas (rich, with curated surroundings) + the full UAE gazetteer. */
+const SEARCH_AREAS = [];
+AREAS.forEach((a) => SEARCH_AREAS.push({
+  key: a.id, name: a.name, name_ar: a.name_ar, emirate: a.emirate,
+  aliases: a.aliases || [], center: a.center, zoom: a.zoom || 15, seeded: true,
+}));
+AREA_GROUPS.forEach((g) => g.names.forEach((nm) => {
+  if (SEARCH_AREAS.some((s) => s.name.toLowerCase() === nm.toLowerCase())) return; // seeded wins
+  SEARCH_AREAS.push({
+    key: "gen:" + g.emirate + ":" + nm, name: nm, emirate: g.emirate,
+    aliases: [], center: g.center, zoom: 15, seeded: false,
+    q: `${nm}, ${g.near}, United Arab Emirates`,
+  });
+}));
+
+/* ---------- Live geocoding (online) with localStorage cache + fallback ---------- */
+async function geocode(q) {
+  const cacheKey = "mzgeo:" + q;
+  try {
+    const hit = localStorage.getItem(cacheKey);
+    if (hit) return JSON.parse(hit);
+  } catch (e) {}
+  try {
+    const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=ae&q=" + encodeURIComponent(q);
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    const j = await res.json();
+    if (j && j[0]) {
+      const c = [parseFloat(j[0].lat), parseFloat(j[0].lon)];
+      try { localStorage.setItem(cacheKey, JSON.stringify(c)); } catch (e) {}
+      return c;
+    }
+  } catch (e) { /* offline or blocked — fall back to the emirate centre */ }
+  return null;
+}
+
+/* ---------- Service filter chips ---------- */
 function buildChips() {
   const wrap = $("#svcChips");
   wrap.innerHTML = "";
@@ -62,59 +103,63 @@ function buildChips() {
   });
 }
 
-/* ---------- Filtering ---------- */
-function visiblePoints() {
-  return RECHARGE_POINTS.filter((p) => {
-    if (state.activeArea && p.area !== state.activeArea) return false;
-    if (state.activeServices.size) {
-      for (const s of state.activeServices) if (!p.services.includes(s)) return false;
-    }
-    return true;
-  });
+/* ---------- Which machines to show ---------- */
+function servicePass(p) {
+  if (!state.activeServices.size) return true;
+  for (const s of state.activeServices) if (!p.services.includes(s)) return false;
+  return true;
 }
-function visiblePlaces() {
-  if (!state.activeArea) return []; // only show surroundings when an area is focused
-  return PLACES.filter((pl) => pl.area === state.activeArea);
+function selectedPoints() {
+  const pool = RECHARGE_POINTS.filter(servicePass);
+  if (!state.origin) {
+    // Whole-UAE overview: verified (real) machines first.
+    return pool.slice().sort((a, b) => (b.verified ? 1 : 0) - (a.verified ? 1 : 0));
+  }
+  // "Near" mode: sort by distance, keep those within radius (or nearest few).
+  const ranked = pool.map((p) => ({ p, d: km(state.origin, p.coords) })).sort((a, b) => a.d - b.d);
+  const within = ranked.filter((x) => x.d <= RADIUS_KM);
+  const chosen = within.length >= 1 ? within : ranked.slice(0, MIN_RESULTS);
+  return chosen.map((x) => x.p);
+}
+function selectedPlaces() {
+  if (state.seededAreaId) return PLACES.filter((pl) => pl.area === state.seededAreaId);
+  if (state.origin) return PLACES.filter((pl) => km(state.origin, pl.coords) <= 8);
+  return [];
 }
 
-/* ---------- Service chips (small, for cards/popups) ---------- */
+/* ---------- Small service chips ---------- */
 function svcChipsHtml(services) {
   return `<div class="svc">` + services.map((s) =>
     `<span class="s" style="background:${svcColor(s)}">${s}</span>`).join("") + `</div>`;
 }
 
-/* ---------- Render everything ---------- */
+/* ---------- Render map + list ---------- */
 function render() {
   rechargeLayer.clearLayers();
   placeLayer.clearLayers();
 
-  const pts = visiblePoints();
   const origin = state.origin;
-  if (origin) pts.sort((a, b) => km(origin, a.coords) - km(origin, b.coords));
-  else pts.sort((a, b) => (b.verified ? 1 : 0) - (a.verified ? 1 : 0)); // real machines first
+  const pts = selectedPoints();
+  const rechargeCol = getComputedStyle(document.documentElement).getPropertyValue("--recharge").trim() || "#22c3a6";
 
-  // recharge markers
   pts.forEach((p) => {
-    const rechargeCol = getComputedStyle(document.documentElement).getPropertyValue("--recharge").trim() || "#22c3a6";
     const color = p.verified ? "#F5B301" : rechargeCol;
     const m = L.marker(p.coords, { icon: pinIcon(color, p.verified ? "✓" : "⚡") });
     const dist = origin ? `<p class="pb" style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</p>` : "";
     m.bindPopup(`<div class="pop">
       <h4>${p.name} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
-      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${areaLabel(p.area)}</p>`}
+      ${p.building ? `<p class="pb">🏢 ${p.building}</p>` : `<p class="pb">📍 ${p.area}</p>`}
       ${dist}
       ${svcChipsHtml(p.services)}
       <p class="pa">${p.hours ? `🕒 ${p.hours}<br>` : ""}📍 ${p.around || ""}</p>
       <a class="dir" target="_blank" rel="noopener"
          href="https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}">↗ Directions</a>
     </div>`, { maxWidth: 280 });
-    m.__id = p.id;
     rechargeLayer.addLayer(m);
     p.__marker = m;
   });
 
-  // surrounding places
-  visiblePlaces().forEach((pl) => {
+  selectedPlaces().forEach((pl) => {
     const meta = CATEGORY_META[pl.category] || CATEGORY_META.landmark;
     const m = L.marker(pl.coords, { icon: pinIcon(getComputedStyle(document.documentElement).getPropertyValue("--place").trim() || "#2f7cf6", meta.e, 26), opacity: 0.95 });
     m.bindPopup(`<div class="pop"><h4>${pl.name}${pl.name_ar ? ` <span style="color:#93a0b8;font-size:12px">${pl.name_ar}</span>`:""}</h4>
@@ -129,8 +174,7 @@ function render() {
 function renderList(pts, origin) {
   const list = $("#list");
   list.innerHTML = "";
-  const areaName = state.activeArea ? (AREAS.find(a=>a.id===state.activeArea)?.name) : "All UAE";
-  $("#listTitle").textContent = state.activeArea ? `Machines near ${areaName}` : "Recharge machines · All UAE";
+  $("#listTitle").textContent = state.focusName ? `Machines near ${state.focusName}` : "Recharge machines · All UAE";
   $("#listCount").textContent = `${pts.length} found`;
 
   if (!pts.length) {
@@ -146,7 +190,7 @@ function renderList(pts, origin) {
     const badge = p.verified ? ' <span class="vbadge">✓ Verified</span>' : "";
     const bld = p.building
       ? `<div class="bld">🏢 ${p.building}</div>`
-      : `<div class="bld" style="opacity:.7">📍 ${areaLabel(p.area)}</div>`;
+      : `<div class="bld" style="opacity:.7">📍 ${p.area}</div>`;
     card.innerHTML = `
       <div class="top"><h3>${icon} ${p.name}${badge}</h3>${dist}</div>
       ${bld}
@@ -155,7 +199,7 @@ function renderList(pts, origin) {
     card.addEventListener("click", () => {
       document.querySelectorAll(".card").forEach(c=>c.classList.remove("open"));
       card.classList.add("open");
-      map.setView(p.coords, 17, { animate: true });
+      map.setView(p.coords, 16, { animate: true });
       p.__marker && p.__marker.openPopup();
       if (window.innerWidth <= 820) $("#app").classList.add("map-mode");
     });
@@ -163,33 +207,55 @@ function renderList(pts, origin) {
   });
 }
 
-/* ---------- Focus an area ---------- */
-function focusArea(area) {
-  state.activeArea = area.id;
+/* ---------- Focus an area (from search) ---------- */
+async function focusArea(area) {
+  state.seededAreaId = area.seeded ? area.key : null;
   state.origin = area.center;
-  map.setView(area.center, area.zoom, { animate: true });
-  render();
+  state.focusName = area.name;
   $("#q").value = area.name;
   hideSuggest();
+  map.setView(area.center, area.zoom, { animate: true });
+  render();
+
+  // Refine a gazetteer area to its exact spot (online). Fallback keeps working.
+  if (!area.seeded && area.q) {
+    $("#listTitle").textContent = `Locating ${area.name}…`;
+    const c = await geocode(area.q);
+    if (c) {
+      state.origin = c;
+      map.setView(c, 15, { animate: true });
+    }
+    render(); // restore the proper header whether geocoding succeeded or fell back
+  }
 }
 
 function showAllUAE() {
-  state.activeArea = null;
+  state.seededAreaId = null;
   state.origin = null;
+  state.focusName = null;
   map.setView([24.9, 55.0], 8, { animate: true });
-  render();
   $("#q").value = "";
+  render();
 }
 
 /* ---------- Search + suggestions ---------- */
 function matchAreas(qRaw) {
   const q = qRaw.trim().toLowerCase();
   if (!q) return [];
-  return AREAS.filter((a) => {
-    if (a.name.toLowerCase().includes(q)) return true;
-    if (a.name_ar && a.name_ar.includes(qRaw.trim())) return true;
-    return (a.aliases || []).some((al) => al.toLowerCase().includes(q));
-  });
+  const scored = [];
+  for (const a of SEARCH_AREAS) {
+    const n = a.name.toLowerCase();
+    let score = -1;
+    if (n === q) score = 0;
+    else if (n.startsWith(q)) score = 1;
+    else if (n.includes(q)) score = 2;
+    else if (a.name_ar && a.name_ar.includes(qRaw.trim())) score = 2;
+    else if ((a.aliases || []).some((al) => al.toLowerCase().includes(q))) score = 3;
+    else if (a.emirate.toLowerCase().includes(q)) score = 4;
+    if (score >= 0) { if (a.seeded) score -= 0.5; scored.push({ a, score }); }
+  }
+  scored.sort((x, y) => x.score - y.score || x.a.name.length - y.a.name.length);
+  return scored.slice(0, 12).map((x) => x.a);
 }
 function showSuggest(items) {
   const ul = $("#suggest");
@@ -197,8 +263,8 @@ function showSuggest(items) {
   if (!items.length) { hideSuggest(); return; }
   items.forEach((a) => {
     const li = document.createElement("li");
-    const count = RECHARGE_POINTS.filter(p=>p.area===a.id).length;
-    li.innerHTML = `<span>${a.name} ${a.name_ar?`· ${a.name_ar}`:""}</span><small>${a.emirate} · ${count} ⚡</small>`;
+    const tag = a.seeded ? `${a.emirate} · ${RECHARGE_POINTS.filter(p=>p.area===a.key).length} ⚡` : a.emirate;
+    li.innerHTML = `<span>${a.name}${a.name_ar?` · ${a.name_ar}`:""}</span><small>${tag}</small>`;
     li.addEventListener("click", () => focusArea(a));
     ul.appendChild(li);
   });
@@ -222,8 +288,9 @@ $("#btnLocate").addEventListener("click", () => {
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       const c = [pos.coords.latitude, pos.coords.longitude];
-      state.activeArea = null;      // show all machines, sorted by distance to me
+      state.seededAreaId = null;
       state.origin = c;
+      state.focusName = "your location";
       if (userMarker) map.removeLayer(userMarker);
       userMarker = L.circleMarker(c, { radius: 8, color: "#fff", weight: 2, fillColor: "#2f7cf6", fillOpacity: 1 })
         .addTo(map).bindPopup("You are here");
@@ -245,5 +312,4 @@ $("#mtoggle").addEventListener("click", () => {
 
 /* ---------- Init ---------- */
 buildChips();
-// Open on the whole-UAE view so all real machines are visible; users can search an area.
 showAllUAE();

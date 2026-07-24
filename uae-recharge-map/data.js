@@ -180,6 +180,94 @@ const AREAS = [
 ];
 
 /* -----------------------------------------------------------------------------
+   AREA_GROUPS — the full UAE neighbourhood gazetteer (all 7 emirates).
+   Every name here becomes searchable. Names have no stored coordinates: when
+   searched, the app geocodes them live (OpenStreetMap) and caches the result,
+   using each group's `center` (its city/emirate centre) as an instant fallback.
+   `near` is the city appended to the geocode query for accuracy.
+   Heavily-numbered series (Mussafah M1–M46, Al Warqa 1–5, Industrial Areas
+   1–18, Al Nuaimiya 1/2/3 …) are listed by their base name — searching the
+   base name still finds them. Add more names to any list freely.
+--------------------------------------------------------------------------- */
+const AREA_GROUPS = [
+  // ===== ABU DHABI =====
+  { emirate: "Abu Dhabi", near: "Abu Dhabi", center: [24.4539, 54.3773], names: [
+    "Al Khalidiyah","Al Bateen","Corniche","Al Markaziyah","Al Zahiyah","Tourist Club",
+    "Al Danah","Madinat Zayed","Al Mushrif","Al Karamah","Al Nahyan","Al Muroor",
+    "Al Wahda","Al Manaseer","Al Rawdah" ] },
+  { emirate: "Abu Dhabi", near: "Abu Dhabi", center: [24.3620, 54.5230], names: [
+    "Mussafah","Shabiya","Mohammed Bin Zayed City","Khalifa City","Shakhbout City",
+    "Al Shamkha","Al Falah","Baniyas","Bani Yas East","Al Wathba","Al Reef","Al Raha",
+    "Al Bahia","Al Rahba","Al Shahama","Ghantoot","Zayed City" ] },
+  { emirate: "Abu Dhabi", near: "Abu Dhabi", center: [24.4900, 54.4020], names: [
+    "Yas Island","Saadiyat Island","Reem Island","Al Maryah Island","Lulu Island","Hudayriyat Island" ] },
+  { emirate: "Abu Dhabi", near: "Al Ain", center: [24.2075, 55.7447], names: [
+    "Al Jimi","Al Muwaiji","Al Towayya","Al Hili","Al Mutaredh","Al Sarooj","Zakher",
+    "Al Yahar","Al Khabisi","Falaj Hazzaa","Al Qattara","Al Foah","Al Sanaiya",
+    "Al Masoudi","Al Maqam" ] },
+  { emirate: "Abu Dhabi", near: "Al Dhafra", center: [23.6560, 53.7000], names: [
+    "Madinat Zayed (Al Dhafra)","Ruwais","Ghayathi","Liwa","Mirfa","Sila","Delma Island","Habshan" ] },
+
+  // ===== DUBAI =====
+  { emirate: "Dubai", near: "Dubai", center: [25.2710, 55.3140], names: [
+    "Al Rigga","Al Muraqqabat","Naif","Al Sabkha","Al Ras","Hor Al Anz","Abu Hail",
+    "Al Mamzar","Al Nahda 1","Al Qusais","Al Qusais Industrial","Muhaisnah","Sonapur",
+    "Al Twar","Al Khawaneej" ] },
+  { emirate: "Dubai", near: "Dubai", center: [25.2200, 55.4000], names: [
+    "Mirdif","Al Warqa","Nad Al Hamar","Al Rashidiya","Umm Ramool","Al Garhoud",
+    "Dubai Festival City","Al Jaddaf","Ras Al Khor","International City","Warsan",
+    "Silicon Oasis","Academic City","Nad Al Sheba","Meydan" ] },
+  { emirate: "Dubai", near: "Dubai", center: [25.2280, 55.2900], names: [
+    "Karama","Mankhool","Al Fahidi","Oud Metha","Al Jafiliya","Al Satwa","Zabeel",
+    "Trade Centre","Business Bay","Downtown Dubai","DIFC","Al Wasl","Al Safa" ] },
+  { emirate: "Dubai", near: "Dubai", center: [25.1130, 55.1960], names: [
+    "Jumeirah 1","Jumeirah 2","Jumeirah 3","Umm Suqeim","Al Sufouh","Palm Jumeirah",
+    "Dubai Marina","JBR","JLT","Media City","Internet City","Knowledge Park",
+    "Barsha Heights","Al Barsha 2","Al Barsha 3","Al Quoz" ] },
+  { emirate: "Dubai", near: "Dubai", center: [25.0500, 55.2100], names: [
+    "JVC","JVT","Motor City","Sports City","Arabian Ranches","Dubailand","Mudon",
+    "Remraam","Damac Hills","Town Square","Discovery Gardens","Al Furjan","Jebel Ali",
+    "DIP","Dubai South","Expo City","The Springs","The Meadows","The Lakes","Emirates Hills" ] },
+  { emirate: "Dubai", near: "Dubai", center: [24.7990, 56.1180], names: [
+    "Hatta","Margham","Al Lisaili" ] },
+
+  // ===== SHARJAH =====
+  { emirate: "Sharjah", near: "Sharjah", center: [25.3463, 55.4209], names: [
+    "Al Nahda Sharjah","Al Taawun","Al Khan","Al Majaz 1","Al Majaz 2","Al Majaz 3",
+    "Al Qasimia","Rolla","Al Ghuwair","Al Shuwaiheen","Al Layyah","Abu Shagara","Al Nud",
+    "Al Qulayaa","Al Butina","Al Nabba","Halwan","Samnan","Al Azra","Al Ramtha","Al Yarmook",
+    "Maysaloon","Muweilah","University City","Al Rahmaniya","Al Zahia","Al Suyoh","Al Tai",
+    "Tilal City","Sharjah Industrial Area","Al Sajaa","Al Riqqa" ] },
+  { emirate: "Sharjah", near: "Sharjah", center: [25.3350, 56.3420], names: [
+    "Khor Fakkan","Kalba","Dibba Al Hisn","Al Dhaid","Mleiha","Al Badayer","Al Hamriyah",
+    "Al Madam","Al Bataeh" ] },
+
+  // ===== AJMAN =====
+  { emirate: "Ajman", near: "Ajman", center: [25.4052, 55.5136], names: [
+    "Al Nuaimiya","Al Rashidiya","Al Rumailah","Al Jurf","Al Mowaihat","Al Hamidiyah",
+    "Al Bustan","Al Sawan","Al Zahra","Al Rawda","Ajman Corniche","Ajman Downtown",
+    "Al Tallah","Musheirif","Al Helio","Al Nakhil","Ajman Industrial","Manama","Masfout" ] },
+
+  // ===== UMM AL QUWAIN =====
+  { emirate: "Umm Al Quwain", near: "Umm Al Quwain", center: [25.5647, 55.5551], names: [
+    "UAQ Old Town","Al Salamah","Al Raas","Al Haditha","Al Maidan","Al Dar Al Baida",
+    "Al Riqqah","Al Humrah","Al Salam City","Emirates Modern Industrial Area","UAQ Marina",
+    "Falaj Al Mualla" ] },
+
+  // ===== RAS AL KHAIMAH =====
+  { emirate: "Ras Al Khaimah", near: "Ras Al Khaimah", center: [25.7895, 55.9432], names: [
+    "Al Nakheel","Al Dhait North","Al Dhait South","Al Mairid","Al Uraibi","Al Qusaidat",
+    "Khuzam","Al Seer","Julphar","Al Hamra","Al Jazirah Al Hamra","Mina Al Arab",
+    "Al Marjan Island","Al Rams","Sha'am","Digdaga","Khatt","Al Ghail","Al Hamraniyah",
+    "RAK Industrial" ] },
+
+  // ===== FUJAIRAH =====
+  { emirate: "Fujairah", near: "Fujairah", center: [25.1288, 56.3265], names: [
+    "Fujairah City","Al Faseel","Merashid","Sakamkam","Al Gurfa","Madhab","Mirbah",
+    "Murbah","Qidfa","Al Bidyah","Sharm","Al Hayl","Al Taween","Dibba Al Fujairah","Masafi" ] },
+];
+
+/* -----------------------------------------------------------------------------
    RECHARGE_POINTS — the machines / kiosks (the main thing this map shows).
    NOTE: sample coordinates are approximate, for demonstration. Replace with
    the exact right-click coordinates from Google Maps for production.
