@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mai_z_ah — Admin Panel</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='22' width='100' height='100' fill='%2310B981'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>m</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a class="logo" href="index.html"><span class="dot">m</span> <span>mai<b>_z_</b>ah</span> <small style="font-weight:600;color:var(--muted)">Admin</small></a>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeBtn" title="Dark / Light">🌙</button>
+      <a class="btn btn-ghost mini" href="index.html">↗ View Store</a>
+    </div>
+  </div>
+</header>
+
+<!-- login gate -->
+<div class="content" id="gate" style="max-width:380px;text-align:center">
+  <h1>🔒 Admin Login</h1>
+  <p style="color:var(--muted)">Enter your admin passcode.</p>
+  <div class="field"><input id="pin" type="password" placeholder="Passcode" autofocus></div>
+  <button class="btn btn-grad btn-block" id="loginBtn">Login</button>
+  <p style="font-size:12px;color:var(--muted);margin-top:14px">Default passcode: <b>maizah</b> — change it in Settings after login.<br>Note: this is a client-side gate for convenience, not strong security.</p>
+</div>
+
+<!-- app -->
+<div id="app" style="display:none">
+  <div class="container">
+    <div class="admin-tabs">
+      <button class="tab active" data-view="products">📦 Products</button>
+      <button class="tab" data-view="orders">🧾 Orders</button>
+      <button class="tab" data-view="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- PRODUCTS -->
+    <section id="v-products">
+      <div class="section-title">
+        <h2>Products</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost mini" id="resetBtn">↺ Reset demo</button>
+          <button class="btn btn-grad mini" id="addBtn">+ Add Product</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="table" id="prodTable"></table>
+      </div>
+    </section>
+
+    <!-- ORDERS -->
+    <section id="v-orders" style="display:none">
+      <div class="section-title">
+        <h2>Orders</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost mini" id="clearOrders">🗑 Clear</button>
+          <button class="btn btn-gold mini" id="exportBtn">⬇ Export to Excel</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto"><table class="table" id="orderTable"></table></div>
+      <p id="noOrders" class="empty" style="display:none">No orders yet. Orders placed on the store appear here (saved on this device).</p>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="v-settings" style="display:none">
+      <div class="section-title"><h2>Store Settings</h2><button class="btn btn-grad mini" id="saveCfg">💾 Save Settings</button></div>
+      <div class="content" style="max-width:640px;margin-top:0">
+        <div class="note">📲 The <b>WhatsApp number</b> is where all orders are sent. Use international format, digits only (country code + number), e.g. India <code>919876543210</code> or UAE <code>971524877701</code>.</div>
+        <div class="field"><label>Brand name</label><input id="c_brand"></div>
+        <div class="field"><label>Tagline</label><input id="c_tagline"></div>
+        <div class="field"><label>WhatsApp Number (orders go here)</label><input id="c_wa" placeholder="919876543210"></div>
+        <div class="two">
+          <div class="field"><label>Currency symbol</label><input id="c_cur"></div>
+          <div class="field"><label>Currency code</label><input id="c_curc"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label>Delivery charge</label><input id="c_del" type="number"></div>
+          <div class="field"><label>Free delivery over</label><input id="c_free" type="number"></div>
+        </div>
+        <div class="field"><label>Store-wide extra discount (%)</label><input id="c_extra" type="number"></div>
+        <div class="two">
+          <div class="field"><label>Instagram URL</label><input id="c_ig"></div>
+          <div class="field"><label>Facebook URL</label><input id="c_fb"></div>
+        </div>
+        <div class="field"><label>Google Maps location URL</label><input id="c_map"></div>
+        <div class="field"><label>Payment QR image URL (optional)</label><input id="c_qr"></div>
+        <div class="two">
+          <div class="field"><label>Support email</label><input id="c_email"></div>
+          <div class="field"><label>Support phone</label><input id="c_phone"></div>
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
+        <div class="field"><label>Admin passcode</label><input id="c_pin" placeholder="Leave blank to keep current"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- product edit modal -->
+<div class="modal" id="pModal"><div class="modal-card" style="max-width:560px" id="pModalCard"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

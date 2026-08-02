@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us — mai_z_ah</title>
+<meta name="description" content="Contact mai_z_ah — reach us on WhatsApp, Instagram or Facebook.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='22' width='100' height='100' fill='%2310B981'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>m</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('maizah_theme')||'light');</script>
+</head>
+<body>
+<header class="header"><div class="container">
+  <a class="logo" href="../index.html"><span class="dot">m</span> <span>mai<b>_z_</b>ah</span></a>
+  <div class="header-actions"><a class="btn btn-ghost mini" href="../index.html">← Back to Store</a></div>
+</div></header>
+<div class="content">
+  <h1>Contact Us</h1>
+  <p>We'd love to hear from you! The fastest way to reach us is on WhatsApp.</p>
+  <p id="links"></p>
+  <h2>Business hours</h2>
+  <p>Every day · 9:00 AM – 10:00 PM</p>
+  <h2>Send a quick message</h2>
+  <div class="field"><label>Your message</label><textarea id="msg" placeholder="How can we help?"></textarea></div>
+  <a class="btn btn-wa" id="send" href="#" target="_blank" rel="noopener">💬 Message us on WhatsApp</a>
+</div>
+<script src="../assets/js/data.js"></script>
+<script>
+  var CFG = MaizahStore.getConfig();
+  var wa = "https://wa.me/" + CFG.whatsappNumber;
+  var parts = [];
+  parts.push('💬 WhatsApp: <a href="'+wa+'" target="_blank" style="color:var(--emerald)">Chat now</a>');
+  if (CFG.supportEmail) parts.push('✉️ Email: <a href="mailto:'+CFG.supportEmail+'" style="color:var(--emerald)">'+CFG.supportEmail+'</a>');
+  if (CFG.supportPhone) parts.push('📞 Phone: '+CFG.supportPhone);
+  if (CFG.instagram) parts.push('📷 <a href="'+CFG.instagram+'" target="_blank" style="color:var(--emerald)">Instagram</a>');
+  if (CFG.facebook) parts.push('📘 <a href="'+CFG.facebook+'" target="_blank" style="color:var(--emerald)">Facebook</a>');
+  if (CFG.mapLink) parts.push('📍 <a href="'+CFG.mapLink+'" target="_blank" style="color:var(--emerald)">Our location</a>');
+  document.getElementById('links').innerHTML = parts.join('<br>');
+  document.getElementById('send').addEventListener('click', function(e){
+    var m = (document.getElementById('msg').value||'').trim() || 'Hello mai_z_ah!';
+    this.href = wa + '?text=' + encodeURIComponent(m);
+    return true;
+  });
+</script>
+</body>
+</html>
