@@ -1,7 +1,9 @@
-# Netlify config for the mai_z_ah store.
-# If you connect this whole GitHub repo to Netlify, set "Base directory" to: mai_z_ah
+# mai_z_ah store — static site, no build step needed.
+# Works for BOTH:
+#  • Drag-and-drop (app.netlify.com/drop) — files are served from the folder root.
+#  • Git connect — in Netlify UI set "Base directory" = mai_z_ah, leave build command empty.
+
 [build]
-  base = "mai_z_ah"
   publish = "."
   command = ""
 
