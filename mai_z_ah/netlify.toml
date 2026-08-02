@@ -1,0 +1,16 @@
+# Netlify config for the mai_z_ah store.
+# If you connect this whole GitHub repo to Netlify, set "Base directory" to: mai_z_ah
+[build]
+  base = "mai_z_ah"
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
