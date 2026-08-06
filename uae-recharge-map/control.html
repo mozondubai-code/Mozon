@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mozon Remote Control · UAE Recharge Fleet</title>
+  <meta name="description" content="Operator dashboard for the Mozon recharge fleet — live machine status, uptime, coverage and data-quality, driven from the same Google Sheet as the public map." />
+  <meta name="robots" content="noindex" />
+  <style>
+    :root{
+      --bg:#0f1420; --panel:#151c2c; --panel2:#1b2438; --line:#25304a;
+      --text:#e8edf7; --muted:#93a0b8; --accent:#22c3a6; --accent2:#2f7cf6;
+      --online:#22c3a6; --maint:#f2a900; --offline:#e04f5f; --gold:#F5B301; --chip:#20293e;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      background:var(--bg);color:var(--text);min-height:100vh;
+    }
+    a{color:var(--accent2)}
+    .wrap{max-width:1180px;margin:0 auto;padding:18px 18px 60px}
+
+    /* Header */
+    header{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:6px 2px 16px;border-bottom:1px solid var(--line)}
+    header .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+    header h1{margin:0;font-size:19px;letter-spacing:.2px;display:flex;align-items:center;gap:9px}
+    header p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+    header .grow{flex:1}
+    .btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);
+      padding:9px 13px;border-radius:10px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+    .btn:hover{border-color:var(--accent)}
+    .btn.alt:hover{border-color:var(--accent2)}
+
+    .src{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin:12px 2px 0}
+    .src code{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--text);word-break:break-all}
+    .src .live{color:var(--online);font-weight:600}
+    .src .sample{color:var(--maint);font-weight:600}
+
+    /* KPI tiles */
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+    .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;position:relative;overflow:hidden}
+    .kpi .n{font-size:30px;font-weight:700;line-height:1.05}
+    .kpi .l{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+    .kpi .bar{position:absolute;left:0;top:0;bottom:0;width:4px}
+    .kpi.online .bar{background:var(--online)} .kpi.online .n{color:var(--online)}
+    .kpi.maint  .bar{background:var(--maint)}  .kpi.maint .n{color:var(--maint)}
+    .kpi.offline .bar{background:var(--offline)} .kpi.offline .n{color:var(--offline)}
+    .kpi.gold   .bar{background:var(--gold)}   .kpi.gold .n{color:var(--gold)}
+    .kpi.issues .bar{background:var(--accent2)} .kpi.issues .n{color:var(--accent2)}
+    .kpi.total  .bar{background:var(--text)}
+
+    .uptime{font-size:12px;color:var(--muted);margin:-4px 2px 10px}
+    .uptime b{color:var(--text)}
+
+    /* Two-column breakdowns */
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+    @media(max-width:760px){.cols{grid-template-columns:1fr}}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+    .card h2{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+    .rowline{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px;border-top:1px solid var(--line)}
+    .rowline:first-of-type{border-top:none}
+    .rowline .name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .rowline .count{color:var(--muted);font-variant-numeric:tabular-nums}
+    .meter{height:6px;border-radius:4px;background:var(--chip);width:120px;overflow:hidden;flex:none}
+    .meter > i{display:block;height:100%;background:var(--online)}
+    .swatch{width:10px;height:10px;border-radius:3px;flex:none}
+
+    /* Controls */
+    .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+    .controls input[type=search]{flex:1;min-width:220px;padding:11px 14px;border-radius:11px;border:1px solid var(--line);
+      background:var(--panel2);color:var(--text);font-size:14px;outline:none}
+    .controls input[type=search]:focus{border-color:var(--accent)}
+    .seg{display:flex;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+    .seg button{background:var(--panel2);color:var(--muted);border:none;padding:10px 13px;font-size:12.5px;cursor:pointer;border-left:1px solid var(--line)}
+    .seg button:first-child{border-left:none}
+    .seg button.on{background:var(--chip);color:var(--text);font-weight:600}
+
+    /* Table */
+    .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+    table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:720px}
+    th,td{text-align:left;padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+    thead th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;white-space:nowrap}
+    thead th.sorted::after{content:" ▾";color:var(--accent)}
+    thead th.sorted.asc::after{content:" ▴"}
+    tbody tr:hover{background:var(--panel)}
+    .st{display:inline-flex;align-items:center;gap:6px;font-weight:600;white-space:nowrap}
+    .st.online{color:var(--online)} .st.maintenance{color:var(--maint)} .st.offline{color:var(--offline)}
+    .vtag{color:var(--gold);font-weight:600}
+    .badge{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:20px;padding:1px 8px;font-size:11.5px;margin:1px 3px 1px 0;color:var(--muted)}
+    .warn{color:var(--offline);font-size:11.5px}
+    td .go{color:var(--accent2);text-decoration:none;white-space:nowrap}
+    .empty{padding:26px;text-align:center;color:var(--muted)}
+    footer{margin-top:22px;color:var(--muted);font-size:12px;text-align:center}
+    footer code{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1><span class="dot"></span> Mozon Remote Control</h1>
+      <div>
+        <p>Live fleet cockpit · UAE recharge machines</p>
+      </div>
+      <div class="grow"></div>
+      <button class="btn" id="refresh" type="button">↻ Refresh</button>
+      <a class="btn alt" id="mapLink" href="index.html" target="_blank" rel="noopener">🗺️ Public map ↗</a>
+    </header>
+
+    <div class="src" id="src">Loading…</div>
+
+    <div class="kpis" id="kpis"></div>
+    <p class="uptime" id="uptime"></p>
+
+    <div class="cols">
+      <div class="card"><h2>By emirate</h2><div id="byEmirate"></div></div>
+      <div class="card"><h2>Service coverage</h2><div id="byService"></div></div>
+    </div>
+
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search name, building, area, emirate, service…" autocomplete="off" />
+      <div class="seg" id="statusFilter">
+        <button data-s="all" class="on">All</button>
+        <button data-s="online">🟢 Online</button>
+        <button data-s="maintenance">🛠️ Maint.</button>
+        <button data-s="offline">🔴 Offline</button>
+        <button data-s="issues">⚠️ Issues</button>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-k="name">Machine</th>
+            <th data-k="area">Area</th>
+            <th data-k="emirate">Emirate</th>
+            <th data-k="services">Services</th>
+            <th data-k="status">Status</th>
+            <th>Map</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" style="display:none">No machines match your filter.</div>
+    </div>
+
+    <footer>
+      Status is controlled remotely from the Sheet's <code>status</code> column
+      (<code>online</code> / <code>maintenance</code> / <code>offline</code>). Edit the Sheet, hit Refresh — the public map updates too.
+    </footer>
+  </div>
+
+  <!-- Shares CONFIG (Sheet URL), SERVICE_META and the bundled sample data with the map -->
+  <script src="data.js"></script>
+  <script src="control.js"></script>
+</body>
+</html>

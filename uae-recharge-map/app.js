@@ -66,6 +66,24 @@ function actionsHtml(lat, lng) {
   </div>`;
 }
 
+/* ---------- Machine status (remote control) ----------
+   A machine's live status can be set remotely from the Google Sheet's
+   "status" column (online / maintenance / offline). It drives the pin colour,
+   a popup badge, and the operator dashboard in control.html. Anything blank or
+   unrecognised counts as online, so existing sheets keep working unchanged. */
+function normStatus(v) {
+  const s = String(v == null ? "" : v).trim().toLowerCase();
+  if (["offline","off","down","closed","out","no","0"].includes(s)) return "offline";
+  if (["maintenance","maint","service","servicing","repair","fixing"].includes(s)) return "maintenance";
+  return "online";
+}
+const STATUS_META = {
+  online:      { label: "Online",      color: "#22c3a6", emoji: "⚡", badge: "🟢 Online" },
+  maintenance: { label: "Maintenance", color: "#f2a900", emoji: "🛠️", badge: "🛠️ Maintenance" },
+  offline:     { label: "Offline",     color: "#e04f5f", emoji: "✕", badge: "🔴 Offline" },
+};
+const statusMeta = (p) => STATUS_META[normStatus(p && p.status)] || STATUS_META.online;
+
 function pinIcon(color, emoji, size = 30) {
   return L.divIcon({
     className: "",
@@ -171,11 +189,17 @@ function render() {
 
   const markers = [];
   pts.forEach((p) => {
-    const color = p.verified ? "#F5B301" : rechargeCol;
-    const m = L.marker(p.coords, { icon: pinIcon(color, p.verified ? "✓" : "⚡") });
+    const st = statusMeta(p);
+    const online = normStatus(p.status) === "online";
+    // Online machines keep the gold ✓ for verified; down/maintenance pins take
+    // the status colour + emoji so the operator can spot them at a glance.
+    const color = !online ? st.color : (p.verified ? "#F5B301" : rechargeCol);
+    const emoji = !online ? st.emoji : (p.verified ? "✓" : "⚡");
+    const m = L.marker(p.coords, { icon: pinIcon(color, emoji), opacity: online ? 1 : 0.9 });
     const dist = origin ? `<p class="pb" style="color:#22c3a6">${fmtDist(km(origin, p.coords))} away</p>` : "";
     m.bindPopup(`<div class="pop">
       <h4>${esc(p.name)} ${p.verified ? '<span class="vbadge">✓ Verified</span>' : ""}</h4>
+      ${!online ? `<p class="pb" style="color:${st.color};font-weight:600">${st.badge}</p>` : ""}
       ${p.building ? `<p class="pb">🏢 ${esc(p.building)}</p>` : `<p class="pb">📍 ${esc(p.area || p.emirate || "")}</p>`}
       ${p.placement ? `<p class="pb">🏠 ${esc(p.placement)}</p>` : ""}
       ${dist}
@@ -464,6 +488,7 @@ function rowsToMachines(rows) {
   const iAr   = col(["around","surroundings","notes","landmark","nearby"]);
   const iPlc  = col(["placement","type","location","building type","placement type"]);
   const iVer  = col(["verified","ver"]);
+  const iSt   = col(["status","state","availability"]);
   const out = [];
   for (let r = 1; r < rows.length; r++) {
     const row = rows[r];
@@ -484,6 +509,7 @@ function rowsToMachines(rows) {
       around: iAr >= 0 ? String(row[iAr]).trim() : "",
       placement: iPlc >= 0 ? String(row[iPlc]).trim() : "",
       verified: ["yes","true","1","y","verified","✓"].includes(ver),
+      status: normStatus(iSt >= 0 ? row[iSt] : ""),
     });
   }
   return out;
@@ -522,6 +548,27 @@ async function loadMachines() {
     console.warn("Could not load the Google Sheet — showing bundled data instead.", e);
   }
   render();
+  focusFromUrl(); // e.g. control.html deep-links ?at=lat,lng to a machine
+}
+
+/* Deep-link support: ?at=lat,lng[&z=zoom] pans the map to a spot and, if a
+   machine sits there, opens its popup. Used by the Remote Control dashboard so
+   an operator can jump from a fleet row straight to that pin. */
+function focusFromUrl() {
+  const at = new URLSearchParams(location.search).get("at");
+  if (!at) return;
+  const parts = at.split(",").map((n) => parseFloat(n.trim()));
+  if (parts.length < 2 || parts.some(isNaN)) return;
+  const [lat, lng] = parts;
+  const z = parseInt(new URLSearchParams(location.search).get("z"), 10);
+  map.setView([lat, lng], isNaN(z) ? 17 : Math.min(Math.max(z, 3), 19));
+  // Open the nearest machine's popup if one is essentially at this coordinate.
+  let best = null, bestD = Infinity;
+  RECHARGE_POINTS.forEach((p) => {
+    const d = km([lat, lng], p.coords);
+    if (d < bestD) { bestD = d; best = p; }
+  });
+  if (best && bestD < 0.05 && best.__marker) best.__marker.openPopup();
 }
 
 /* ---------- Init ---------- */

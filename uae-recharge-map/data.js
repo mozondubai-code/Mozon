@@ -6,13 +6,16 @@
    ⭐ LIVE GOOGLE SHEET — load thousands of machines without touching code.
    -----------------------------------------------------------------------------
    1. Put your machines in a Google Sheet with these column headers (row 1):
-        name | building | area | emirate | lat | lng | services | hours | placement | around | verified
+        name | building | area | emirate | lat | lng | services | hours | placement | around | verified | status
       - lat / lng : decimal numbers (from Google Maps / your export)
       - services  : separated by ; or ,   e.g.  du; Etisalat; iTunes; Botim
       - placement : where the machine sits — "Inside residential building" or
                     "In front of residential building" (this map lists only
                     residential-building machines)
       - verified  : yes/true to show the gold ✓ marker (optional, leave blank)
+      - status    : remote control — online / maintenance / offline (optional,
+                    blank = online). Down machines change colour on the map and
+                    drive the Mozon Remote Control dashboard (control.html).
       - building / area / hours / around : optional text
    2. In the Sheet:  File → Share → Publish to web → (pick the sheet) →
       choose "Comma-separated values (.csv)" → Publish → copy the link.
@@ -329,6 +332,7 @@ const RECHARGE_POINTS = [
     around: "Verified location pinned from your 2GIS link.",
     placement: "Residential building",
     verified: true,
+    status: "maintenance",             // ← remote status demo (see control.html)
   },
   {
     id: "mz-ajman",
@@ -341,6 +345,7 @@ const RECHARGE_POINTS = [
     around: "Verified location pinned from your 2GIS link.",
     placement: "Residential building",
     verified: true,
+    status: "offline",                 // ← remote status demo (see control.html)
   },
   {
     id: "mz-abu-dhabi",

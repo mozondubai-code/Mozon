@@ -1,8 +1,8 @@
-name,building,area,emirate,lat,lng,services,hours,placement,around,verified
-Mozon Recharge Machine — Dubai,,Dubai,Dubai,25.214783,55.244462,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes
-Mozon Recharge Machine — Sharjah,,Sharjah,Sharjah,25.349027,55.388262,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes
-Mozon Recharge Machine — Ajman,,Ajman,Ajman,25.394955,55.454225,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes
-Mozon Recharge Machine — Abu Dhabi,,Abu Dhabi,Abu Dhabi,24.459227,54.381018,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes
-Mozon Recharge Machine — Ras Al Khaimah,,Ras Al Khaimah,Ras Al Khaimah,25.747238,55.927540,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes
-Mozon Recharge Machine — Fujairah,,Fujairah,Fujairah,25.121969,56.347127,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes
-Example — Tower A Lobby (delete me),Al Nahda 2 Residential Tower A,Al Nahda 2,Dubai,25.2951,55.3612,du; Etisalat; iTunes,24 hours,Inside residential building,Ground-floor lobby facing the park,
+name,building,area,emirate,lat,lng,services,hours,placement,around,verified,status
+Mozon Recharge Machine — Dubai,,Dubai,Dubai,25.214783,55.244462,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes,online
+Mozon Recharge Machine — Sharjah,,Sharjah,Sharjah,25.349027,55.388262,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes,maintenance
+Mozon Recharge Machine — Ajman,,Ajman,Ajman,25.394955,55.454225,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes,offline
+Mozon Recharge Machine — Abu Dhabi,,Abu Dhabi,Abu Dhabi,24.459227,54.381018,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes,online
+Mozon Recharge Machine — Ras Al Khaimah,,Ras Al Khaimah,Ras Al Khaimah,25.747238,55.927540,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes,online
+Mozon Recharge Machine — Fujairah,,Fujairah,Fujairah,25.121969,56.347127,du; Etisalat; iTunes; Google Play; Botim,24 hours,Residential building,,yes,online
+Example — Tower A Lobby (delete me),Al Nahda 2 Residential Tower A,Al Nahda 2,Dubai,25.2951,55.3612,du; Etisalat; iTunes,24 hours,Inside residential building,Ground-floor lobby facing the park,,online
