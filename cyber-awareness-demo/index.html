@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Awareness Demo — Cyber Tech India</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: #f0f2f5;
+    color: #111;
+  }
+  .demo-banner {
+    background: #b30000;
+    color: #fff;
+    text-align: center;
+    padding: 14px 10px;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+  .demo-banner small { display:block; font-weight: normal; font-size: 13px; opacity: .9; margin-top: 4px; }
+  .wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 130px);
+    padding: 20px;
+  }
+  .card {
+    background: #fff;
+    padding: 26px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0,0,0,.12);
+    width: 100%;
+    max-width: 360px;
+  }
+  .card h2 { margin: 0 0 18px; }
+  input, button {
+    width: 100%;
+    padding: 11px;
+    margin: 9px 0;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    font-size: 15px;
+  }
+  button { background: #0095f6; color: #fff; border: none; cursor: pointer; font-weight: bold; }
+
+  /* Full-screen teaching alert */
+  #alert {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #b30000;
+    color: #fff;
+    z-index: 999;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  #alert .big {
+    font-size: 46px;
+    font-weight: 900;
+    text-align: center;
+    margin: 10px 0 4px;
+    line-height: 1.1;
+  }
+  #alert .sub { text-align:center; font-size: 22px; margin-bottom: 24px; }
+  #alert .panel {
+    background: rgba(255,255,255,.12);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 640px;
+    margin: 0 auto 18px;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  #alert ul { margin: 8px 0 0; padding-left: 22px; }
+  #alert li { margin: 7px 0; }
+  #alert button {
+    max-width: 640px;
+    margin: 0 auto;
+    display: block;
+    background: #fff;
+    color: #b30000;
+  }
+  @media (max-width: 480px){ #alert .big{ font-size: 34px; } }
+</style>
+</head>
+<body>
+
+  <div class="demo-banner">
+    ⚠️ CYBER SECURITY AWARENESS DEMO — NOT A REAL LOGIN ⚠️
+    <small>Demo class by Cyber Tech India · For study &amp; awareness purposes only · Do not enter real passwords</small>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>Login</h2>
+      <form id="loginForm" autocomplete="off">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="alert">
+    <div class="big">🚨 STOP! 🚨</div>
+    <div class="big">THIS WAS A FAKE LOGIN PAGE</div>
+    <div class="sub">If this were a real attack, a criminal would now have your password.</div>
+
+    <div class="panel">
+      <strong>What just happened?</strong><br>
+      You typed credentials into a page that <em>looked</em> real. Attackers copy the look of
+      Instagram, banks, and college portals to trick you. This demo captured <strong>nothing</strong> —
+      no password left this page — but a real phishing page would have sent it straight to an attacker.
+    </div>
+
+    <div class="panel">
+      <strong>How to spot a fake login — every time:</strong>
+      <ul>
+        <li><strong>Check the web address (URL)</strong> carefully — look for misspellings like <em>faceb00k</em> or <em>instagrarn</em>.</li>
+        <li>Make sure it starts with <strong>https://</strong> and is the <strong>official domain</strong>.</li>
+        <li>Never log in from a link in an <strong>email or SMS</strong> — type the address yourself.</li>
+        <li>Turn on <strong>two-factor authentication (2FA)</strong> everywhere you can.</li>
+        <li><strong>Never reuse passwords</strong> across sites.</li>
+        <li>When in doubt, <strong>stop and report it</strong> to your teacher / IT team.</li>
+      </ul>
+    </div>
+
+    <button onclick="location.reload()">← Try again / Reset demo</button>
+  </div>
+
+  <script>
+    // Awareness demo only: capture nothing, send nothing, store nothing.
+    // On submit we simply reveal the teaching alert.
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.getElementById('password').value = '';
+      document.getElementById('alert').style.display = 'block';
+      window.scrollTo(0, 0);
+    });
+  </script>
+
+</body>
+</html>
