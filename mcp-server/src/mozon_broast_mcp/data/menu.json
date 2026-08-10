@@ -1,0 +1,462 @@
+{
+  "restaurant": {
+    "name": "Mozon Broast",
+    "location": "Al Nahda 2, Near NMC Hospital, Dubai, UAE",
+    "phone": "+971 52 487 7701",
+    "hours": "Daily 12:00 PM – 2:00 AM",
+    "delivery": "Free delivery within 5 km",
+    "currency": "AED",
+    "order_url": "https://mozondubai-code.github.io/mozon-broast",
+    "whatsapp": "971524877701"
+  },
+  "promotions": {
+    "codes": [
+      "CORP5",
+      "NMC10",
+      "OFFICE5",
+      "MOZON10"
+    ],
+    "food_discount_rate": 0.1,
+    "note": "Promo codes take the discount off food only; drinks are excluded. Corporate orders for 5+ people also get a free garlic sauce platter on the first order."
+  },
+  "categories": [
+    {
+      "key": "broast",
+      "label": "Broasted Chicken",
+      "emoji": "🍗",
+      "is_drink": false,
+      "items": [
+        {
+          "id": "broast-2-pcs-broast",
+          "name": "2 Pcs Broast",
+          "description": "Garlic, Ketchup, Fries, Pitta",
+          "price": 14
+        },
+        {
+          "id": "broast-4-pcs-broast",
+          "name": "4 Pcs Broast",
+          "description": "Garlic, Ketchup, Fries, Pitta",
+          "price": 24
+        },
+        {
+          "id": "broast-8-pcs-broast",
+          "name": "8 Pcs Broast",
+          "description": "Garlic, Ketchup, Fries, Pitta",
+          "price": 47
+        },
+        {
+          "id": "broast-16-pcs-broast",
+          "name": "16 Pcs Broast",
+          "description": "Garlic, Ketchup, Fries, Pitta, Drink",
+          "price": 95
+        },
+        {
+          "id": "broast-20-pcs-broast",
+          "name": "20 Pcs Broast",
+          "description": "Coleslaw, Garlic, Ketchup, Fries, Pitta, Drink",
+          "price": 115
+        },
+        {
+          "id": "broast-single-combo",
+          "name": "Single Combo",
+          "description": "2 pcs + 2 Strips + Mini Drink + Coleslaw + Garlic + Fries",
+          "price": 26
+        },
+        {
+          "id": "broast-value-meal",
+          "name": "Value Meal",
+          "description": "6 pcs + 4 Strips + Coleslaw + Garlic + Fries + Pitta + Drink",
+          "price": 68
+        },
+        {
+          "id": "broast-deluxe-meal",
+          "name": "Deluxe Meal",
+          "description": "8 pcs + 4 Strips + 5 Garlic + Fries + Pitta + Drink",
+          "price": 75
+        },
+        {
+          "id": "broast-burger-combo",
+          "name": "Burger Combo",
+          "description": "2 pcs + 1 Burger + Fries + Pitta + 3 Garlic + Ketchup",
+          "price": 29
+        },
+        {
+          "id": "broast-chicken-strips-5-pcs",
+          "name": "Chicken Strips (5 pcs)",
+          "description": "Crispy strips",
+          "price": 13
+        },
+        {
+          "id": "broast-chicken-strips-10-pcs",
+          "name": "Chicken Strips (10 pcs)",
+          "description": "Crispy strips family pack",
+          "price": 22
+        }
+      ]
+    },
+    {
+      "key": "madhoot",
+      "label": "Madhoot (Rice)",
+      "emoji": "🍚",
+      "is_drink": false,
+      "items": [
+        {
+          "id": "madhoot-chicken-madhoot-quarter",
+          "name": "Chicken Madhoot (Quarter)",
+          "description": "Pressure chicken rice",
+          "price": 16
+        },
+        {
+          "id": "madhoot-chicken-madhoot-half",
+          "name": "Chicken Madhoot (Half)",
+          "description": "Pressure chicken rice",
+          "price": 30
+        },
+        {
+          "id": "madhoot-chicken-madhoot-full",
+          "name": "Chicken Madhoot (Full)",
+          "description": "Pressure chicken rice",
+          "price": 55
+        },
+        {
+          "id": "madhoot-madhoot-2-pcs-broast-quarter",
+          "name": "Madhoot + 2 Pcs Broast (Quarter)",
+          "description": "Rice + broasted",
+          "price": 20
+        },
+        {
+          "id": "madhoot-madhoot-4-pcs-broast-half",
+          "name": "Madhoot + 4 Pcs Broast (Half)",
+          "description": "Rice + broasted",
+          "price": 37
+        },
+        {
+          "id": "madhoot-madhoot-8-pcs-broast-full",
+          "name": "Madhoot + 8 Pcs Broast (Full)",
+          "description": "Rice + broasted",
+          "price": 70
+        },
+        {
+          "id": "madhoot-al-faham-madhoot-half",
+          "name": "Al Faham Madhoot (Half)",
+          "description": "Grilled style",
+          "price": 37
+        },
+        {
+          "id": "madhoot-al-faham-madhoot-full",
+          "name": "Al Faham Madhoot (Full)",
+          "description": "Grilled style",
+          "price": 69
+        },
+        {
+          "id": "madhoot-beef-madhoot-quarter",
+          "name": "Beef Madhoot (Quarter)",
+          "description": "Beef rice",
+          "price": 22
+        },
+        {
+          "id": "madhoot-beef-madhoot-half",
+          "name": "Beef Madhoot (Half)",
+          "description": "Beef rice",
+          "price": 42
+        },
+        {
+          "id": "madhoot-chicken-madhoot-family-10-persons",
+          "name": "Chicken Madhoot Family (10 persons)",
+          "description": "Family platter",
+          "price": 135
+        }
+      ]
+    },
+    {
+      "key": "burger",
+      "label": "Burgers & Sandwiches",
+      "emoji": "🍔",
+      "is_drink": false,
+      "items": [
+        {
+          "id": "burger-truffle-beef-burger-single",
+          "name": "Truffle Beef Burger (Single)",
+          "description": "Premium truffle beef",
+          "price": 21
+        },
+        {
+          "id": "burger-truffle-beef-burger-meal",
+          "name": "Truffle Beef Burger (Meal)",
+          "description": "With fries & drink",
+          "price": 27
+        },
+        {
+          "id": "burger-beef-classic-burger-single",
+          "name": "Beef Classic Burger (Single)",
+          "description": "Classic beef",
+          "price": 20
+        },
+        {
+          "id": "burger-beef-classic-burger-meal",
+          "name": "Beef Classic Burger (Meal)",
+          "description": "With fries & drink",
+          "price": 26
+        },
+        {
+          "id": "burger-lusso-zinger-single",
+          "name": "Lusso Zinger (Single)",
+          "description": "Chicken zinger",
+          "price": 14
+        },
+        {
+          "id": "burger-lusso-zinger-meal",
+          "name": "Lusso Zinger (Meal)",
+          "description": "With fries & drink",
+          "price": 20
+        },
+        {
+          "id": "burger-grilled-chicken-burger-single",
+          "name": "Grilled Chicken Burger (Single)",
+          "description": "Grilled chicken",
+          "price": 16
+        },
+        {
+          "id": "burger-grilled-chicken-burger-meal",
+          "name": "Grilled Chicken Burger (Meal)",
+          "description": "With fries & drink",
+          "price": 22
+        }
+      ]
+    },
+    {
+      "key": "wraps",
+      "label": "Wraps",
+      "emoji": "🌯",
+      "is_drink": false,
+      "items": [
+        {
+          "id": "wraps-chicken-fajita-wrap",
+          "name": "Chicken Fajita Wrap",
+          "description": "Chicken fajita sandwich",
+          "price": 10
+        },
+        {
+          "id": "wraps-shrimp-wrap-sandwich",
+          "name": "Shrimp Wrap Sandwich",
+          "description": "Shrimp wrap",
+          "price": 13
+        },
+        {
+          "id": "wraps-truffle-beef-tortilla-wrap",
+          "name": "Truffle Beef Tortilla Wrap",
+          "description": "Truffle beef wrap",
+          "price": 14
+        },
+        {
+          "id": "wraps-strips-wrap-sandwich",
+          "name": "Strips Wrap Sandwich",
+          "description": "Chicken strips wrap",
+          "price": 10
+        },
+        {
+          "id": "wraps-dynamite-chicken-wrap",
+          "name": "Dynamite Chicken Wrap",
+          "description": "Spicy dynamite wrap",
+          "price": 12
+        }
+      ]
+    },
+    {
+      "key": "fries",
+      "label": "Fries & Appetizers",
+      "emoji": "🍟",
+      "is_drink": false,
+      "items": [
+        {
+          "id": "fries-french-fries",
+          "name": "French Fries",
+          "description": "Classic crispy fries",
+          "price": 8
+        },
+        {
+          "id": "fries-spicy-french-fries",
+          "name": "Spicy French Fries",
+          "description": "Hot & spicy",
+          "price": 11
+        },
+        {
+          "id": "fries-normal-loaded-fries",
+          "name": "Normal Loaded Fries",
+          "description": "Loaded with toppings",
+          "price": 17
+        },
+        {
+          "id": "fries-beef-loaded-fries",
+          "name": "Beef Loaded Fries",
+          "description": "With beef topping",
+          "price": 23
+        },
+        {
+          "id": "fries-lusso-chicken-fries",
+          "name": "Lusso Chicken Fries",
+          "description": "Chicken loaded",
+          "price": 21
+        },
+        {
+          "id": "fries-chicken-dynamite-6-pcs",
+          "name": "Chicken Dynamite 6 Pcs",
+          "description": "Spicy dynamite pieces",
+          "price": 21
+        },
+        {
+          "id": "fries-shrimp-dynamite-6-pcs",
+          "name": "Shrimp Dynamite 6 Pcs",
+          "description": "Crispy shrimp bites",
+          "price": 26
+        },
+        {
+          "id": "fries-hummus-plate",
+          "name": "Hummus Plate",
+          "description": "Fresh hummus",
+          "price": 8
+        },
+        {
+          "id": "fries-chicken-popcorn",
+          "name": "Chicken Popcorn",
+          "description": "Bite-size crispy chicken",
+          "price": 10
+        },
+        {
+          "id": "fries-pistachio-chicken-popcorn",
+          "name": "Pistachio Chicken Popcorn",
+          "description": "Pistachio coated",
+          "price": 16
+        },
+        {
+          "id": "fries-dynamite-popcorn",
+          "name": "Dynamite Popcorn",
+          "description": "Spicy dynamite bites",
+          "price": 16
+        },
+        {
+          "id": "fries-turkish-alfaham-half",
+          "name": "Turkish Alfaham (Half)",
+          "description": "Grilled Turkish style",
+          "price": 26
+        },
+        {
+          "id": "fries-peri-peri-alfaham-half",
+          "name": "Peri Peri Alfaham (Half)",
+          "description": "Peri peri marination",
+          "price": 26
+        }
+      ]
+    },
+    {
+      "key": "drinks",
+      "label": "Drinks & Juices",
+      "emoji": "🥤",
+      "is_drink": true,
+      "items": [
+        {
+          "id": "drinks-orange-juice",
+          "name": "Orange Juice",
+          "description": "Fresh squeezed",
+          "price": 11
+        },
+        {
+          "id": "drinks-mango-juice",
+          "name": "Mango Juice",
+          "description": "Fresh mango",
+          "price": 12
+        },
+        {
+          "id": "drinks-avocado-juice",
+          "name": "Avocado Juice",
+          "description": "Creamy avocado",
+          "price": 12
+        },
+        {
+          "id": "drinks-lemon-mint",
+          "name": "Lemon Mint",
+          "description": "Refreshing lemon mint",
+          "price": 9
+        },
+        {
+          "id": "drinks-lusso-signature",
+          "name": "Lusso Signature",
+          "description": "House special blend",
+          "price": 15
+        },
+        {
+          "id": "drinks-crystal",
+          "name": "Crystal",
+          "description": "Special blend",
+          "price": 15
+        },
+        {
+          "id": "drinks-mushtani",
+          "name": "Mushtani",
+          "description": "Special blend",
+          "price": 15
+        },
+        {
+          "id": "drinks-emarathi",
+          "name": "Emarathi",
+          "description": "UAE special blend",
+          "price": 16
+        },
+        {
+          "id": "drinks-green-apple-mojito",
+          "name": "Green Apple Mojito",
+          "description": "Refreshing mojito",
+          "price": 11
+        },
+        {
+          "id": "drinks-passion-fruit-mojito",
+          "name": "Passion Fruit Mojito",
+          "description": "Tropical mojito",
+          "price": 11
+        },
+        {
+          "id": "drinks-watermelon-mojito",
+          "name": "Watermelon Mojito",
+          "description": "Sweet & fresh",
+          "price": 11
+        },
+        {
+          "id": "drinks-blue-lemonade-mojito",
+          "name": "Blue Lemonade Mojito",
+          "description": "Signature blue mojito",
+          "price": 11
+        },
+        {
+          "id": "drinks-saudi-champagne",
+          "name": "Saudi Champagne",
+          "description": "Non-alcoholic special",
+          "price": 22
+        },
+        {
+          "id": "drinks-mocktail-jug",
+          "name": "Mocktail (Jug)",
+          "description": "Large jug mocktail",
+          "price": 40
+        },
+        {
+          "id": "drinks-garlic-sauce",
+          "name": "Garlic Sauce",
+          "description": "Per cup",
+          "price": 1
+        },
+        {
+          "id": "drinks-coleslaw",
+          "name": "Coleslaw",
+          "description": "Per serving",
+          "price": 6
+        },
+        {
+          "id": "drinks-dynamite-sauce",
+          "name": "Dynamite Sauce",
+          "description": "Per cup",
+          "price": 3
+        }
+      ]
+    }
+  ]
+}
