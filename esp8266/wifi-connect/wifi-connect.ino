@@ -4,8 +4,8 @@
 
 #include <ESP8266WiFi.h>
 
-const char *ssid = "**********"; // ganti nama wifi  (replace with your WiFi name)
-const char *pass = "**********"; // ganti password    (replace with your WiFi password)
+const char *ssid = "buhari";     // WiFi name — must match exactly (case-sensitive)
+const char *pass = "**********"; // enter the buhari WiFi password here before uploading
 
 WiFiClient client;
 
