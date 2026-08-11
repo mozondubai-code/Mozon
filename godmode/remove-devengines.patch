@@ -1,0 +1,15 @@
+diff --git a/package.json b/package.json
+index 5bb0d72..d9a4d65 100644
+--- a/package.json
++++ b/package.json
+@@ -209,10 +209,6 @@
+ 			"repo": "GodMode"
+ 		}
+ 	},
+-	"devEngines": {
+-		"node": ">=18.x",
+-		"npm": ">=7.x"
+-	},
+ 	"electronmon": {
+ 		"patterns": [
+ 			"!**/**",
