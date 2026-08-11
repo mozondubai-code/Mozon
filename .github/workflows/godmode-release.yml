@@ -1,6 +1,9 @@
 name: Build GodMode Linux release
 
 on:
+  push:
+    branches: [claude/godmode-setup-6r6v9y]
+    paths: ['.github/workflows/godmode-release.yml']
   workflow_dispatch:
     inputs:
       godmode_ref:
@@ -11,6 +14,10 @@ on:
         description: Tag for the GitHub release
         default: godmode-v1.0.0-beta.9
         required: true
+
+env:
+  GODMODE_REF: ${{ inputs.godmode_ref || '8ac3ffde96ab72d992b5d5cf1743673e610cb07b' }}
+  RELEASE_TAG: ${{ inputs.release_tag || 'godmode-v1.0.0-beta.9' }}
 
 permissions:
   contents: write
@@ -26,7 +33,7 @@ jobs:
         run: |
           git clone https://github.com/smol-ai/GodMode.git godmode-src
           cd godmode-src
-          git checkout "${{ inputs.godmode_ref }}"
+          git checkout "$GODMODE_REF"
 
       - name: Apply devEngines fix
         run: |
@@ -49,9 +56,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd godmode-src
-          gh release create "${{ inputs.release_tag }}" \
+          gh release create "$RELEASE_TAG" \
             --repo "${{ github.repository }}" \
             --target "${{ github.ref_name }}" \
             --title "GodMode 1.0.0-beta.9 Linux builds" \
-            --notes "Unofficial, unsigned Linux builds of [smol-ai/GodMode](https://github.com/smol-ai/GodMode) at upstream ref ${{ inputs.godmode_ref }}, built with the devEngines fix from the godmode/ folder. chmod +x and run." \
+            --notes "Unofficial, unsigned Linux builds of [smol-ai/GodMode](https://github.com/smol-ai/GodMode) at upstream ref $GODMODE_REF, built with the devEngines fix from the godmode/ folder. chmod +x and run." \
             release/build/*.AppImage
