@@ -1,0 +1,64 @@
+name: Build GodMode Linux release
+
+on:
+  push:
+    branches: [claude/godmode-setup-6r6v9y]
+    paths: ['.github/workflows/godmode-release.yml']
+  workflow_dispatch:
+    inputs:
+      godmode_ref:
+        description: Upstream smol-ai/GodMode ref to build
+        default: 8ac3ffde96ab72d992b5d5cf1743673e610cb07b
+        required: true
+      release_tag:
+        description: Tag for the GitHub release
+        default: godmode-v1.0.0-beta.9
+        required: true
+
+env:
+  GODMODE_REF: ${{ inputs.godmode_ref || '8ac3ffde96ab72d992b5d5cf1743673e610cb07b' }}
+  RELEASE_TAG: ${{ inputs.release_tag || 'godmode-v1.0.0-beta.9' }}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Mozon (for the devEngines patch)
+        uses: actions/checkout@v4
+
+      - name: Clone GodMode
+        run: |
+          git clone https://github.com/smol-ai/GodMode.git godmode-src
+          cd godmode-src
+          git checkout "$GODMODE_REF"
+
+      - name: Apply devEngines fix
+        run: |
+          cd godmode-src
+          git apply ../godmode/remove-devengines.patch
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: cd godmode-src && npm install
+
+      - name: Package Linux AppImages
+        run: cd godmode-src && npm run package-lin
+
+      - name: Create release with AppImage assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd godmode-src
+          gh release create "$RELEASE_TAG" \
+            --repo "${{ github.repository }}" \
+            --target "${{ github.ref_name }}" \
+            --title "GodMode 1.0.0-beta.9 Linux builds" \
+            --notes "Unofficial, unsigned Linux builds of [smol-ai/GodMode](https://github.com/smol-ai/GodMode) at upstream ref $GODMODE_REF, built with the devEngines fix from the godmode/ folder. chmod +x and run." \
+            release/build/*.AppImage
