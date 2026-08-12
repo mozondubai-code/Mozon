@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Madex Wavies — Restaurant Control</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0D0C0F;--surf:#161519;--surf2:#1E1D23;--line:#2A2830;--txt:#F2F0F4;--dim:#8E8A98;
+ --ok:#3DD68C;--warn:#FFB547;--bad:#FF6B5A;--acc:#7C5CFF;--acc2:#00D1B2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;font-size:14px}
+button,input,select,textarea{font-family:inherit}
+a{color:var(--acc2)}
+
+/* login */
+#login{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;padding:22px}
+.lbox{width:100%;max-width:340px;text-align:center}
+.lbox h1{font-size:27px;margin:0 0 4px;letter-spacing:-.8px}
+.lbox .t{color:var(--dim);font-size:12.5px;margin-bottom:22px}
+.lbox input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);
+ background:var(--surf);color:var(--txt);font-size:15px;margin-bottom:10px}
+.lbox button{width:100%;padding:14px;border:0;border-radius:12px;background:var(--acc);
+ color:#fff;font-weight:800;font-size:15px;cursor:pointer}
+.msg{font-size:12.5px;margin-top:12px;min-height:18px}
+.msg.e{color:var(--bad)} .msg.o{color:var(--ok)}
+
+/* shell */
+.top{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);
+ flex-wrap:wrap;position:sticky;top:0;background:rgba(13,12,15,.96);backdrop-filter:blur(14px);z-index:60}
+.brand{font-weight:800;letter-spacing:-.5px;font-size:16px}
+.role{font-size:10px;font-weight:800;padding:4px 9px;border-radius:99px;letter-spacing:.6px}
+.r-admin{background:rgba(124,92,255,.18);color:#A992FF}
+.r-owner{background:rgba(0,209,178,.16);color:#4FE0C8}
+.spacer{flex:1}
+.who{font-size:12px;color:var(--dim)}
+.btn{background:var(--surf);border:1px solid var(--line);color:var(--txt);border-radius:10px;
+ padding:9px 13px;font-weight:700;font-size:12.5px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.d{background:rgba(255,107,90,.12);border-color:rgba(255,107,90,.35);color:#FF9E92}
+.btn.g{background:rgba(61,214,140,.12);border-color:rgba(61,214,140,.35);color:#6FE0A8}
+
+.tabs{display:flex;gap:6px;padding:12px 20px;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:0;border:0;color:var(--dim);font-weight:700;font-size:13px;padding:9px 14px;
+ border-radius:9px;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--surf);color:var(--txt)}
+
+main{padding:18px 20px 60px}
+.pane{display:none} .pane.on{display:block}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:14px}
+.panel h3{margin:0 0 3px;font-size:14.5px}
+.panel .cap{font-size:11.5px;color:var(--dim);margin-bottom:13px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:880px){.row{grid-template-columns:1fr}}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--acc))}
+.kpi .l{font-size:10px;color:var(--dim);font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.kpi .v{font-size:23px;font-weight:800;margin-top:6px;letter-spacing:-.9px}
+.kpi .d{font-size:10.5px;color:var(--dim);margin-top:3px}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.6px;
+ padding:7px 8px;border-bottom:1px solid var(--line);font-weight:800}
+td{padding:9px 8px;border-bottom:1px solid rgba(42,40,48,.5);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.pill{font-size:10px;font-weight:800;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.p-live{background:rgba(61,214,140,.16);color:#6FE0A8}
+.p-paused{background:rgba(255,107,90,.16);color:#FF9E92}
+.p-off{background:rgba(142,138,152,.16);color:var(--dim)}
+label{display:block;font-size:10.5px;font-weight:800;color:var(--dim);margin:11px 0 5px;
+ letter-spacing:.6px;text-transform:uppercase}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;
+ background:var(--surf2);color:var(--txt);font-size:14px}
+input:focus,select:focus{outline:0;border-color:var(--acc)}
+.inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sw{position:relative;width:44px;height:24px;flex:0 0 44px;background:var(--surf2);
+ border-radius:99px;cursor:pointer;border:1px solid var(--line);transition:.18s}
+.sw.on{background:var(--ok);border-color:var(--ok)}
+.sw i{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.18s}
+.sw.on i{left:23px}
+.empty{padding:34px;text-align:center;color:var(--dim);font-size:13px;line-height:1.8}
+.warn{background:rgba(255,181,71,.09);border:1px solid rgba(255,181,71,.28);color:#FFCF85;
+ border-radius:11px;padding:12px;font-size:12px;line-height:1.6;margin-bottom:14px}
+.err{background:rgba(255,107,90,.1);border:1px solid rgba(255,107,90,.3);color:#FF9E92;
+ border-radius:11px;padding:12px;font-size:12.5px;margin-bottom:14px}
+canvas{max-height:220px}
+.searchbar{display:flex;gap:8px;margin-bottom:12px}
+.mi{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(42,40,48,.5)}
+.mi img{width:42px;height:42px;border-radius:9px;object-fit:cover;background:var(--surf2);flex:0 0 42px}
+.mi .nm{flex:1;min-width:0;font-weight:700;font-size:12.5px}
+.mi .nm small{display:block;color:var(--dim);font-weight:600;font-size:10.5px;margin-top:2px}
+.mi input.pr{width:82px;text-align:right;padding:7px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--acc);
+ color:#fff;font-weight:700;font-size:13px;padding:12px 20px;border-radius:11px;z-index:200;
+ opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:300;display:none;
+ align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal.on{display:flex}
+.sheet{background:var(--surf);border:1px solid var(--line);border-radius:18px 18px 0 0;
+ width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column}
+@media(min-width:600px){.modal{align-items:center}.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;padding:16px;
+ border-bottom:1px solid var(--line);font-size:15px}
+.sheet-b{padding:16px;overflow-y:auto;flex:1}
+.sheet-f{display:flex;align-items:center;gap:8px;padding:14px 16px;border-top:1px solid var(--line)}
+.photo-box{position:relative;width:100%;height:190px;border-radius:14px;overflow:hidden;
+ background:var(--surf2);border:1px dashed var(--line);cursor:pointer}
+.photo-box img{width:100%;height:100%;object-fit:cover;display:none}
+.photo-box img.on{display:block}
+.ph-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;gap:7px;color:var(--dim);font-size:32px}
+.ph-empty span{font-size:12.5px;font-weight:700}
+.ph-busy{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+ background:rgba(13,12,15,.82);font-weight:800;font-size:13px}
+.ph-busy.on{display:flex}
+.mi-row{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid rgba(42,40,48,.5);cursor:pointer}
+.mi-row img,.mi-row .noimg{width:46px;height:46px;border-radius:10px;object-fit:cover;
+ background:var(--surf2);flex:0 0 46px;display:flex;align-items:center;justify-content:center;color:var(--dim)}
+.mi-row .t{flex:1;min-width:0}
+.mi-row .t b{display:block;font-size:13px}
+.mi-row .t small{color:var(--dim);font-size:11px}
+.mi-row .pr{font-weight:800;color:var(--acc2);font-size:13.5px}
+.cat-h{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+ color:var(--dim);margin:18px 0 2px}
+
+.logo{width:30px;height:30px;flex:0 0 30px;border-radius:9px}
+.wordmark{display:flex;align-items:center;gap:10px}
+.wordmark .wm{line-height:1.05}
+.wordmark .wm b{display:block;font-size:15.5px;font-weight:800;letter-spacing:-.4px}
+.wordmark .wm i{display:block;font-style:normal;font-size:9.5px;font-weight:700;
+  letter-spacing:1.6px;color:var(--dim);text-transform:uppercase;margin-top:1px}
+.loginlogo{width:58px;height:58px;border-radius:17px;margin:0 auto 16px}
+
+</style>
+</head>
+<body>
+
+<div id="login"><div class="lbox">
+  <svg class="loginlogo" viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect width="34" height="34" rx="10" fill="url(#mwg)"/><path d="M8 24V11.5c0-.6.75-.9 1.15-.42L17 20.3l7.85-9.22c.4-.48 1.15-.18 1.15.42V24" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="mwg" x1="0" y1="0" x2="34" y2="34"><stop stop-color="#8B6BFF"/><stop offset="1" stop-color="#00D1B2"/></linearGradient></defs></svg>
+  <h1>MADEX WAVIES</h1>
+  <div class="t">Restaurant control portal</div>
+  <div class="t" style="margin-top:-14px;margin-bottom:20px;font-size:11px;color:#5A5766">First time? Default password is <b>00711</b></div>
+  <input id="lu" placeholder="Username" autocomplete="username">
+  <input id="lp" type="password" placeholder="Password" autocomplete="current-password">
+  <button onclick="doLogin()">Sign in</button>
+  <div class="msg e" id="lmsg"></div>
+</div></div>
+
+<div class="top">
+  <div class="wordmark"><svg class="logo" viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect width="34" height="34" rx="10" fill="url(#mwg)"/><path d="M8 24V11.5c0-.6.75-.9 1.15-.42L17 20.3l7.85-9.22c.4-.48 1.15-.18 1.15.42V24" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="mwg" x1="0" y1="0" x2="34" y2="34"><stop stop-color="#8B6BFF"/><stop offset="1" stop-color="#00D1B2"/></linearGradient></defs></svg><div class="wm"><b>MADEX WAVIES</b><i>Restaurant Control</i></div></div>
+  <span class="role" id="roleTag"></span>
+  <select id="chainSel" style="width:auto;padding:8px 11px;font-size:12.5px;font-weight:700" onchange="switchChain()"></select>
+  <span class="spacer"></span>
+  <span class="who" id="who"></span>
+  <button class="btn" onclick="logout()">Sign out</button>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<main>
+  <div id="err"></div>
+
+  <!-- DASHBOARD -->
+  <div class="pane on" id="p-dash">
+    <div class="inline" style="margin-bottom:14px">
+      <div id="rangeSeg" class="inline"></div>
+      <select id="branchSel" style="width:auto" onchange="renderDash()"><option value="">All branches</option></select>
+      <button class="btn" onclick="loadOrders()">↻ Refresh</button>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="row">
+      <div class="panel"><h3>Revenue</h3><div class="cap" id="revCap"></div><canvas id="chRev"></canvas></div>
+      <div class="panel"><h3>Orders by daypart</h3><div class="cap">When customers actually order</div><canvas id="chDay"></canvas></div>
+    </div>
+    <div class="row">
+      <div class="panel"><h3>Branch performance</h3><div class="cap">Ranked by revenue</div>
+        <table><thead><tr><th>Branch</th><th class="n">Orders</th><th class="n">Revenue</th><th class="n">AOV</th></tr></thead><tbody id="tbBranch"></tbody></table></div>
+      <div class="panel"><h3>Demand by zone</h3><div class="cap">Where to spend ad budget</div>
+        <table><thead><tr><th>Zone</th><th class="n">Orders</th><th class="n">Revenue</th></tr></thead><tbody id="tbZone"></tbody></table></div>
+    </div>
+    <div class="panel"><h3>Recent orders</h3><div class="cap" id="feedCap"></div>
+      <div style="max-height:340px;overflow:auto"><table><thead><tr><th>Time</th><th>Customer</th><th>Branch</th><th>Items</th><th class="n">Total</th></tr></thead><tbody id="tbFeed"></tbody></table></div></div>
+  </div>
+
+  <!-- MENU -->
+  <div class="pane" id="p-menu">
+    <div class="panel">
+      <h3>Menu</h3>
+      <div class="cap">Add, edit or remove items and categories. Upload a photo straight from your phone. Live on the customer page within a minute.</div>
+      <div class="inline" style="margin-bottom:12px">
+        <input id="mSearch" placeholder="Search item…" oninput="renderMenu()" style="flex:1;min-width:160px">
+        <select id="mCatFilter" onchange="renderMenu()" style="width:auto"></select>
+        <button class="btn p" onclick="newItem()">+ Add item</button>
+        <button class="btn" onclick="showCats()">Categories</button>
+      </div>
+      <div id="menuList"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="itemModal"><div class="sheet">
+    <div class="sheet-h"><b id="imTitle">Add item</b><button class="btn" onclick="closeItem()">✕</button></div>
+    <div class="sheet-b">
+      <div class="photo-box" onclick="document.getElementById('imFile').click()">
+        <img id="imPhoto" alt=""><div class="ph-empty" id="imPhotoEmpty">📷<span>Tap to add a photo</span></div>
+        <div class="ph-busy" id="imPhotoBusy">Uploading…</div>
+      </div>
+      <input type="file" id="imFile" accept="image/*" style="display:none" onchange="uploadPhoto(this)">
+      <div class="inline" style="margin-top:8px">
+        <button class="btn" onclick="document.getElementById('imFile').click()">Choose photo</button>
+        <button class="btn d" onclick="clearPhoto()">Remove photo</button></div>
+      <label>Item name *</label><input id="imName" placeholder="Chicken Dum Biriyani">
+      <label>Arabic name</label><input id="imAr" placeholder="برياني دجاج دم" dir="rtl">
+      <div class="row">
+        <div><label>Price (AED) *</label><input id="imPrice" type="number" step="0.5" placeholder="13"></div>
+        <div><label>Category *</label><select id="imCat"></select></div>
+      </div>
+      <div class="inline" style="margin-top:14px"><span class="sw" id="imPop" onclick="this.classList.toggle('on')"><i></i></span>
+        <span style="font-size:12.5px;color:var(--dim)">Mark as POPULAR</span></div>
+      <div class="inline" style="margin-top:10px"><span class="sw on" id="imAvail" onclick="this.classList.toggle('on')"><i></i></span>
+        <span style="font-size:12.5px;color:var(--dim)">Available to order</span></div>
+    </div>
+    <div class="sheet-f"><button class="btn d" id="imDelete" onclick="deleteItem()">Delete item</button>
+      <span class="spacer"></span><button class="btn" onclick="closeItem()">Cancel</button>
+      <button class="btn p" onclick="saveItem()">Save</button></div>
+  </div></div>
+
+  <div class="modal" id="catModal"><div class="sheet">
+    <div class="sheet-h"><b>Categories</b><button class="btn" onclick="closeCats()">✕</button></div>
+    <div class="sheet-b">
+      <table><thead><tr><th>Category</th><th>Shows at</th><th class="n">Items</th><th></th></tr></thead>
+      <tbody id="tbCats"></tbody></table>
+      <div style="border-top:1px solid var(--line);margin-top:16px;padding-top:14px">
+        <b style="font-size:13px">Add / edit a category</b>
+        <div class="row">
+          <div><label>ID (letters only)</label><input id="cId" placeholder="desserts">
+               <label>Name shown</label><input id="cTitle" placeholder="Desserts"></div>
+          <div><label>Arabic name</label><input id="cAr" placeholder="حلويات" dir="rtl">
+               <label>Emoji</label><input id="cIcon" placeholder="🍨" maxlength="4"></div>
+        </div>
+        <label>Show this category at</label><div class="inline" id="cDp"></div>
+        <div style="margin-top:14px"><button class="btn p" onclick="saveCat()">Save category</button></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- OFFERS -->
+  <div class="pane" id="p-offers">
+    <div class="row">
+      <div class="panel"><h3>Active offers</h3><div class="cap">Promo codes customers can type at checkout</div>
+        <table><thead><tr><th>Code</th><th>Discount</th><th>Status</th><th></th></tr></thead><tbody id="tbOffers"></tbody></table></div>
+      <div class="panel"><h3>Create / edit an offer</h3><div class="cap">Reusing an existing code updates it</div>
+        <label>Code</label><input id="oCode" placeholder="MADEX10" style="text-transform:uppercase">
+        <label>Type</label><select id="oType"><option value="pct">Percent off (%)</option><option value="flat">Fixed amount off (AED)</option></select>
+        <label>Value</label><input id="oVal" type="number" placeholder="10">
+        <label>Expiry (optional)</label><input id="oExp" type="date">
+        <label>Note shown to customer</label><input id="oNote" placeholder="10% off food">
+        <div class="inline" style="margin-top:14px"><span class="sw on" id="oActive" onclick="this.classList.toggle('on')"><i></i></span>
+          <span style="font-size:12.5px;color:var(--dim)">Active</span>
+          <span class="spacer"></span><button class="btn p" onclick="saveOffer()">Save offer</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESTAURANTS (admin) -->
+  <div class="pane" id="p-tenants">
+    <div class="warn"><b>Kill switch.</b> Pausing a restaurant makes its order pages show “temporarily unavailable” within a minute. Use it for non-payment or at the end of a trial. Their data is never deleted.</div>
+    <div class="panel"><h3>Restaurants</h3><div class="cap">Every client on Madex Wavies</div>
+      <table><thead><tr><th>Restaurant</th><th>Plan</th><th class="n">Fee</th><th>Expiry</th><th>Owner</th><th>Status</th><th></th></tr></thead>
+      <tbody id="tbTenants"></tbody></table></div>
+    <div class="panel"><h3>Add / edit a restaurant</h3><div class="cap">Reusing an ID updates that record</div>
+      <div class="row">
+        <div><label>Chain ID (lowercase, no spaces)</label><input id="tId" placeholder="mashad">
+          <label>Display name</label><input id="tName" placeholder="Mashad Restaurant">
+          
+          <label>Notes</label><input id="tNotes"></div>
+        <div><label>Plan</label><input id="tPlan" placeholder="trial / monthly">
+          <label>Monthly fee (AED)</label><input id="tFee" type="number" placeholder="149">
+          <label>Expiry</label><input id="tExp" type="date">
+          <label>Owner name</label><input id="tOwner">
+          <label>Owner phone</label><input id="tPhone" placeholder="9715…"></div>
+      </div>
+      <div style="margin-top:14px"><button class="btn p" onclick="saveTenant()">Save restaurant</button></div>
+    </div>
+  </div>
+
+  <!-- USERS (admin) -->
+  <div class="pane" id="p-users">
+    <div class="panel"><h3>Logins</h3><div class="cap">Owners see only their own restaurant. New logins start with password <b>00711</b>.</div>
+      <table><thead><tr><th>Username</th><th>Name</th><th>Role</th><th>Restaurant</th><th>Status</th><th></th></tr></thead>
+      <tbody id="tbUsers"></tbody></table></div>
+    <div class="panel"><h3>Create / edit a login</h3>
+      <div class="cap">Leave password blank when editing to keep the current one</div>
+      <div class="row">
+        <div><label>Username</label><input id="uUser" autocomplete="off">
+          <label>Full name</label><input id="uName">
+          <label>Password</label><input id="uPass" type="text" placeholder="00711 (default)" autocomplete="new-password"></div>
+        <div><label>Role</label><select id="uRole" onchange="document.getElementById('uChain').disabled=this.value==='admin'">
+            <option value="owner">Owner — one restaurant only</option>
+            <option value="admin">Admin — full control</option></select>
+          <label>Restaurant</label><select id="uChain"></select>
+          <label>Active</label><select id="uActive"><option value="yes">Yes</option><option value="no">No — blocked</option></select></div>
+      </div>
+      <div style="margin-top:14px"><button class="btn p" onclick="saveUser()">Save login</button></div>
+    </div>
+  </div>
+
+
+  <!-- BRANCHES -->
+  <div class="pane" id="p-branches">
+    <div class="panel"><h3>Branches</h3>
+      <div class="cap">Change a branch name, its WhatsApp number or its hours. Live on the customer page within a minute.</div>
+      <table><thead><tr><th>Branch</th><th>WhatsApp</th><th>Hours</th><th>Live</th><th></th></tr></thead>
+      <tbody id="tbBranches"></tbody></table></div>
+    <div class="panel"><h3>Add / edit a branch</h3>
+      <div class="cap">Reusing a branch ID updates it</div>
+      <div class="row">
+        <div><label>Branch ID (lowercase, no spaces)</label><input id="bId" placeholder="alqusais">
+             <label>Branch name</label><input id="bName" placeholder="Al Qusais 2 — Al Nahda St"></div>
+        <div><label>WhatsApp (9715XXXXXXXX)</label><input id="bWa" placeholder="971552794604">
+             <label>Opening hours</label><input id="bHours" placeholder="11:00 AM – 12:00 AM"></div>
+      </div>
+      <div style="margin-top:14px"><button class="btn p" onclick="saveBranch()">Save branch</button></div>
+    </div>
+  </div>
+
+  <!-- REWARDS -->
+  <div class="pane" id="p-rewards">
+    <div class="warn"><b>The margin model.</b> A customer at AED 33 is shown “add AED 7 more and get a juice for AED 5 instead of 12”. They spend 7 more on food to save 7 on a drink — and the drink is your highest-margin line. Build the ladder with drinks and desserts, never with meat.</div>
+    <div class="row">
+      <div class="panel"><h3>Reward ladder</h3><div class="cap">Lowest spend first</div>
+        <table><thead><tr><th>Spend</th><th>Reward</th><th>Deal price</th><th>Live</th><th></th></tr></thead>
+        <tbody id="tbRewards"></tbody></table></div>
+      <div class="panel"><h3>Add / edit a step</h3><div class="cap">Reusing a spend amount updates that step</div>
+        <label>When the basket reaches (AED)</label><input id="rMin" type="number" placeholder="40">
+        <label>Reward item</label><select id="rItem"></select>
+        <label>They pay only (AED)</label><input id="rPrice" type="number" step="0.5" placeholder="5">
+        <div id="rHint" class="cap" style="margin-top:8px"></div>
+        <label>Wording on the customer page</label><input id="rLabel" placeholder="Spend AED 40 → any juice for AED 5">
+        <div class="inline" style="margin-top:14px"><span class="sw on" id="rActive" onclick="this.classList.toggle('on')"><i></i></span>
+          <span style="font-size:12.5px;color:var(--dim)">Active</span><span class="spacer"></span>
+          <button class="btn p" onclick="saveReward()">Save step</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERRORS (admin) -->
+  <div class="pane" id="p-errors">
+    <div class="panel"><h3>Error inbox</h3>
+      <div class="cap">Anything that breaks — on a customer page, this portal or the backend — lands here and is emailed to <b id="adminMail">the admin</b>. Repeats within 30 minutes are not re-emailed.</div>
+      <div class="inline" style="margin-bottom:12px">
+        <button class="btn" onclick="loadErrors()">↻ Refresh</button>
+        <button class="btn g" onclick="testAlert()">✉ Send test alert</button>
+        <button class="btn d" onclick="clearErrors()">Clear all</button></div>
+      <div style="max-height:520px;overflow:auto">
+      <table><thead><tr><th>When</th><th>Where</th><th>Shop</th><th>Branch</th><th>What went wrong</th><th>Emailed</th></tr></thead>
+      <tbody id="tbErrors"></tbody></table></div></div>
+  </div>
+
+  <!-- HEALTH (admin) -->
+  <div class="pane" id="p-health">
+    <div class="panel"><h3>System health</h3>
+      <div class="cap">Checks every connection: customer page → orders sheet → portal → admin</div>
+      <div class="inline" style="margin-bottom:12px"><button class="btn p" onclick="loadHealth()">Run check</button></div>
+      <div id="healthOut"></div></div>
+  </div>
+
+  <!-- EXPORT -->
+  <div class="pane" id="p-export">
+    <div class="panel"><h3>Export</h3><div class="cap">Opens in Excel, Numbers or Google Sheets</div>
+      <div class="inline" style="margin-top:6px">
+        <button class="btn p" onclick="exportCsv('view')">⤓ Current view (CSV)</button>
+        <button class="btn" onclick="exportCsv('all')">⤓ All orders (CSV)</button>
+        <button class="btn" onclick="exportCsv('excel')">⤓ Excel (.xls)</button>
+      </div>
+      <div class="cap" style="margin-top:14px">Rows in view: <b id="expCount">0</b></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="pane" id="p-settings">
+    <div class="panel" style="max-width:440px"><h3>Change my password</h3>
+      <div class="cap">You'll stay signed in</div>
+      <label>Current password</label><input id="pwOld" type="password" autocomplete="current-password">
+      <label>New password</label><input id="pwNew" type="password" autocomplete="new-password">
+      <label>Repeat new password</label><input id="pwNew2" type="password" autocomplete="new-password">
+      <div style="margin-top:14px"><button class="btn p" onclick="changePw()">Update password</button></div>
+      <div class="msg" id="pwMsg"></div>
+    </div>
+  </div>
+
+  <!-- AUDIT (admin) -->
+  <div class="pane" id="p-audit">
+    <div class="panel"><h3>Activity log</h3><div class="cap">Every change, who made it, when</div>
+      <div style="max-height:520px;overflow:auto">
+      <table><thead><tr><th>When</th><th>User</th><th>Role</th><th>Action</th><th>Detail</th></tr></thead>
+      <tbody id="tbAudit"></tbody></table></div></div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   MADEX WAVIES — PORTAL
+   Owner  → sees and edits ONLY their own restaurant
+   Admin  → sees everything, plus restaurants, logins, kill switch, audit
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const CONTROL_URL = "api/index.php";   // your own server
+
+let ME=null, TOK=null, TENANTS=[], CHAIN="", ORDERS=[], RANGE=7;
+let chRev=null, chDay=null;
+
+/* ---------- transport ---------- */
+function jsonp(url){
+  return fetch(url,{cache:'no-store'}).then(r=>r.json());
+}
+function api(action,params){
+  const q=Object.assign({action:action,token:TOK},params||{});
+  const qs=Object.keys(q).filter(k=>q[k]!==undefined&&q[k]!==null)
+            .map(k=>encodeURIComponent(k)+'='+encodeURIComponent(q[k])).join('&');
+  return jsonp(CONTROL_URL+'?'+qs);
+}
+const toast=m=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200)};
+const showErr=m=>document.getElementById('err').innerHTML=m?'<div class="err">'+esc(m)+'</div>':'';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AED=v=>'AED '+(+v||0).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+/* ---------- login ---------- */
+async function doLogin(){
+  const u=document.getElementById('lu').value.trim(), p=document.getElementById('lp').value;
+  const m=document.getElementById('lmsg');
+  if(!u||!p){m.textContent='Enter username and password';return}
+  if(CONTROL_URL.indexOf('PASTE_')===0){m.textContent='CONTROL_URL not set in portal.html';return}
+  m.textContent='Signing in…'; m.className='msg';
+  try{
+    const r=await jsonp(CONTROL_URL+'?action=login&username='+encodeURIComponent(u)+
+                        '&password='+encodeURIComponent(p));
+    if(r.error){m.textContent=r.error;m.className='msg e';return}
+    TOK=r.token; ME={username:r.username,role:r.role,chainId:r.chainId,name:r.name};
+    try{sessionStorage.setItem('mwtok',TOK)}catch(e){}
+    document.getElementById('login').style.display='none';
+    boot();
+  }catch(e){m.textContent='Cannot reach the control script — check CONTROL_URL and that it is deployed for "Anyone".';m.className='msg e'}
+}
+document.getElementById('lp').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+async function logout(){ try{await api('logout')}catch(e){} try{sessionStorage.removeItem('mwtok')}catch(e){} location.reload(); }
+
+/* ---------- boot ---------- */
+const TABS=[['dash','Dashboard'],['menu','Menu'],['branches','Branches'],['offers','Offers'],
+            ['rewards','Rewards'],['tenants','Restaurants',1],['users','Logins',1],
+            ['errors','Errors',1],['health','Health',1],
+            ['export','Export'],['settings','Settings'],['audit','Activity',1]];
+
+async function boot(){
+  const r=await api('me');
+  if(r.error){ showErr(r.error); return; }
+  ME=r.me; TENANTS=r.tenants||[];
+  document.getElementById('who').textContent=ME.name||ME.username;
+  const rt=document.getElementById('roleTag');
+  rt.textContent=ME.role==='admin'?'SUPER ADMIN':'OWNER';
+  rt.className='role '+(ME.role==='admin'?'r-admin':'r-owner');
+
+  const cs=document.getElementById('chainSel'); cs.innerHTML='';
+  TENANTS.forEach(t=>cs.add(new Option(t.name+(t.status!=='live'?'  ·  PAUSED':''),t.chainId)));
+  cs.style.display=TENANTS.length>1?'':'none';
+  CHAIN=TENANTS.length?TENANTS[0].chainId:'';
+
+  const tb=document.getElementById('tabs'); tb.innerHTML='';
+  TABS.filter(t=>!t[2]||ME.role==='admin').forEach(([id,label],i)=>{
+    const b=document.createElement('button'); b.textContent=label; if(i===0)b.classList.add('on');
+    b.onclick=()=>{[...tb.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');
+      document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+      document.getElementById('p-'+id).classList.add('on'); onTab(id)};
+    tb.appendChild(b);
+  });
+
+  const rs=document.getElementById('rangeSeg'); rs.innerHTML='';
+  [[1,'Today'],[7,'7 days'],[30,'30 days'],[0,'All']].forEach(([v,l])=>{
+    const b=document.createElement('button'); b.className='btn'+(v===7?' p':''); b.textContent=l;
+    b.onclick=()=>{RANGE=v;[...rs.children].forEach(x=>x.className='btn');b.className='btn p';renderDash()};
+    rs.appendChild(b);
+  });
+
+  switchChain();
+}
+try{ const t=sessionStorage.getItem('mwtok');
+     if(t){TOK=t;document.getElementById('login').style.display='none';boot();} }catch(e){}
+
+function onTab(id){
+  if(id==='tenants') renderTenants();
+  if(id==='users')   loadUsers();
+  if(id==='audit')   loadAudit();
+  if(id==='offers')   loadOffers();
+  if(id==='menu')     renderMenu();
+  if(id==='branches') loadBranches();
+  if(id==='rewards')  loadRewards();
+  if(id==='errors')   loadErrors();
+  if(id==='health')   loadHealth();
+}
+
+async function switchChain(){
+  CHAIN=document.getElementById('chainSel').value||CHAIN;
+  showErr('');
+  const t=TENANTS.find(x=>x.chainId===CHAIN);
+  if(t && t.status!=='live') showErr('This restaurant is currently PAUSED — its order pages are offline.');
+  await Promise.all([loadOverrides(), loadOrders()]);
+  loadOffers(); loadBranches(); loadRewards();
+}
+
+
+/* ---------- orders ---------- */
+async function loadOrders(){
+  ORDERS=[];
+  try{
+    const d=await api('orders',{chain:CHAIN});
+    if(d.error) showErr('Orders: '+d.error);
+    ORDERS=(d.orders||[]).sort((a,b)=>String(b.ts).localeCompare(String(a.ts)));
+  }catch(e){ showErr('Could not reach the server.'); }
+  const bs=[...new Set(ORDERS.map(o=>o.branch))].sort();
+  const s=document.getElementById('branchSel'); const keep=s.value;
+  s.innerHTML='<option value="">All branches</option>'; bs.forEach(b=>s.add(new Option(b,b)));
+  if(bs.includes(keep)) s.value=keep;
+  renderDash();
+}
+function view(){
+  const br=document.getElementById('branchSel').value;
+  let r=ORDERS.filter(o=>!br||o.branch===br);
+  if(RANGE>0){ const c=new Date(); c.setHours(0,0,0,0); c.setDate(c.getDate()-(RANGE-1));
+    const k=c.toISOString().slice(0,10); r=r.filter(o=>String(o.ts).slice(0,10)>=k); }
+  return r;
+}
+function renderDash(){
+  const r=view(), rev=r.reduce((s,o)=>s+o.total,0), up=r.reduce((s,o)=>s+o.upRev,0);
+  const shown=r.filter(o=>String(o.upShown).trim()).length, taken=r.filter(o=>String(o.upTaken).trim()).length;
+  const ph={}; r.forEach(o=>{if(o.phone)ph[o.phone]=(ph[o.phone]||0)+1});
+  const uq=Object.keys(ph).length, rp=Object.values(ph).filter(c=>c>1).length;
+  document.getElementById('expCount').textContent=r.length;
+
+  document.getElementById('kpis').innerHTML=[
+    ['Orders',r.length,uq+' unique customers','var(--acc)'],
+    ['Revenue',AED(rev),r.length?AED(rev/Math.max(1,new Set(r.map(o=>String(o.ts).slice(0,10))).size))+' / day':'—','var(--ok)'],
+    ['Avg order',r.length?AED(rev/r.length):'—','per order','var(--acc2)'],
+    ['Repeat rate',uq?(rp/uq*100).toFixed(0)+'%':'—',rp+' returning','var(--warn)'],
+    ['Upsell revenue',AED(up),rev?(up/rev*100).toFixed(1)+'% of total':'—','#FF8A2B'],
+    ['Upsell taken',shown?(taken/shown*100).toFixed(0)+'%':'—',taken+' of '+shown,'var(--bad)']
+  ].map(([l,v,d,c])=>'<div class="kpi" style="--c:'+c+'"><div class="l">'+l+'</div><div class="v">'+v+
+    '</div><div class="d">'+d+'</div></div>').join('');
+
+  const byD={}; r.forEach(o=>{const k=String(o.ts).slice(0,10); byD[k]=(byD[k]||0)+o.total});
+  const days=Object.keys(byD).sort();
+  document.getElementById('revCap').textContent=days.length?days.length+' days with orders':'no data yet';
+  drawLine(days,days.map(d=>+byD[d].toFixed(2)));
+  const ord=['morning','noon','evening','night'], lab={morning:'Breakfast',noon:'Lunch',evening:'Dinner',night:'Late night'};
+  const byP={}; r.forEach(o=>byP[o.daypart]=(byP[o.daypart]||0)+1);
+  drawBars(ord.map(d=>lab[d]),ord.map(d=>byP[d]||0));
+
+  const bA={}; r.forEach(o=>{(bA[o.branch]=bA[o.branch]||{n:0,rev:0});bA[o.branch].n++;bA[o.branch].rev+=o.total});
+  const bs=Object.entries(bA).sort((a,b)=>b[1].rev-a[1].rev);
+  document.getElementById('tbBranch').innerHTML=bs.length?bs.map(([b,v])=>
+    '<tr><td>'+esc(b)+'</td><td class="n">'+v.n+'</td><td class="n">'+AED(v.rev)+'</td><td class="n">'+AED(v.rev/v.n)+'</td></tr>').join('')
+    :'<tr><td colspan="4" class="empty">No orders yet</td></tr>';
+
+  const zA={}; r.forEach(o=>{const z=o.zone||'—';(zA[z]=zA[z]||{n:0,rev:0});zA[z].n++;zA[z].rev+=o.total});
+  const zs=Object.entries(zA).sort((a,b)=>b[1].rev-a[1].rev).slice(0,12);
+  document.getElementById('tbZone').innerHTML=zs.length?zs.map(([z,v])=>
+    '<tr><td>'+esc(z)+'</td><td class="n">'+v.n+'</td><td class="n">'+AED(v.rev)+'</td></tr>').join('')
+    :'<tr><td colspan="3" class="empty">No orders yet</td></tr>';
+
+  const f=r.slice(0,60);
+  document.getElementById('feedCap').textContent=f.length?'newest first · '+r.length+' in view':'no orders yet';
+  document.getElementById('tbFeed').innerHTML=f.length?f.map(o=>
+    '<tr><td>'+esc(String(o.ts).slice(5,16))+'</td><td>'+esc(o.customer)+'<br><small style="color:var(--dim)">'+
+    esc(o.phone)+'</small></td><td>'+esc(o.branch)+'<br><small style="color:var(--dim)">'+esc(o.zone)+
+    '</small></td><td style="max-width:280px">'+esc(o.items)+'</td><td class="n">'+AED(o.total)+'</td></tr>').join('')
+    :'<tr><td colspan="5" class="empty">No orders yet.<br>They appear here the moment a customer sends one.</td></tr>';
+}
+function drawLine(labels,data){
+  const el=document.getElementById('chRev'); if(chRev)chRev.destroy();
+  const g=el.getContext('2d').createLinearGradient(0,0,0,210);
+  g.addColorStop(0,'rgba(124,92,255,.45)'); g.addColorStop(1,'rgba(124,92,255,0)');
+  chRev=new Chart(el,{type:'line',data:{labels,datasets:[{data,fill:true,backgroundColor:g,
+    borderColor:'#7C5CFF',borderWidth:2.5,tension:.35,pointRadius:3}]},options:copts()});
+}
+function drawBars(labels,data){
+  const el=document.getElementById('chDay'); if(chDay)chDay.destroy();
+  chDay=new Chart(el,{type:'bar',data:{labels,datasets:[{data,
+    backgroundColor:['#FFB547','#00D1B2','#7C5CFF','#FF6B5A'],borderRadius:8,barThickness:36}]},options:copts()});
+}
+function copts(){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+  tooltip:{backgroundColor:'#1E1D23',borderColor:'#2A2830',borderWidth:1,padding:10}},
+  scales:{x:{grid:{display:false},ticks:{color:'#8E8A98',font:{size:10}}},
+          y:{grid:{color:'rgba(42,40,48,.6)'},ticks:{color:'#8E8A98',font:{size:10}},beginAtZero:true}}};}
+
+/* ---------- MENU: full add / edit / delete + photo upload ---------- */
+let MENU_DB={}, FLAT=[], CATS=[], editingId=0, imgUrl='';
+
+async function loadOverrides(){ await loadMenu(); }
+
+async function loadMenu(){
+  const r=await api('menu',{chain:CHAIN});
+  if(r.error){ showErr(r.error); MENU_DB={}; FLAT=[]; }
+  else { MENU_DB=r.menu||{}; FLAT=r.flat||[]; }
+  CATS=Object.entries(MENU_DB).map(([id,c])=>({id,title:c.t,ar:c.ar,icon:c.ic,dp:c.dp||[]}));
+  const f=document.getElementById('mCatFilter'), keep=f.value;
+  f.innerHTML='<option value="">All categories</option>';
+  CATS.forEach(c=>f.add(new Option(c.icon+' '+c.title,c.id)));
+  if([...f.options].some(o=>o.value===keep)) f.value=keep;
+  renderMenu();
+}
+
+function renderMenu(){
+  const q=(document.getElementById('mSearch').value||'').toLowerCase();
+  const cf=document.getElementById('mCatFilter').value;
+  const el=document.getElementById('menuList');
+  if(!FLAT.length){ el.innerHTML='<div class="empty">No items yet.<br>Press <b>+ Add item</b> to create the first one.</div>'; return; }
+  const rows=FLAT.filter(i=>(!cf||i.catId===cf)&&(!q||i.name.toLowerCase().includes(q)||String(i.nameAr).includes(q)));
+  if(!rows.length){ el.innerHTML='<div class="empty">Nothing matches that search.</div>'; return; }
+  let html='', lastCat='';
+  rows.forEach(i=>{
+    if(i.catId!==lastCat){
+      const c=CATS.find(x=>x.id===i.catId);
+      html+='<div class="cat-h">'+(c?esc(c.icon+' '+c.title):esc(i.catId))+'</div>'; lastCat=i.catId;
+    }
+    html+='<div class="mi-row" onclick="editItem('+i.id+')">'+
+      (i.photo?'<img src="'+esc(i.photo)+'" onerror="this.outerHTML=\'<div class=noimg>🍽️</div>\'">':'<div class="noimg">🍽️</div>')+
+      '<div class="t"><b>'+esc(i.name)+(i.popular?' <span class="pill p-live">POPULAR</span>':'')+
+      (i.available==='no'?' <span class="pill p-paused">SOLD OUT</span>':'')+'</b>'+
+      '<small>'+esc(i.nameAr||'')+'</small></div>'+
+      '<div class="pr">AED '+i.price.toFixed(2)+'</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+function fillCatSelect(sel,val){
+  sel.innerHTML=''; CATS.forEach(c=>sel.add(new Option(c.icon+' '+c.title,c.id)));
+  if(val) sel.value=val;
+}
+function newItem(){
+  editingId=0; imgUrl='';
+  document.getElementById('imTitle').textContent='Add item';
+  ['imName','imAr','imPrice'].forEach(i=>document.getElementById(i).value='');
+  fillCatSelect(document.getElementById('imCat'), document.getElementById('mCatFilter').value);
+  document.getElementById('imPop').classList.remove('on');
+  document.getElementById('imAvail').classList.add('on');
+  document.getElementById('imDelete').style.display='none';
+  setPhotoPreview(''); document.getElementById('itemModal').classList.add('on');
+}
+function editItem(id){
+  const i=FLAT.find(x=>x.id===id); if(!i) return;
+  editingId=id; imgUrl=i.photo||'';
+  document.getElementById('imTitle').textContent='Edit item';
+  document.getElementById('imName').value=i.name;
+  document.getElementById('imAr').value=i.nameAr||'';
+  document.getElementById('imPrice').value=i.price;
+  fillCatSelect(document.getElementById('imCat'), i.catId);
+  document.getElementById('imPop').classList.toggle('on', !!i.popular);
+  document.getElementById('imAvail').classList.toggle('on', i.available!=='no');
+  document.getElementById('imDelete').style.display='';
+  setPhotoPreview(imgUrl); document.getElementById('itemModal').classList.add('on');
+}
+function closeItem(){ document.getElementById('itemModal').classList.remove('on'); }
+function setPhotoPreview(url){
+  const img=document.getElementById('imPhoto'), empty=document.getElementById('imPhotoEmpty');
+  if(url){ img.src=url; img.classList.add('on'); empty.style.display='none'; }
+  else { img.classList.remove('on'); img.removeAttribute('src'); empty.style.display=''; }
+}
+function clearPhoto(){ imgUrl=''; setPhotoPreview(''); }
+
+async function uploadPhoto(input){
+  const f=input.files&&input.files[0]; if(!f) return;
+  const busy=document.getElementById('imPhotoBusy'); busy.classList.add('on');
+  try{
+    const fd=new FormData();
+    fd.append('photo',f); fd.append('action','uploadPhoto');
+    fd.append('chain',CHAIN); fd.append('token',TOK);
+    fd.append('name',document.getElementById('imName').value||'dish');
+    const r=await fetch(CONTROL_URL,{method:'POST',body:fd}).then(x=>x.json());
+    if(r.error) showErr(r.error);
+    else { imgUrl=r.url; setPhotoPreview(imgUrl+'?v='+Date.now()); toast('Photo uploaded'); }
+  }catch(e){ showErr('Upload failed — try a smaller image'); }
+  busy.classList.remove('on'); input.value='';
+}
+
+async function saveItem(){
+  const name=document.getElementById('imName').value.trim();
+  const price=document.getElementById('imPrice').value;
+  if(!name) return showErr('Item name is required');
+  if(price==='') return showErr('Price is required');
+  const r=await api('saveItem',{chain:CHAIN,id:editingId,name:name,
+    nameAr:document.getElementById('imAr').value.trim(), price:price,
+    catId:document.getElementById('imCat').value, photo:imgUrl,
+    popular:document.getElementById('imPop').classList.contains('on')?1:0,
+    available:document.getElementById('imAvail').classList.contains('on')?'yes':'no'});
+  if(r.error) return showErr(r.error);
+  toast(editingId?'Item updated':'Item added'); closeItem(); loadMenu();
+}
+async function deleteItem(){
+  const i=FLAT.find(x=>x.id===editingId); if(!i) return;
+  if(!confirm('Delete "'+i.name+'" from the menu?\n\nCustomers will no longer see it.')) return;
+  const r=await api('deleteItem',{chain:CHAIN,id:editingId});
+  if(r.error) return showErr(r.error);
+  toast('Item deleted'); closeItem(); loadMenu();
+}
+
+const DAYPARTS=[['morning','Breakfast'],['noon','Lunch'],['evening','Dinner'],['night','Late night']];
+function showCats(){
+  const dp=document.getElementById('cDp'); dp.innerHTML='';
+  DAYPARTS.forEach(([v,l])=>{
+    const b=document.createElement('button'); b.className='btn'; b.dataset.v=v; b.textContent=l;
+    b.onclick=()=>b.classList.toggle('p'); dp.appendChild(b);
+  });
+  document.getElementById('tbCats').innerHTML=CATS.map(c=>{
+    const n=FLAT.filter(i=>i.catId===c.id).length;
+    return '<tr><td><b>'+esc(c.icon+' '+c.title)+'</b><br><small style="color:var(--dim)">'+esc(c.id)+'</small></td>'+
+      '<td><small>'+c.dp.map(d=>(DAYPARTS.find(x=>x[0]===d)||[,d])[1]).join(', ')+'</small></td>'+
+      '<td class="n">'+n+'</td>'+
+      '<td class="inline"><button class="btn" onclick="editCat(\''+esc(c.id)+'\')">Edit</button>'+
+      '<button class="btn d" onclick="delCat(\''+esc(c.id)+'\')">Delete</button></td></tr>';
+  }).join('')||'<tr><td colspan="4" class="empty">No categories yet</td></tr>';
+  document.getElementById('catModal').classList.add('on');
+}
+function closeCats(){ document.getElementById('catModal').classList.remove('on'); }
+function editCat(id){
+  const c=CATS.find(x=>x.id===id); if(!c) return;
+  document.getElementById('cId').value=c.id;
+  document.getElementById('cTitle').value=c.title;
+  document.getElementById('cAr').value=c.ar||'';
+  document.getElementById('cIcon').value=c.icon||'';
+  [...document.getElementById('cDp').children].forEach(b=>b.classList.toggle('p', c.dp.includes(b.dataset.v)));
+}
+async function saveCat(){
+  const id=document.getElementById('cId').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  const title=document.getElementById('cTitle').value.trim();
+  if(!id||!title) return showErr('Category ID and name are required');
+  const dp=[...document.getElementById('cDp').children].filter(b=>b.classList.contains('p')).map(b=>b.dataset.v);
+  const r=await api('saveCategory',{chain:CHAIN,catId:id,title:title,
+    titleAr:document.getElementById('cAr').value.trim(),
+    icon:document.getElementById('cIcon').value.trim()||'🍽️',
+    dayparts:(dp.length?dp:['morning','noon','evening','night']).join(',')});
+  if(r.error) return showErr(r.error);
+  toast('Category saved');
+  ['cId','cTitle','cAr','cIcon'].forEach(i=>document.getElementById(i).value='');
+  await loadMenu(); showCats();
+}
+async function delCat(id){
+  if(!confirm('Delete the category "'+id+'"?')) return;
+  const r=await api('deleteCategory',{chain:CHAIN,catId:id});
+  if(r.error) return showErr(r.error);
+  toast('Category deleted'); await loadMenu(); showCats();
+}
+
+/* ---------- offers ---------- */
+async function loadOffers(){
+  const r=await api('offers',{chain:CHAIN});
+  const list=r.error?[]:(r.offers||[]);
+  document.getElementById('tbOffers').innerHTML=list.length?list.map(o=>
+    '<tr><td><b>'+esc(o.code)+'</b><br><small style="color:var(--dim)">'+esc(o.note||'')+'</small></td>'+
+    '<td>'+(o.type==='flat'?AED(o.value):o.value+'%')+'</td>'+
+    '<td><span class="pill '+(String(o.active).toLowerCase()==='yes'?'p-live':'p-off')+'">'+
+      (String(o.active).toLowerCase()==='yes'?'ACTIVE':'OFF')+'</span></td>'+
+    '<td><button class="btn d" onclick="delOffer(\''+esc(o.code)+'\')">Delete</button></td></tr>').join('')
+    :'<tr><td colspan="4" class="empty">No offers yet</td></tr>';
+}
+async function saveOffer(){
+  const code=document.getElementById('oCode').value.trim().toUpperCase();
+  if(!code) return showErr('Enter a promo code');
+  const r=await api('saveOffer',{chain:CHAIN,code:code,
+    type:document.getElementById('oType').value, value:document.getElementById('oVal').value||0,
+    active:document.getElementById('oActive').classList.contains('on')?'yes':'no',
+    expiry:document.getElementById('oExp').value, note:document.getElementById('oNote').value});
+  if(r.error) return showErr(r.error);
+  toast('Offer saved'); document.getElementById('oCode').value=''; loadOffers();
+}
+async function delOffer(code){
+  if(!confirm('Delete offer '+code+'?')) return;
+  const r=await api('deleteOffer',{chain:CHAIN,code:code});
+  if(r.error) return showErr(r.error);
+  toast('Offer deleted'); loadOffers();
+}
+
+/* ---------- tenants (admin) ---------- */
+function renderTenants(){
+  document.getElementById('tbTenants').innerHTML=TENANTS.map(t=>{
+    const live=t.status==='live';
+    return '<tr><td><b>'+esc(t.name)+'</b><br><small style="color:var(--dim)">'+esc(t.chainId)+'</small></td>'+
+    '<td>'+esc(t.plan||'—')+'</td><td class="n">'+(t.fee?AED(t.fee):'—')+'</td><td>'+esc(t.expiry||'—')+'</td>'+
+    '<td>'+esc(t.ownerName||'—')+'<br><small style="color:var(--dim)">'+esc(t.ownerPhone||'')+'</small></td>'+
+    '<td><span class="pill '+(live?'p-live':'p-paused')+'">'+(live?'LIVE':'PAUSED')+'</span></td>'+
+    '<td class="inline"><button class="btn '+(live?'d':'g')+'" onclick="setStatus(\''+esc(t.chainId)+'\',\''+
+      (live?'paused':'live')+'\')">'+(live?'Pause':'Go live')+'</button>'+
+    '<button class="btn" onclick="editTenant(\''+esc(t.chainId)+'\')">Edit</button></td></tr>';
+  }).join('')||'<tr><td colspan="7" class="empty">No restaurants yet</td></tr>';
+}
+async function setStatus(chain,status){
+  const t=TENANTS.find(x=>x.chainId===chain);
+  if(status==='paused' && !confirm('Pause '+t.name+'?\n\nAll their order pages go offline within a minute.\nNo data is deleted.')) return;
+  const r=await api('setStatus',{chain:chain,status:status});
+  if(r.error) return showErr(r.error);
+  t.status=status; renderTenants(); toast(t.name+' is now '+status.toUpperCase());
+  const cs=document.getElementById('chainSel');
+  [...cs.options].forEach(o=>{if(o.value===chain)o.text=t.name+(status!=='live'?'  ·  PAUSED':'')});
+}
+function editTenant(id){
+  const t=TENANTS.find(x=>x.chainId===id); if(!t) return;
+  const g=i=>document.getElementById(i);
+  g('tId').value=t.chainId; g('tName').value=t.name; ''.value=t.ordersUrl||'';
+  g('tNotes').value=t.notes||''; g('tPlan').value=t.plan||''; g('tFee').value=t.fee||'';
+  g('tExp').value=t.expiry||''; g('tOwner').value=t.ownerName||''; g('tPhone').value=t.ownerPhone||'';
+  g('tId').scrollIntoView({behavior:'smooth',block:'center'});
+}
+async function saveTenant(){
+  const g=i=>document.getElementById(i).value.trim();
+  const id=g('tId').toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(!id||!g('tName')) return showErr('Chain ID and display name are required');
+  const ex=TENANTS.find(t=>t.chainId===id);
+  const r=await api('saveTenant',{chain:id,name:g('tName'),status:ex?ex.status:'live',
+    plan:g('tPlan'),fee:g('tFee'),expiry:g('tExp'),ownerName:g('tOwner'),
+    ownerPhone:g('tPhone'),notes:g('tNotes')});
+  if(r.error) return showErr(r.error);
+  toast('Restaurant saved'); const m=await api('me'); TENANTS=m.tenants||[]; renderTenants();
+}
+
+/* ---------- users (admin) ---------- */
+async function loadUsers(){
+  const uc=document.getElementById('uChain'); uc.innerHTML='';
+  TENANTS.forEach(t=>uc.add(new Option(t.name,t.chainId)));
+  const r=await api('users'); if(r.error) return showErr(r.error);
+  document.getElementById('tbUsers').innerHTML=(r.users||[]).map(u=>
+    '<tr><td><b>'+esc(u.username)+'</b></td><td>'+esc(u.name||'—')+'</td>'+
+    '<td><span class="pill '+(u.role==='admin'?'p-live':'p-off')+'">'+esc(String(u.role).toUpperCase())+'</span></td>'+
+    '<td>'+esc(u.role==='admin'?'All':(TENANTS.find(t=>t.chainId===u.chainId)||{}).name||u.chainId||'—')+'</td>'+
+    '<td><span class="pill '+(String(u.active).toLowerCase()==='yes'?'p-live':'p-paused')+'">'+
+      (String(u.active).toLowerCase()==='yes'?'ACTIVE':'BLOCKED')+'</span></td>'+
+    '<td class="inline"><button class="btn" onclick="resetPw(\''+esc(u.username)+'\')">Set password</button>'+
+    '<button class="btn" onclick="resetDefault(\''+esc(u.username)+'\')">→ 00711</button>'+
+    '<button class="btn '+(String(u.active).toLowerCase()==='yes'?'d':'g')+'" onclick="toggleUser(\''+
+      esc(u.username)+'\',\''+esc(u.role)+'\',\''+esc(u.chainId)+'\',\''+esc(u.name||'')+'\','+
+      (String(u.active).toLowerCase()==='yes'?'false':'true')+')">'+
+      (String(u.active).toLowerCase()==='yes'?'Block':'Unblock')+'</button></td></tr>').join('')
+    ||'<tr><td colspan="6" class="empty">No logins yet</td></tr>';
+}
+async function saveUser(){
+  const g=i=>document.getElementById(i).value.trim();
+  if(!g('uUser')) return showErr('Username is required');
+  const role=document.getElementById('uRole').value;
+  const r=await api('saveUser',{username:g('uUser'),name:g('uName'),password:g('uPass'),
+    role:role, chainId:role==='admin'?'*':document.getElementById('uChain').value,
+    active:document.getElementById('uActive').value});
+  if(r.error) return showErr(r.error);
+  toast('Login saved'); document.getElementById('uPass').value=''; loadUsers();
+}
+async function toggleUser(username,role,chainId,name,activate){
+  const r=await api('saveUser',{username,role,chainId,name,active:activate?'yes':'no'});
+  if(r.error) return showErr(r.error);
+  toast(activate?'Login unblocked':'Login blocked'); loadUsers();
+}
+async function resetDefault(username){
+  if(!confirm('Reset '+username+' back to the default password 00711?')) return;
+  const r=await api('resetToDefault',{target:username});
+  if(r.error) return showErr(r.error);
+  toast(username+' password is now 00711');
+}
+async function resetPw(username){
+  const p=prompt('Set a new password for '+username+':\n\n(leave blank and press OK to skip)','00711');
+  if(!p) return;
+  const r=await api('changePassword',{target:username,newPassword:p});
+  if(r.error) return showErr(r.error);
+  toast('Password reset — tell them the new one');
+}
+
+/* ---------- my password ---------- */
+async function changePw(){
+  const m=document.getElementById('pwMsg');
+  const a=document.getElementById('pwNew').value, b=document.getElementById('pwNew2').value;
+  if(a!==b){m.textContent='New passwords do not match';m.className='msg e';return}
+  if(a.length<4){m.textContent='Password must be at least 4 characters';m.className='msg e';return}
+  const r=await api('changePassword',{oldPassword:document.getElementById('pwOld').value,newPassword:a});
+  if(r.error){m.textContent=r.error;m.className='msg e';return}
+  m.textContent='Password updated'; m.className='msg o';
+  ['pwOld','pwNew','pwNew2'].forEach(i=>document.getElementById(i).value='');
+}
+
+/* ---------- audit ---------- */
+async function loadAudit(){
+  const r=await api('audit'); if(r.error) return showErr(r.error);
+  document.getElementById('tbAudit').innerHTML=(r.audit||[]).map(a=>
+    '<tr><td>'+esc(a.ts)+'</td><td>'+esc(a.user)+'</td>'+
+    '<td><span class="pill '+(a.role==='admin'?'p-live':'p-off')+'">'+esc(String(a.role).toUpperCase())+'</span></td>'+
+    '<td>'+esc(a.action)+'</td><td>'+esc(a.detail)+'</td></tr>').join('')
+    ||'<tr><td colspan="5" class="empty">Nothing logged yet</td></tr>';
+}
+
+
+/* ---------- BRANCHES ---------- */
+let BRANCHES=[];
+async function loadBranches(){
+  const r=await api('branches',{chain:CHAIN});
+  if(r.error){ showErr(r.error); BRANCHES=[]; } else BRANCHES=r.branches||[];
+  document.getElementById('tbBranches').innerHTML=BRANCHES.length?BRANCHES.map(b=>{
+    const live=String(b.active).toLowerCase()!=='no';
+    const bad=!/^9715[0-9]{8}$/.test(String(b.wa));
+    return '<tr><td><b>'+esc(b.name)+'</b><br><small style="color:var(--dim)">'+esc(b.branchId)+'</small></td>'+
+      '<td>'+(bad?'<span class="pill p-paused">'+esc(b.wa||'not set')+'</span><br><small style="color:#FF9E92">not a mobile — WhatsApp will fail</small>'
+                 :esc(b.wa))+'</td>'+
+      '<td>'+esc(b.hours||'—')+'</td>'+
+      '<td><span class="pill '+(live?'p-live':'p-off')+'">'+(live?'LIVE':'OFF')+'</span></td>'+
+      '<td class="inline"><button class="btn" onclick="editBranch(\''+esc(b.branchId)+'\')">Edit</button>'+
+      '<button class="btn '+(live?'d':'g')+'" onclick="toggleBranch(\''+esc(b.branchId)+'\','+(live?'false':'true')+')">'+
+      (live?'Turn off':'Turn on')+'</button></td></tr>';
+  }).join(''):'<tr><td colspan="5" class="empty">No branches saved yet</td></tr>';
+}
+function editBranch(id){
+  const b=BRANCHES.find(x=>String(x.branchId)===String(id)); if(!b) return;
+  document.getElementById('bId').value=b.branchId; document.getElementById('bName').value=b.name;
+  document.getElementById('bWa').value=b.wa; document.getElementById('bHours').value=b.hours||'';
+  document.getElementById('bId').scrollIntoView({behavior:'smooth',block:'center'});
+}
+async function saveBranch(){
+  const g=i=>document.getElementById(i).value.trim();
+  const id=g('bId').toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(!id||!g('bName')) return showErr('Branch ID and name are required');
+  const ex=BRANCHES.find(x=>String(x.branchId)===id);
+  const r=await api('saveBranch',{chain:CHAIN,branchId:id,name:g('bName'),wa:g('bWa'),
+    hours:g('bHours'),active:ex?ex.active:'yes'});
+  if(r.error) return showErr(r.error);
+  toast('Branch saved'); loadBranches();
+}
+async function toggleBranch(id,on){
+  const b=BRANCHES.find(x=>String(x.branchId)===String(id)); if(!b) return;
+  const r=await api('saveBranch',{chain:CHAIN,branchId:id,name:b.name,wa:b.wa,hours:b.hours,
+    active:on?'yes':'no'});
+  if(r.error) return showErr(r.error);
+  toast(on?'Branch is live':'Branch turned off'); loadBranches();
+}
+
+/* ---------- REWARD LADDER ---------- */
+let REWARDS=[];
+async function loadRewards(){
+  const sel=document.getElementById('rItem');
+  const items=FLAT.map(i=>({n:i.name,p:i.price,c:(CATS.find(c=>c.id===i.catId)||{}).title||''}));
+  sel.innerHTML='';
+  const drinky=items.filter(i=>/drink|juice|shake|mojito|cold|dessert|falooda|tea|karak/i.test(i.c));
+  const rest  =items.filter(i=>drinky.indexOf(i)<0);
+  if(drinky.length){ const g=document.createElement('optgroup'); g.label='Best margin — drinks & desserts';
+    drinky.forEach(i=>g.appendChild(new Option(i.n+'  ·  AED '+i.p, i.n))); sel.appendChild(g); }
+  if(rest.length){ const g=document.createElement('optgroup'); g.label='Everything else';
+    rest.forEach(i=>g.appendChild(new Option(i.n+'  ·  AED '+i.p, i.n))); sel.appendChild(g); }
+  sel.onchange=rewardHint; document.getElementById('rPrice').oninput=rewardHint;
+  document.getElementById('rMin').oninput=rewardHint; rewardHint();
+
+  const r=await api('rewards',{chain:CHAIN});
+  REWARDS = r.error ? [] : (r.rewards||[]);
+  document.getElementById('tbRewards').innerHTML=REWARDS.length?REWARDS.map(x=>{
+    const it=FLAT.map(i=>({n:i.name,p:i.price})).find(i=>i.n===x.item);
+    const save=it?Math.max(0,it.p-(+x.dealPrice)):0;
+    const live=String(x.active).toLowerCase()!=='no';
+    return '<tr><td><b>AED '+x.minSpend+'</b></td><td>'+esc(x.item)+
+      (it?'<br><small style="color:var(--dim)">normally AED '+it.p+'</small>':'')+'</td>'+
+      '<td>AED '+x.dealPrice+(save?'<br><small style="color:#6FE0A8">saves AED '+save.toFixed(2)+'</small>':'')+'</td>'+
+      '<td><span class="pill '+(live?'p-live':'p-off')+'">'+(live?'ON':'OFF')+'</span></td>'+
+      '<td><button class="btn d" onclick="delReward('+x.minSpend+')">Delete</button></td></tr>';
+  }).join(''):'<tr><td colspan="5" class="empty">No reward steps yet</td></tr>';
+}
+function rewardHint(){
+  const n=document.getElementById('rItem').value;
+  const it=FLAT.map(i=>({n:i.name,p:i.price})).find(i=>i.n===n);
+  const dp=parseFloat(document.getElementById('rPrice').value);
+  const min=parseFloat(document.getElementById('rMin').value);
+  const h=document.getElementById('rHint');
+  if(!it||isNaN(dp)){ h.textContent=''; return; }
+  const save=Math.max(0,it.p-dp);
+  h.innerHTML='Normally <b>AED '+it.p+'</b> → customer pays <b>AED '+dp+'</b>, saving <b>AED '+save.toFixed(2)+'</b>.'+
+    (!isNaN(min)?' They must add up to <b>AED '+min+'</b> of food to earn it.':'');
+  if(!document.getElementById('rLabel').value && !isNaN(min))
+    document.getElementById('rLabel').value='Spend AED '+min+' → '+n+' for AED '+dp;
+}
+async function saveReward(){
+  const min=document.getElementById('rMin').value, item=document.getElementById('rItem').value;
+  const dp=document.getElementById('rPrice').value;
+  if(!min||!item||dp==='') return showErr('Fill spend amount, reward item and deal price');
+  const r=await api('saveReward',{chain:CHAIN,minSpend:min,item:item,dealPrice:dp,
+    label:document.getElementById('rLabel').value,
+    active:document.getElementById('rActive').classList.contains('on')?'yes':'no'});
+  if(r.error) return showErr(r.error);
+  toast('Reward step saved');
+  ['rMin','rPrice','rLabel'].forEach(i=>document.getElementById(i).value='');
+  loadRewards();
+}
+async function delReward(min){
+  if(!confirm('Delete the AED '+min+' reward step?')) return;
+  const r=await api('deleteReward',{chain:CHAIN,minSpend:min});
+  if(r.error) return showErr(r.error);
+  toast('Step deleted'); loadRewards();
+}
+
+/* ---------- ERRORS ---------- */
+async function loadErrors(){
+  const r=await api('errors'); if(r.error) return showErr(r.error);
+  const list=r.errors||[];
+  document.getElementById('tbErrors').innerHTML=list.length?list.map(e=>
+    '<tr><td>'+esc(e.ts)+'</td><td>'+esc(e.source)+'</td>'+
+    '<td>'+(e.chain?'<span class="pill p-off">'+esc(e.chain)+'</span>':'—')+'</td>'+
+    '<td>'+esc(e.branch||'—')+'</td>'+
+    '<td style="max-width:340px"><b>'+esc(e.message)+'</b>'+
+      (e.detail?'<br><small style="color:var(--dim)">'+esc(String(e.detail).slice(0,180))+'</small>':'')+'</td>'+
+    '<td><span class="pill '+(e.notified==='yes'?'p-live':'p-off')+'">'+esc(e.notified)+'</span></td></tr>').join('')
+    :'<tr><td colspan="6" class="empty">Nothing has gone wrong. 🎉</td></tr>';
+}
+async function testAlert(){
+  const r=await api('testAlert',{chain:CHAIN});
+  if(r.error) return showErr(r.error);
+  document.getElementById('adminMail').textContent=r.email||'';
+  toast(r.notified==='yes'?'Test email sent to '+r.email:'Logged (email throttled or blocked)');
+  loadErrors();
+}
+async function clearErrors(){
+  if(!confirm('Clear the whole error log?')) return;
+  const r=await api('clearErrors'); if(r.error) return showErr(r.error);
+  toast('Error log cleared'); loadErrors();
+}
+
+/* ---------- HEALTH ---------- */
+async function loadHealth(){
+  const out=document.getElementById('healthOut');
+  out.innerHTML='<div class="cap">Checking…</div>';
+  const r=await api('health'); if(r.error){ out.innerHTML=''; return showErr(r.error); }
+  document.getElementById('adminMail').textContent=r.adminEmail||'';
+  out.innerHTML=(r.health||[]).map(h=>{
+    const row=(ok,label,extra)=>'<tr><td>'+(ok?'<span class="pill p-live">OK</span>':'<span class="pill p-paused">FIX</span>')+
+      '</td><td>'+label+(extra?'<br><small style="color:var(--dim)">'+esc(extra)+'</small>':'')+'</td></tr>';
+    return '<div class="panel" style="background:var(--surf2)"><h3>'+esc(h.name)+
+      ' <span class="pill '+(h.status==='live'?'p-live':'p-paused')+'">'+esc(String(h.status).toUpperCase())+'</span></h3>'+
+      '<table style="margin-top:10px">'+
+      row(h.branches>0, h.branches+' branch'+(h.branches===1?'':'es')+' configured')+
+      row(h.badNumbers.length===0,'WhatsApp numbers valid',
+          h.badNumbers.length?('landline / invalid: '+h.badNumbers.join(', ')):'')+
+      row(h.ordersUrl,'Orders script URL saved', h.ordersUrl?'':'Restaurants tab ▸ Orders script URL')+
+      row(h.owners>0, h.owners+' owner login'+(h.owners===1?'':'s'), h.owners?'':'Logins tab ▸ create one')+
+      row(h.offers>0, h.offers+' promo code'+(h.offers===1?'':'s'))+
+      row(h.rewards>0, h.rewards+' reward step'+(h.rewards===1?'':'s'))+
+      '</table></div>';
+  }).join('')||'<div class="empty">No restaurants configured</div>';
+}
+
+/* ---------- error reporting from the portal itself ---------- */
+let pErr=0;
+function portalError(msg,detail){
+  if(pErr>=3||!CONTROL_URL) return; pErr++;
+  fetch(CONTROL_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:'logError',source:'portal',chain:CHAIN||'',
+      message:String(msg).slice(0,300),detail:String(detail||'').slice(0,600),
+      agent:navigator.userAgent.slice(0,150)})}).catch(()=>{});
+}
+window.addEventListener('error',e=>portalError(e.message,(e.filename||'')+':'+(e.lineno||'')));
+window.addEventListener('unhandledrejection',e=>portalError('Unhandled rejection',
+  String((e.reason&&e.reason.message)||e.reason||'')));
+
+/* ---------- export ---------- */
+function exportCsv(mode){
+  const rows = mode==='all' ? ORDERS : view();
+  if(!rows.length) return alert('Nothing to export.');
+  const cols=['ts','branch','zone','daypart','customer','phone','address','type','items',
+              'subtotal','promo','discount','total','payment','time','upTaken','upRev'];
+  const name=(TENANTS.find(t=>t.chainId===CHAIN)||{}).name||CHAIN;
+  if(mode==='excel'){
+    const html='<table><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>'+
+      rows.map(o=>'<tr>'+cols.map(c=>'<td>'+esc(o[c]).replace(/\n/g,' ')+'</td>').join('')+'</tr>').join('')+'</table>';
+    dl(new Blob(['\ufeff<html><head><meta charset="utf-8"></head><body>'+html+'</body></html>'],
+       {type:'application/vnd.ms-excel'}), name+'-orders.xls');
+    return;
+  }
+  const csv=[cols.join(',')].concat(rows.map(o=>cols.map(c=>
+    '"'+String(o[c]==null?'':o[c]).replace(/"/g,'""')+'"').join(','))).join('\n');
+  dl(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),
+     name+'-orders-'+new Date().toISOString().slice(0,10)+'.csv');
+}
+function dl(blob,filename){
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+}
+</script>
+</body>
+</html>
