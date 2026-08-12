@@ -29,6 +29,42 @@ function buildHybridGeometry(motion, palette) {
       }
       break;
     }
+    case "platter": {
+      // Compact version of 3d-scene-effect's procedural platter, sized for the
+      // inline hybrid stage rather than a full-bleed pinned section.
+      const plate = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.5, 1.32, 0.13, 44),
+        new THREE.MeshStandardMaterial({ color: "#7f1d1d", metalness: 0.35, roughness: 0.4 })
+      );
+      plate.position.y = -0.55;
+      group.add(plate);
+
+      const rim = new THREE.Mesh(
+        new THREE.TorusGeometry(1.5, 0.04, 10, 60),
+        new THREE.MeshStandardMaterial({ color: "#ffc107", metalness: 0.85, roughness: 0.25 })
+      );
+      rim.rotation.x = Math.PI / 2;
+      rim.position.y = -0.49;
+      group.add(rim);
+
+      const crust = new THREE.MeshStandardMaterial({ color: "#c8772a", metalness: 0.12, roughness: 0.55 });
+      const boneMat = new THREE.MeshStandardMaterial({ color: "#f0e2c8", metalness: 0.05, roughness: 0.7 });
+      for (let i = 0; i < 4; i++) {
+        const angle = (i / 4) * Math.PI * 2;
+        const piece = new THREE.Group();
+        const thigh = new THREE.Mesh(new THREE.CapsuleGeometry(0.22, 0.3, 6, 14), crust.clone());
+        const cap = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 12), crust.clone());
+        cap.position.y = 0.22;
+        cap.scale.set(1, 0.72, 0.9);
+        const shank = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.065, 0.22, 8), boneMat);
+        shank.position.y = -0.34;
+        piece.add(thigh, cap, shank);
+        piece.position.set(Math.cos(angle) * 0.8, -0.24, Math.sin(angle) * 0.8);
+        piece.rotation.set(0.3, -angle + Math.PI / 2, 0.95);
+        group.add(piece);
+      }
+      break;
+    }
     case "abstract":
     case "abstract-drift":
     default: {

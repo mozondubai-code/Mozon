@@ -23,9 +23,9 @@ A fast, self-contained, SEO/GEO-optimised landing site for **Mozon Broast** (Al 
 
 ## 3D experience page (`3d/`)
 
-An optional scroll-driven WebGL page — procedural broast platter hero, editorial
-story/menu sections, a cursor-driven particle showcase, and an order section that
-points at the offers site. It is **entirely additive**: nothing in the existing
+An optional scroll-driven page — a cinematic frame-scrub hero (real footage scrubbed
+frame-by-frame on scroll), editorial story/menu sections with inline WebGL objects, a
+cursor-driven particle showcase, and an order section that points at the offers site. It is **entirely additive**: nothing in the existing
 landing site was changed, and the page is self-contained (Three.js and Lenis are
 vendored under `3d/vendor/`, so there is no CDN dependency).
 

@@ -130,11 +130,14 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(emberFrame);
   }
 
-  /* ---- Overlay driver for pinned .world sections ----
-     3d-scene-effect.js only drives the camera; the reveal-line copy and
-     the progress bar of a world section are driven here from the same
-     Choreography.progress value. */
+  /* ---- Overlay driver for pinned sections ----
+     3d-scene-effect.js only drives the camera, so a .world section's reveal-line
+     copy and progress bar are driven here from the same Choreography.progress
+     value. A .cinematic section is different: video-scroll-effect.js already owns
+     its reveal-lines and progress bar, so this file must only drive that section's
+     kicker — otherwise both would write the same elements every frame. */
   const pinned = [...document.querySelectorAll("section.world")];
+  const kickerOnly = [...document.querySelectorAll("section.cinematic")];
 
   if (reduceMotion) {
     pinned.forEach((section) => {
@@ -164,6 +167,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (kicker) kicker.style.opacity = (1 - Math.min(p * 3, 1)).toFixed(3);
       const bar = section.querySelector(".progress-fill");
       if (bar) bar.style.width = (p * 100).toFixed(2) + "%";
+    }
+    for (const section of kickerOnly) {
+      const kicker = section.querySelector(".hero-kicker");
+      if (!kicker) continue;
+      const rect = section.getBoundingClientRect();
+      if (!window.Choreography.isInViewport(rect, window.innerHeight)) continue;
+      const p = window.Choreography.progress(rect, window.innerHeight);
+      kicker.style.opacity = (1 - Math.min(p * 3, 1)).toFixed(3);
     }
     document.querySelectorAll(".scroll-hint").forEach((h) => {
       h.style.opacity = (window.scrollY || 0) > 60 ? "0" : "1";

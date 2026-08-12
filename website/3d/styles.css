@@ -506,3 +506,79 @@ body {
   /* headline wraps to two lines on narrow screens — push the kicker clear of it */
   .hero-kicker { top: calc(50% + 4.4rem); letter-spacing: 0.3em; font-size: 0.7rem; }
 }
+/* ---------- video-scroll-effect fragment — append to the project's styles.css ---------- */
+/* Requires shared-scroll-engine/templates/base.css to already be at the top of the file. */
+
+/* ---------- Cinematic scroll section ---------- */
+.cinematic {
+  position: relative;
+  height: 500vh;            /* scroll distance = playback length */
+}
+
+.preloader {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #0c0605;
+  transition: opacity 0.4s ease;
+}
+.preloader.done { opacity: 0; pointer-events: none; }
+.preloader-bar { width: 240px; height: 2px; background: rgba(255,255,255,0.15); }
+.preloader-fill { height: 100%; width: 0%; background: var(--accent-2); transition: width 0.15s linear; }
+.preloader-text {
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: rgba(244,246,251,0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic { height: 100vh; }
+}
+
+/* ---------- Frame-scrub hero tuning ----------
+   The upstream fragment sets .cinematic to 500vh, which is sized for a ~180-frame
+   clip. This hero has 59 frames, so 500vh would advance roughly one frame per 8.5vh
+   and read as visible stepping. 300vh (with loopBack folding the sequence there and
+   back) keeps the scrub continuous. */
+.cinematic { height: 300vh; }
+.preloader-fill { background: linear-gradient(90deg, var(--accent), var(--gold)); }
+.preloader-text { font-family: "Bebas Neue", sans-serif; letter-spacing: 0.3em; }
+
+/* Re-assert the reduced-motion unpin AFTER the height override above — equal
+   specificity means source order decides, and the override would otherwise
+   restore a 300vh pinned section for reduced-motion visitors. */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic { height: 100vh; }
+}
+
+/* ---------- Hero legibility over bright footage ----------
+   The base .vignette is tuned for dark frames. This clip is a light studio shot,
+   so white overlay copy sat at roughly 1.2:1 against the crust — unreadable.
+   A centre-weighted scrim plus a hard text shadow keeps the headline legible
+   across the whole scrub range, not just the frames that happen to be darker. */
+.cinematic .vignette {
+  background:
+    radial-gradient(70% 58% at 50% 50%, rgba(0,0,0,0.66) 0%, rgba(0,0,0,0.34) 55%, rgba(0,0,0,0.6) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 28%, rgba(0,0,0,0.15) 62%, rgba(0,0,0,0.75) 100%);
+}
+.cinematic .reveal-line {
+  color: var(--ink);
+  text-shadow:
+    0 2px 26px rgba(0,0,0,0.9),
+    0 0 70px rgba(0,0,0,0.75),
+    0 0 12px rgba(0,0,0,0.6);
+}
+.cinematic .reveal-line:last-child {
+  color: var(--gold);
+  text-shadow: 0 2px 26px rgba(0,0,0,0.9), 0 0 60px rgba(229,57,53,0.5);
+}
+.cinematic .hero-kicker {
+  color: rgba(253, 246, 238, 0.9);
+  text-shadow: 0 2px 16px rgba(0,0,0,0.9);
+}

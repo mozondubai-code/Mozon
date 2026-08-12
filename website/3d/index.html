@@ -35,9 +35,13 @@
     </div>
   </nav>
 
-  <!-- HOME — 3d-scene-effect, procedural broast platter driven by scroll -->
-  <section class="world" id="hero">
+  <!-- HOME — video-scroll-effect: real footage, scrubbed frame-by-frame on scroll -->
+  <section class="cinematic" id="hero">
     <div class="sticky">
+      <div class="preloader">
+        <div class="preloader-bar"><div class="preloader-fill"></div></div>
+        <span class="preloader-text">LOADING 0%</span>
+      </div>
       <canvas></canvas>
       <div class="vignette"></div>
       <div class="overlay">
@@ -162,13 +166,28 @@
   <!-- Shared scroll/pointer utilities — MUST load before site.js and any engine script. -->
   <script src="choreography.js"></script>
 
-  <!-- ===================== one entry per 3d-scene-effect section ===================== -->
+  <!-- ===================== one entry per video-scroll-effect section =====================
+       59 frames extracted from the supplied clip's clean segment (2.70s–5.15s at 24fps),
+       cropped to drop the render-overlay text and watermark. loopBack scrubs forward
+       through the frames over the first half of the section and back over the second,
+       so one short clip covers the whole scroll without visible looping. -->
   <script>
-    window.WORLD_SECTIONS = [
+    window.SCRUB_SECTIONS = [
       {
         section: "#hero",
-        motion: "platter",
-        palette: { accent: "#ffc107", bg: "#0c0605" },
+        frameCount: 59,
+        bg: "#0c0605",
+        framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
+        beats: [
+          {
+            name: "reveal",
+            frameCount: 59,
+            framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
+            progressStart: 0,
+            progressEnd: 1,
+            loopBack: true,
+          },
+        ],
       },
     ];
   </script>
@@ -194,8 +213,8 @@
       },
       {
         section: "#menu",
-        motion: "reveal",
-        palette: { accent: "#e53935", bg: "#140a06" },
+        motion: "platter",
+        palette: { accent: "#ffc107", bg: "#140a06" },
       },
     ];
   </script>
@@ -204,7 +223,7 @@
        it must come before the engine scripts so window.__lenis exists when
        their DOMContentLoaded handlers run. -->
   <script src="site.js"></script>
-  <script src="3d-scene-effect.js"></script>
+  <script src="video-scroll-effect.js"></script>
   <script src="pointer-follow-effect.js"></script>
   <script src="hybrid-2d3d.js"></script>
 </body>
