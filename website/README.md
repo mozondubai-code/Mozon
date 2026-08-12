@@ -19,6 +19,18 @@ A fast, self-contained, SEO/GEO-optimised landing site for **Mozon Broast** (Al 
 | `.htaccess` | HTTPS, compression, caching, security headers | site root |
 | `sitemap.xml`, `robots.txt` | Crawl/index control | site root |
 | `site.webmanifest` | PWA / install metadata | site root |
+| `3d/` | Scroll-driven 3D experience page (optional, self-contained) | `public_html/3d/` → `mozonbroast.ae/3d/` |
+
+## 3D experience page (`3d/`)
+
+An optional scroll-driven WebGL page — procedural broast platter hero, editorial
+story/menu sections, a cursor-driven particle showcase, and an order section that
+points at the offers site. It is **entirely additive**: nothing in the existing
+landing site was changed, and the page is self-contained (Three.js and Lenis are
+vendored under `3d/vendor/`, so there is no CDN dependency).
+
+Upload the whole `3d/` folder into `public_html/` and it goes live at
+`https://mozonbroast.ae/3d/`. Build notes are in [`3d/DESIGN.md`](3d/DESIGN.md).
 
 The order buttons open **https://offersmozon.ae** in a new tab. To change that destination, edit the single `OFFERS_URL` constant at the top of `assets/js/main.js`.
 
