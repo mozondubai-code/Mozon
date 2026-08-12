@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Madex Wavies — Control Centre</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0D0C0F;--surf:#161519;--surf2:#1E1D23;--line:#2A2830;--txt:#F2F0F4;
+ --dim:#8E8A98;--ok:#3DD68C;--warn:#FFB547;--bad:#FF6B5A;--acc:#7C5CFF;--acc2:#00D1B2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif}
+
+/* gate */
+#gate{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;
+ justify-content:center;flex-direction:column;gap:16px;padding:24px}
+#gate h1{font-size:26px;margin:0;letter-spacing:-.6px}
+#gate p{color:var(--dim);font-size:13px;margin:0;text-align:center;max-width:340px;line-height:1.6}
+#gate input{width:230px;padding:14px;border-radius:12px;border:1px solid var(--line);
+ background:var(--surf);color:var(--txt);font:700 16px inherit;text-align:center;letter-spacing:3px}
+#gate button{padding:13px 30px;border:0;border-radius:12px;background:var(--acc);color:#fff;
+ font:800 14px inherit;cursor:pointer}
+
+header{padding:20px 22px 0;display:flex;justify-content:space-between;align-items:flex-start;
+ flex-wrap:wrap;gap:12px}
+h1{font-size:23px;margin:0;letter-spacing:-.7px}
+.sub{color:var(--dim);font-size:12px;margin-top:3px}
+.live{display:inline-flex;align-items:center;gap:6px;background:rgba(61,214,140,.12);
+ color:var(--ok);font-size:11px;font-weight:800;padding:6px 12px;border-radius:99px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:p 1.8s infinite}
+@keyframes p{50%{opacity:.2}}
+
+.filters{display:flex;gap:8px;padding:16px 22px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:3px}
+.seg button{background:0;border:0;color:var(--dim);font:700 12.5px inherit;padding:8px 14px;
+ border-radius:8px;cursor:pointer;white-space:nowrap}
+.seg button.on{background:var(--acc);color:#fff}
+select{background:var(--surf);border:1px solid var(--line);color:var(--txt);border-radius:11px;
+ padding:10px 13px;font:700 12.5px inherit;cursor:pointer}
+.ghost{background:var(--surf);border:1px solid var(--line);color:var(--dim);border-radius:11px;
+ padding:10px 14px;font:700 12.5px inherit;cursor:pointer}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px;padding:0 22px}
+.kpi{background:var(--surf);border:1px solid var(--line);border-radius:15px;padding:15px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--acc))}
+.kpi .l{font-size:10.5px;color:var(--dim);font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.kpi .v{font-size:25px;font-weight:800;margin-top:7px;letter-spacing:-1px}
+.kpi .d{font-size:11px;color:var(--dim);margin-top:4px}
+
+.grid{display:grid;grid-template-columns:1.35fr 1fr;gap:14px;padding:16px 22px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:16px}
+.panel h3{margin:0 0 3px;font-size:14px;font-weight:800}
+.panel .cap{font-size:11.5px;color:var(--dim);margin-bottom:13px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;
+ padding:7px 8px;border-bottom:1px solid var(--line);font-weight:800}
+td{padding:9px 8px;border-bottom:1px solid rgba(42,40,48,.5)}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.bar{height:5px;background:var(--surf2);border-radius:99px;overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px}
+.tag{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.t-m{background:rgba(217,119,47,.16);color:#E39A5C}
+.t-t{background:rgba(46,155,128,.16);color:#5FD3B4}
+.empty{padding:40px 16px;text-align:center;color:var(--dim);font-size:13px;line-height:1.8}
+.err{background:rgba(255,107,90,.1);border:1px solid rgba(255,107,90,.3);color:#FF9E92;
+ border-radius:12px;padding:13px;margin:0 22px 14px;font-size:12.5px;line-height:1.6}
+.feed{max-height:390px;overflow-y:auto}
+.ord{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid rgba(42,40,48,.5)}
+.ord:last-child{border-bottom:0}
+.ord .av{width:34px;height:34px;border-radius:10px;background:var(--surf2);display:flex;
+ align-items:center;justify-content:center;font-size:15px;flex:0 0 34px}
+.ord .m{flex:1;min-width:0}
+.ord .nm{font-size:12.5px;font-weight:800}
+.ord .me{font-size:11px;color:var(--dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ord .tt{font-size:13px;font-weight:800;color:var(--warn)}
+footer{text-align:center;padding:26px;color:#5A5766;font-size:11.5px}
+canvas{max-height:230px}
+.logo{width:30px;height:30px;flex:0 0 30px;border-radius:9px}
+.wordmark{display:flex;align-items:center;gap:10px}
+.wordmark .wm{line-height:1.05}
+.wordmark .wm b{display:block;font-size:15.5px;font-weight:800;letter-spacing:-.4px}
+.wordmark .wm i{display:block;font-style:normal;font-size:9.5px;font-weight:700;
+  letter-spacing:1.6px;color:var(--dim);text-transform:uppercase;margin-top:1px}
+.loginlogo{width:58px;height:58px;border-radius:17px;margin:0 auto 16px}
+
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <svg class="loginlogo" viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect width="34" height="34" rx="10" fill="url(#mwg)"/><path d="M8 24V11.5c0-.6.75-.9 1.15-.42L17 20.3l7.85-9.22c.4-.48 1.15-.18 1.15.42V24" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="mwg" x1="0" y1="0" x2="34" y2="34"><stop stop-color="#8B6BFF"/><stop offset="1" stop-color="#00D1B2"/></linearGradient></defs></svg>
+  <h1>MADEX WAVIES</h1>
+  <p>Control Centre — all chains, all branches, one view.</p>
+  <input id="pin" type="password" placeholder="PIN" maxlength="12" value="">
+  <button onclick="unlock()">Open dashboard</button>
+  <p id="gateMsg" style="color:var(--bad)"></p>
+</div>
+
+<header>
+  <div class="wordmark"><svg class="logo" viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect width="34" height="34" rx="10" fill="url(#mwg)"/><path d="M8 24V11.5c0-.6.75-.9 1.15-.42L17 20.3l7.85-9.22c.4-.48 1.15-.18 1.15.42V24" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="mwg" x1="0" y1="0" x2="34" y2="34"><stop stop-color="#8B6BFF"/><stop offset="1" stop-color="#00D1B2"/></linearGradient></defs></svg><div class="wm"><b>MADEX WAVIES</b><i>Control Centre</i>
+    <div class="sub" id="scope" style="margin-top:5px">All chains · all branches</div></div></div>
+  <div class="live"><span class="dot"></span><span id="upd">connecting…</span></div>
+</header>
+
+<div class="filters">
+  <div class="seg" id="segChain"></div>
+  <div class="seg" id="segRange"></div>
+  <select id="selBranch" onchange="render()"><option value="">All branches</option></select>
+  <button class="ghost" onclick="loadAll()">↻ Refresh</button>
+  <button class="ghost" onclick="exportCsv()">⤓ CSV</button>
+</div>
+
+<div id="errBox"></div>
+<div class="kpis" id="kpis"></div>
+
+<div class="grid">
+  <div class="panel"><h3>Revenue</h3><div class="cap" id="revCap"></div><canvas id="chRev"></canvas></div>
+  <div class="panel"><h3>Orders by daypart</h3><div class="cap">When your customers actually order</div><canvas id="chDay"></canvas></div>
+</div>
+
+<div class="grid">
+  <div class="panel">
+    <h3>Branch performance</h3><div class="cap">Every branch, ranked by revenue</div>
+    <table><thead><tr><th>Branch</th><th></th><th class="n">Orders</th><th class="n">Revenue</th><th class="n">AOV</th></tr></thead>
+    <tbody id="tbBranch"></tbody></table>
+  </div>
+  <div class="panel">
+    <h3>Demand by zone</h3><div class="cap">Where to spend your ad budget</div>
+    <table><thead><tr><th>Zone</th><th class="n">Orders</th><th class="n">Revenue</th></tr></thead>
+    <tbody id="tbZone"></tbody></table>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="panel">
+    <h3>Top selling items</h3><div class="cap">Across every branch in view</div>
+    <table><thead><tr><th>Item</th><th class="n">Qty</th></tr></thead><tbody id="tbItem"></tbody></table>
+  </div>
+  <div class="panel">
+    <h3>Live orders</h3><div class="cap" id="feedCap">Newest first</div>
+    <div class="feed" id="feed"></div>
+  </div>
+</div>
+
+<footer>Madex Wavies · Al Nahda 2, Dubai · data stays isolated per chain</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   MADEX WAVIES — MASTER DASHBOARD
+   Reads each chain's OWN Apps Script. The two datasets are merged only here,
+   in your browser, for display. They are never mixed at rest.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const CONTROL_URL = "api/index.php";   // your own server
+const PIN     = "00711";                      // change this
+const API_KEY = "madex-2026-change-me";       // must match API_KEY in apps-script.gs
+
+const CHAINS = [
+  {id:"mashad",      label:"Mashad",       cls:"t-m"},
+  {id:"teajunction", label:"Tea Junction", cls:"t-t"}
+];
+
+let ALL=[], chain="", range=7, chRev=null, chDay=null;
+let TOKEN=null;
+try{TOKEN=sessionStorage.getItem("mwtok")}catch(e){}
+
+/* ---------- gate ---------- */
+function unlock(){
+  if(document.getElementById('pin').value===PIN){
+    document.getElementById('gate').style.display='none';
+    try{sessionStorage.setItem('mwok','1')}catch(e){}
+    boot();
+  } else document.getElementById('gateMsg').textContent='Wrong PIN';
+}
+document.getElementById('pin').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
+try{ if(sessionStorage.getItem('mwok')==='1'){document.getElementById('gate').style.display='none';boot()} }catch(e){}
+
+/* ---------- segmented controls ---------- */
+function segs(){
+  const c=document.getElementById('segChain');
+  [['','All chains'],...CHAINS.map(x=>[x.id,x.label])].forEach(([v,l],i)=>{
+    const b=document.createElement('button'); b.textContent=l; if(i===0)b.classList.add('on');
+    b.onclick=()=>{chain=v;[...c.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');
+      buildBranchList();render()};
+    c.appendChild(b);
+  });
+  const r=document.getElementById('segRange');
+  [[1,'Today'],[7,'7 days'],[30,'30 days'],[0,'All time']].forEach(([v,l])=>{
+    const b=document.createElement('button'); b.textContent=l; if(v===7)b.classList.add('on');
+    b.onclick=()=>{range=v;[...r.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');render()};
+    r.appendChild(b);
+  });
+}
+
+/* ---------- JSONP loader (no CORS issues) ---------- */
+function jsonp(url){
+  return fetch(url,{cache:'no-store'}).then(r=>r.json());
+}
+
+async function loadAll(){
+  document.getElementById('upd').textContent='loading…';
+  const errs=[]; let rows=[];
+  for(const c of CHAINS){
+    try{
+      const d=await jsonp(CONTROL_URL+'?action=orders&chain='+encodeURIComponent(c.id)+
+                          '&token='+encodeURIComponent(TOKEN||''));
+      if(d.error){ errs.push(c.label+': '+d.error); continue; }
+      (d.orders||[]).forEach(o=>rows.push(Object.assign({},o,
+        {chain:c.id,chainLabel:c.label,cls:c.cls})));
+    }catch(err){ errs.push(c.label+': '+err.message); }
+  }
+  ALL=rows.sort((a,b)=>String(b.ts).localeCompare(String(a.ts)));
+  document.getElementById('errBox').innerHTML = errs.length
+    ? '<div class="err"><b>Not all data loaded</b><br>'+errs.join('<br>')+
+      '<br><br>Sign in through <b>portal.html</b> first — this page reuses that session.</div>' : '';
+  document.getElementById('upd').textContent='updated '+
+    new Date().toLocaleTimeString('en-AE',{hour:'2-digit',minute:'2-digit'});
+  buildBranchList(); render();
+}
+function buildBranchList(){
+  const s=document.getElementById('selBranch'), keep=s.value;
+  const set=[...new Set(ALL.filter(o=>!chain||o.chain===chain).map(o=>o.branch))].sort();
+  s.innerHTML='<option value="">All branches</option>';
+  set.forEach(b=>s.add(new Option(b,b)));
+  if(set.includes(keep)) s.value=keep;
+}
+
+/* ---------- helpers ---------- */
+const AED=v=>'AED '+(+v||0).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const dayOf=ts=>String(ts).slice(0,10);
+
+function view(){
+  const br=document.getElementById('selBranch').value;
+  let r=ALL.filter(o=>(!chain||o.chain===chain)&&(!br||o.branch===br));
+  if(range>0){
+    const cut=new Date(); cut.setHours(0,0,0,0); cut.setDate(cut.getDate()-(range-1));
+    const key=cut.toISOString().slice(0,10);
+    r=r.filter(o=>dayOf(o.ts)>=key);
+  }
+  return r;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const r=view();
+  const rev=r.reduce((s,o)=>s+o.total,0);
+  const upRev=r.reduce((s,o)=>s+o.upRev,0);
+  const shown=r.filter(o=>String(o.upShown).trim()).length;
+  const taken=r.filter(o=>String(o.upTaken).trim()).length;
+  const phones={}; r.forEach(o=>{if(o.phone)phones[o.phone]=(phones[o.phone]||0)+1});
+  const uniq=Object.keys(phones).length;
+  const rep=Object.values(phones).filter(c=>c>1).length;
+
+  document.getElementById('scope').textContent =
+    (chain?CHAINS.find(c=>c.id===chain).label:'All chains')+' · '+
+    (document.getElementById('selBranch').value||'all branches')+' · '+
+    (range?('last '+range+' day'+(range>1?'s':'')):'all time');
+
+  kpi([
+    ['Orders',        r.length,                     uniq+' unique customers',            'var(--acc)'],
+    ['Revenue',       AED(rev),                     r.length?AED(rev/Math.max(1,new Set(r.map(o=>dayOf(o.ts))).size))+' / day':'—','var(--ok)'],
+    ['Avg order',     r.length?AED(rev/r.length):'—', 'per order',                       'var(--acc2)'],
+    ['Repeat rate',   uniq?(rep/uniq*100).toFixed(0)+'%':'—', rep+' returning',           'var(--warn)'],
+    ['Upsell revenue',AED(upRev),                   rev?(upRev/rev*100).toFixed(1)+'% of total':'—','#FF8A2B'],
+    ['Upsell taken',  shown?(taken/shown*100).toFixed(0)+'%':'—', taken+' of '+shown+' offers','var(--bad)']
+  ]);
+
+  // revenue chart
+  const byDay={}; r.forEach(o=>byDay[dayOf(o.ts)]=(byDay[dayOf(o.ts)]||0)+o.total);
+  const days=Object.keys(byDay).sort();
+  document.getElementById('revCap').textContent=days.length?days.length+' days with orders':'no data yet';
+  line('chRev',days,days.map(d=>+byDay[d].toFixed(2)));
+
+  // daypart
+  const dpOrder=['morning','noon','evening','night'];
+  const dpLabel={morning:'Breakfast',noon:'Lunch',evening:'Dinner',night:'Late night'};
+  const byDp={}; r.forEach(o=>byDp[o.daypart]=(byDp[o.daypart]||0)+1);
+  bars('chDay',dpOrder.map(d=>dpLabel[d]),dpOrder.map(d=>byDp[d]||0));
+
+  // branches
+  const bAgg={};
+  r.forEach(o=>{const k=o.chainLabel+'||'+o.branch;
+    (bAgg[k]=bAgg[k]||{n:0,rev:0,cls:o.cls,chain:o.chainLabel,branch:o.branch});
+    bAgg[k].n++; bAgg[k].rev+=o.total;});
+  const bs=Object.values(bAgg).sort((a,b)=>b.rev-a.rev);
+  const top=bs[0]?bs[0].rev:1;
+  document.getElementById('tbBranch').innerHTML = bs.length? bs.map(b=>
+    '<tr><td><span class="tag '+b.cls+'">'+b.chain+'</span><div style="margin-top:5px;font-weight:700">'+
+    esc(b.branch)+'</div><div class="bar"><i style="width:'+(b.rev/top*100)+'%"></i></div></td><td></td>'+
+    '<td class="n">'+b.n+'</td><td class="n">'+AED(b.rev)+'</td><td class="n">'+AED(b.rev/b.n)+'</td></tr>'
+  ).join('') : empty(5);
+
+  // zones
+  const zAgg={};
+  r.forEach(o=>{const z=o.zone||'—';(zAgg[z]=zAgg[z]||{n:0,rev:0});zAgg[z].n++;zAgg[z].rev+=o.total});
+  const zs=Object.entries(zAgg).sort((a,b)=>b[1].rev-a[1].rev).slice(0,12);
+  document.getElementById('tbZone').innerHTML = zs.length? zs.map(([z,v])=>
+    '<tr><td>'+esc(z)+'</td><td class="n">'+v.n+'</td><td class="n">'+AED(v.rev)+'</td></tr>').join('') : empty(3);
+
+  // items
+  const iAgg={};
+  r.forEach(o=>String(o.items||'').split('|').forEach(s=>{
+    const m=s.trim().match(/^(\d+)x\s+(.+)$/); if(m) iAgg[m[2]]=(iAgg[m[2]]||0)+ +m[1];}));
+  const its=Object.entries(iAgg).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  const mx=its[0]?its[1]:1;
+  document.getElementById('tbItem').innerHTML = its.length? its.map(([n,q])=>
+    '<tr><td>'+esc(n)+'<div class="bar"><i style="width:'+(q/its[0][1]*100)+'%"></i></div></td>'+
+    '<td class="n">'+q+'</td></tr>').join('') : empty(2);
+
+  // feed
+  const f=r.slice(0,40);
+  document.getElementById('feedCap').textContent=f.length?'newest first · '+r.length+' in view':'no orders yet';
+  document.getElementById('feed').innerHTML = f.length? f.map(o=>
+    '<div class="ord"><div class="av">'+ico(o.daypart)+'</div><div class="m">'+
+    '<div class="nm">'+esc(o.customer||'—')+' <span class="tag '+o.cls+'">'+o.chainLabel+'</span></div>'+
+    '<div class="me">'+esc(o.branch)+' · '+esc(o.zone||'—')+' · '+esc(String(o.ts).slice(5,16))+'</div>'+
+    '<div class="me">'+esc(o.items||'')+'</div></div>'+
+    '<div class="tt">'+AED(o.total)+'</div></div>').join('')
+    : '<div class="empty">No orders in this view.<br>They appear here the moment a customer sends one.</div>';
+}
+
+const ico=d=>({morning:'🌅',noon:'🍽️',evening:'🌙',night:'🌜'})[d]||'🧾';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const empty=n=>'<tr><td colspan="'+n+'" class="empty">No data in this view yet</td></tr>';
+
+function kpi(list){
+  document.getElementById('kpis').innerHTML=list.map(([l,v,d,c])=>
+    '<div class="kpi" style="--c:'+c+'"><div class="l">'+l+'</div><div class="v">'+v+'</div>'+
+    '<div class="d">'+d+'</div></div>').join('');
+}
+
+function line(id,labels,data){
+  const el=document.getElementById(id); if(chRev)chRev.destroy();
+  const g=el.getContext('2d').createLinearGradient(0,0,0,220);
+  g.addColorStop(0,'rgba(124,92,255,.45)'); g.addColorStop(1,'rgba(124,92,255,0)');
+  chRev=new Chart(el,{type:'line',data:{labels,datasets:[{data,fill:true,backgroundColor:g,
+    borderColor:'#7C5CFF',borderWidth:2.5,tension:.35,pointRadius:3,pointBackgroundColor:'#7C5CFF'}]},
+    options:opts()});
+}
+function bars(id,labels,data){
+  const el=document.getElementById(id); if(chDay)chDay.destroy();
+  chDay=new Chart(el,{type:'bar',data:{labels,datasets:[{data,
+    backgroundColor:['#FFB547','#00D1B2','#7C5CFF','#FF6B5A'],borderRadius:8,barThickness:38}]},
+    options:opts()});
+}
+function opts(){return{responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E1D23',borderColor:'#2A2830',
+    borderWidth:1,padding:11,titleColor:'#F2F0F4',bodyColor:'#8E8A98'}},
+  scales:{x:{grid:{display:false},ticks:{color:'#8E8A98',font:{size:10.5}}},
+          y:{grid:{color:'rgba(42,40,48,.6)'},ticks:{color:'#8E8A98',font:{size:10.5}},beginAtZero:true}}};}
+
+function exportCsv(){
+  const r=view();
+  if(!r.length) return alert('Nothing to export in this view.');
+  const cols=['ts','chainLabel','branch','zone','daypart','customer','phone','type','items',
+              'subtotal','promo','discount','total','payment','upTaken','upRev'];
+  const csv=[cols.join(',')].concat(r.map(o=>cols.map(c=>
+    '"'+String(o[c]==null?'':o[c]).replace(/"/g,'""')+'"').join(','))).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='madex-orders-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+}
+
+/* error reporting → admin inbox + email */
+let dErr=0;
+function dashError(msg,detail){
+  if(dErr>=3||!CONTROL_URL) return; dErr++;
+  fetch(CONTROL_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:'logError',source:'control centre',chain:chain||'',
+      message:String(msg).slice(0,300),detail:String(detail||'').slice(0,600),
+      agent:navigator.userAgent.slice(0,150)})}).catch(()=>{});
+}
+window.addEventListener('error',e=>dashError(e.message,(e.filename||'')+':'+(e.lineno||'')));
+window.addEventListener('unhandledrejection',e=>dashError('Unhandled rejection',
+  String((e.reason&&e.reason.message)||e.reason||'')));
+
+function boot(){ segs(); loadAll(); setInterval(loadAll,120000); }
+</script>
+</body>
+</html>

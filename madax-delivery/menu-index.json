@@ -1,0 +1,1518 @@
+{
+ "mashad": [
+  {
+   "n": "Masala Dosa",
+   "a": "مسالا دوسا",
+   "p": 6.0,
+   "g": "appam",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Poori Bhaji",
+   "a": "بوري باجي",
+   "p": 6.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Appam",
+   "a": "ابام",
+   "p": 1.5,
+   "g": "appam",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Set Dosa",
+   "a": "دوسا ست",
+   "p": 5.0,
+   "g": "appam",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Ghee Roast",
+   "a": "جي روست",
+   "p": 6.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Uthappam",
+   "a": "أوتبام",
+   "p": 6.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Egg Dosa",
+   "a": "بيض دوسا",
+   "p": 6.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Idly Set",
+   "a": "ادلي ست",
+   "p": 5.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Vada Set",
+   "a": "وادا ست",
+   "p": 5.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Puttu Kadala",
+   "a": "بوتو كدلا",
+   "p": 6.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Poratta + Chicken Curry",
+   "a": "بوراتا + دجاج كاري",
+   "p": 10.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Poratta + Beef Curry",
+   "a": "بوراتا + لحم كاري",
+   "p": 10.0,
+   "g": "",
+   "c": "Breakfast"
+  },
+  {
+   "n": "Chicken Dum Biriyani",
+   "a": "برياني دجاج دم",
+   "p": 13.0,
+   "g": "chicken-dum-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Mutton Dum Biriyani",
+   "a": "برياني لحم دم",
+   "p": 17.0,
+   "g": "chicken-dum-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Beef Dum Biriyani",
+   "a": "برياني لحم بقر دم",
+   "p": 15.0,
+   "g": "chicken-dum-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Chicken Fry Biriyani",
+   "a": "برياني دجاج مقلي",
+   "p": 14.0,
+   "g": "chicken-fry-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Fish Dum Biriyani",
+   "a": "برياني سمك دم",
+   "p": 16.0,
+   "g": "fish-dum-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Chicken 65 Biriyani",
+   "a": "برياني دجاج ٦٥",
+   "p": 15.0,
+   "g": "chicken-fry-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Lagone Biriyani",
+   "a": "برياني لجون",
+   "p": 16.0,
+   "g": "chicken-dum-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Pothi Biriyani",
+   "a": "برياني بوتي",
+   "p": 16.0,
+   "g": "pothi-choru",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Pothi Choru",
+   "a": "بوتي جورو",
+   "p": 13.0,
+   "g": "pothi-choru",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Kerala Meals",
+   "a": "وجبة كيرلا",
+   "p": 10.0,
+   "g": "kerala-meals",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Kappa Biriyani",
+   "a": "كابا برياني",
+   "p": 12.0,
+   "g": "kappa-biriyani",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Veg. Biriyani",
+   "a": "برياني خضار",
+   "p": 11.0,
+   "g": "",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Egg Biriyani",
+   "a": "برياني بيض",
+   "p": 10.0,
+   "g": "",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Ghee Rice",
+   "a": "أرز بالسمن",
+   "p": 7.0,
+   "g": "ghee-rice",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Ghee Rice + Beef",
+   "a": "أرز جي لحم",
+   "p": 13.0,
+   "g": "ghee-rice",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Ghee Rice + Chicken",
+   "a": "أرز جي دجاج",
+   "p": 13.0,
+   "g": "ghee-rice",
+   "c": "Biriyani & Rice"
+  },
+  {
+   "n": "Tandoor Mix Platter",
+   "a": "تندور مشكل بلاتر",
+   "p": 45.0,
+   "g": "tandoor-mix-platter",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Tandoor Chicken Full",
+   "a": "دجاج تندور كامل",
+   "p": 40.0,
+   "g": "tandoor-chicken",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Tandoor Chicken Half",
+   "a": "دجاج تندور نصف",
+   "p": 20.0,
+   "g": "tandoor-chicken",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Tandoor Chicken Qtr.",
+   "a": "دجاج تندور ربع",
+   "p": 13.0,
+   "g": "tandoor-chicken",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Pahadi Chicken Full",
+   "a": "دجاج بهادي كامل",
+   "p": 40.0,
+   "g": "pahadi-chicken",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Pahadi Chicken Half",
+   "a": "دجاج بهادي نصف",
+   "p": 20.0,
+   "g": "pahadi-chicken",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Chicken Tikka (6 pc)",
+   "a": "دجاج تكا",
+   "p": 22.0,
+   "g": "tandoor-platter",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Quail Fry / Roast",
+   "a": "فري مقلي",
+   "p": 12.0,
+   "g": "quail-fry",
+   "c": "Tandoor & Grills"
+  },
+  {
+   "n": "Butter Chicken",
+   "a": "دجاج بتر",
+   "p": 15.0,
+   "g": "paneer-butter-masala",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Fry",
+   "a": "دجاج مقلي",
+   "p": 9.0,
+   "g": "chicken-fry",
+   "c": "Chicken"
+  },
+  {
+   "n": "Kunji Kozhi",
+   "a": "كونجي كوزي",
+   "p": 25.0,
+   "g": "chicken-fry",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Kuruma",
+   "a": "دجاج كورما",
+   "p": 13.0,
+   "g": "mutton-kuruma",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Kadai",
+   "a": "دجاج كداي",
+   "p": 13.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Malabar",
+   "a": "دجاج ملبار",
+   "p": 12.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Pepper Roast",
+   "a": "دجاج فلفل روست",
+   "p": 12.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Nadan Curry",
+   "a": "دجاج نادن كاري",
+   "p": 12.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Kondattam",
+   "a": "دجاج كونداتام",
+   "p": 14.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Kanthari",
+   "a": "دجاج كانتاري",
+   "p": 14.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Hyderabadi",
+   "a": "دجاج حيدرابادي",
+   "p": 13.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Chicken Chukka",
+   "a": "دجاج شوكا",
+   "p": 13.0,
+   "g": "",
+   "c": "Chicken"
+  },
+  {
+   "n": "Mutton Chaps",
+   "a": "لحم جابس",
+   "p": 16.0,
+   "g": "mutton-chaps",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Mutton Kuruma",
+   "a": "لحم كورما",
+   "p": 15.0,
+   "g": "mutton-kuruma",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Mutton Tawa",
+   "a": "لحم ضأن تاوا",
+   "p": 18.0,
+   "g": "mutton-chaps",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Mutton Kadai",
+   "a": "لحم ضأن كداي",
+   "p": 16.0,
+   "g": "mutton-kuruma",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Mutton Roast",
+   "a": "لحم ضأن روست",
+   "p": 15.0,
+   "g": "mutton-chaps",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Beef Ularth",
+   "a": "لحم بقر الرت",
+   "p": 14.0,
+   "g": "",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Beef Coconut Fry",
+   "a": "لحم بقر كوكونت مقلي",
+   "p": 13.0,
+   "g": "",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Beef Pepper Masala",
+   "a": "لحم بقر فلفل مسالا",
+   "p": 13.0,
+   "g": "",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Beef Dry Fry",
+   "a": "لحم بقر دراي مقلي",
+   "p": 12.0,
+   "g": "",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Beef Varattu",
+   "a": "لحم بقر وراتو",
+   "p": 12.0,
+   "g": "",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Kaattu Pothu Varattu",
+   "a": "كاتو بوتو وراتو",
+   "p": 14.0,
+   "g": "",
+   "c": "Beef & Mutton"
+  },
+  {
+   "n": "Kizhi Poratta Beef",
+   "a": "كيجي بوراتا لحم",
+   "p": 15.0,
+   "g": "kizhi-poratta",
+   "c": "Our Special"
+  },
+  {
+   "n": "Kizhi Poratta Chicken",
+   "a": "كيجي بوراتا دجاج",
+   "p": 14.0,
+   "g": "kizhi-poratta",
+   "c": "Our Special"
+  },
+  {
+   "n": "Kothu Poratta",
+   "a": "كوتو بوراتا",
+   "p": 12.0,
+   "g": "kappa-biriyani",
+   "c": "Our Special"
+  },
+  {
+   "n": "Dum Poratta Beef",
+   "a": "دم بوراتا لحم",
+   "p": 15.0,
+   "g": "kizhi-poratta",
+   "c": "Our Special"
+  },
+  {
+   "n": "Puttu Biriyani",
+   "a": "بوتو برياني",
+   "p": 12.0,
+   "g": "kappa-biriyani",
+   "c": "Our Special"
+  },
+  {
+   "n": "Duck Varattu / Roast",
+   "a": "بط وراتو",
+   "p": 16.0,
+   "g": "quail-fry",
+   "c": "Our Special"
+  },
+  {
+   "n": "Fish Pollichathu",
+   "a": "سمك بوليشاتو",
+   "p": 25.0,
+   "g": "fish-pollichathu",
+   "c": "Seafood"
+  },
+  {
+   "n": "King Fish Mango Curry",
+   "a": "سمك كينغ مانجو كاري",
+   "p": 15.0,
+   "g": "fish-curry",
+   "c": "Seafood"
+  },
+  {
+   "n": "Ayala Mulaku Curry",
+   "a": "أيالا مولاكو كاري",
+   "p": 15.0,
+   "g": "fish-curry",
+   "c": "Seafood"
+  },
+  {
+   "n": "Prawns Roast",
+   "a": "روبيان روست",
+   "p": 22.0,
+   "g": "chicken-chilli",
+   "c": "Seafood"
+  },
+  {
+   "n": "Crab Roast",
+   "a": "سلطعون روست",
+   "p": 25.0,
+   "g": "chicken-chilli",
+   "c": "Seafood"
+  },
+  {
+   "n": "Fish Tawa Fry",
+   "a": "سمك تاوا",
+   "p": 18.0,
+   "g": "fish-pollichathu",
+   "c": "Seafood"
+  },
+  {
+   "n": "Chicken Lollipop",
+   "a": "دجاج لولي بوب",
+   "p": 15.0,
+   "g": "chicken-lollipop",
+   "c": "Chinese"
+  },
+  {
+   "n": "Chicken Chilli",
+   "a": "دجاج شيلي",
+   "p": 14.0,
+   "g": "chicken-chilli",
+   "c": "Chinese"
+  },
+  {
+   "n": "Chicken Manchurian",
+   "a": "دجاج منشوريان",
+   "p": 14.0,
+   "g": "chicken-chilli",
+   "c": "Chinese"
+  },
+  {
+   "n": "Beef Chilli",
+   "a": "لحم شيلي",
+   "p": 14.0,
+   "g": "beef-chilli",
+   "c": "Chinese"
+  },
+  {
+   "n": "Gobi Manchurian",
+   "a": "جوبي منشوريان",
+   "p": 12.0,
+   "g": "gobi-manchurian",
+   "c": "Chinese"
+  },
+  {
+   "n": "Chicken Fried Rice",
+   "a": "أرز مقلي دجاج",
+   "p": 16.0,
+   "g": "fried-rice",
+   "c": "Chinese"
+  },
+  {
+   "n": "Schezwan Fried Rice",
+   "a": "أرز مقلي شيزوان",
+   "p": 17.0,
+   "g": "schezwan-fried-rice",
+   "c": "Chinese"
+  },
+  {
+   "n": "Mix Fried Rice",
+   "a": "أرز مقلي مشكل",
+   "p": 20.0,
+   "g": "fried-rice",
+   "c": "Chinese"
+  },
+  {
+   "n": "Egg Fried Rice",
+   "a": "أرز مقلي بيض",
+   "p": 13.0,
+   "g": "fried-rice",
+   "c": "Chinese"
+  },
+  {
+   "n": "Chicken Noodles",
+   "a": "معكرونه دجاج",
+   "p": 16.0,
+   "g": "noodles",
+   "c": "Chinese"
+  },
+  {
+   "n": "Mix Noodles",
+   "a": "معكرونه مشكل",
+   "p": 18.0,
+   "g": "mix-noodles",
+   "c": "Chinese"
+  },
+  {
+   "n": "Veg. Noodles",
+   "a": "معكرونه خضار",
+   "p": 12.0,
+   "g": "noodles",
+   "c": "Chinese"
+  },
+  {
+   "n": "Paneer Butter Masala",
+   "a": "بانير زبدة مسالا",
+   "p": 12.0,
+   "g": "paneer-butter-masala",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Paneer Kadai",
+   "a": "بانير كداي",
+   "p": 13.0,
+   "g": "paneer-butter-masala",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Paneer Palak",
+   "a": "بانير بالك",
+   "p": 12.0,
+   "g": "paneer-butter-masala",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Dal Thadka",
+   "a": "دال تدكا",
+   "p": 10.0,
+   "g": "",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Dal Fry",
+   "a": "دال فراي",
+   "p": 8.0,
+   "g": "",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Mushroom Masala",
+   "a": "فطر مسالا",
+   "p": 10.0,
+   "g": "",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Chana Masala",
+   "a": "شانا مسالا",
+   "p": 8.0,
+   "g": "",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Mix Veg. Curry",
+   "a": "خضار مشكل مسالا",
+   "p": 8.0,
+   "g": "",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Bhindi Fry",
+   "a": "بهندي فراي",
+   "p": 12.0,
+   "g": "",
+   "c": "Vegetarian"
+  },
+  {
+   "n": "Zinger Poratta",
+   "a": "بوراتا زنجر",
+   "p": 10.0,
+   "g": "zinger-wrap",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Chicken Chilli Poratta",
+   "a": "بوراتا دجاج شيلي",
+   "p": 5.0,
+   "g": "chicken-fillet",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Beef Chilli Poratta",
+   "a": "بوراتا لحم شيلي",
+   "p": 5.0,
+   "g": "chicken-fillet",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Chicken Tikka Poratta",
+   "a": "بوراتا دجاج تكا",
+   "p": 6.0,
+   "g": "chicken-fillet",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Fillet Poratta",
+   "a": "بوراتا فيلية",
+   "p": 6.0,
+   "g": "chicken-fillet",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Kabab Poratta",
+   "a": "بوراتا كباب",
+   "p": 6.0,
+   "g": "",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Nuggets Poratta",
+   "a": "بوراتا نجتس",
+   "p": 6.0,
+   "g": "",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Nutella Poratta",
+   "a": "بوراتا نيوتيلا",
+   "p": 4.0,
+   "g": "nutella-poratta",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Vegetable Poratta",
+   "a": "بوراتا خضار",
+   "p": 5.0,
+   "g": "",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Egg Poratta",
+   "a": "بوراتا بيض",
+   "p": 3.5,
+   "g": "",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "Falafel Sandwich",
+   "a": "سندويتش فلافل",
+   "p": 5.0,
+   "g": "felafel-plate",
+   "c": "Poratta Sandwiches"
+  },
+  {
+   "n": "French Fries",
+   "a": "بطاطا مقلي",
+   "p": 6.0,
+   "g": "french-fries",
+   "c": "Plates & Sides"
+  },
+  {
+   "n": "Chicken Nuggets Plate",
+   "a": "صحن دجاج نجتس",
+   "p": 15.0,
+   "g": "french-fries",
+   "c": "Plates & Sides"
+  },
+  {
+   "n": "Chicken Fillet Plate",
+   "a": "صحن دجاج فيلية",
+   "p": 20.0,
+   "g": "chicken-fillet",
+   "c": "Plates & Sides"
+  },
+  {
+   "n": "Felafel Plate",
+   "a": "صحن فلافل",
+   "p": 10.0,
+   "g": "felafel-plate",
+   "c": "Plates & Sides"
+  },
+  {
+   "n": "Sweet Corn Soup",
+   "a": "شوربة ذرة",
+   "p": 10.0,
+   "g": "soup",
+   "c": "Plates & Sides"
+  },
+  {
+   "n": "Hot & Sour Soup",
+   "a": "شوربة حار",
+   "p": 10.0,
+   "g": "soup",
+   "c": "Plates & Sides"
+  },
+  {
+   "n": "Juice Salvation",
+   "a": "جيوس سالفيشن",
+   "p": 15.0,
+   "g": "juice-salvation",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Anti Oxidant",
+   "a": "انتي اوكسدنت",
+   "p": 15.0,
+   "g": "anti-oxidant",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Power Booster",
+   "a": "باور بوستر",
+   "p": 15.0,
+   "g": "power-booster",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Cocktail Juice",
+   "a": "كوكتيل",
+   "p": 12.0,
+   "g": "cocktail-juice",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Mango Passion",
+   "a": "مانجو باشون",
+   "p": 12.0,
+   "g": "mango-passion",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Avocado Juice",
+   "a": "افوكادو",
+   "p": 12.0,
+   "g": "avocado-juice",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Fresh Juice",
+   "a": "عصير طازج",
+   "p": 12.0,
+   "g": "fresh-juice",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Nutella Shake",
+   "a": "شيك نوتيلا",
+   "p": 13.0,
+   "g": "nutella-shake",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "KitKat Shake",
+   "a": "شيك كتكات",
+   "p": 13.0,
+   "g": "kitkat-shake",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Oreo Milkshake",
+   "a": "شيك اوريو",
+   "p": 13.0,
+   "g": "oreo-milkshake",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Samavor Tea",
+   "a": "شاي سماور",
+   "p": 2.0,
+   "g": "samavor-tea",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Lime Soda",
+   "a": "ليمون صودا",
+   "p": 5.0,
+   "g": "",
+   "c": "Juices & Shakes"
+  },
+  {
+   "n": "Strawberry Falooda",
+   "a": "فالودة فراولة",
+   "p": 15.0,
+   "g": "strawberry-falooda",
+   "c": "Desserts"
+  },
+  {
+   "n": "Avocado Falooda",
+   "a": "فالودة أفوكادو",
+   "p": 15.0,
+   "g": "avocado-falooda",
+   "c": "Desserts"
+  },
+  {
+   "n": "Falooda",
+   "a": "فالودة",
+   "p": 12.0,
+   "g": "falooda",
+   "c": "Desserts"
+  },
+  {
+   "n": "Fruit Salad with Ice Cream",
+   "a": "سلطة فواكه مع ايسكريم",
+   "p": 12.0,
+   "g": "fruit-salad",
+   "c": "Desserts"
+  },
+  {
+   "n": "Garlic Naan",
+   "a": "نان بالثوم",
+   "p": 3.5,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Butter Naan",
+   "a": "نان بتر",
+   "p": 3.0,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Naan",
+   "a": "نان",
+   "p": 2.0,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Tandoor Rotti",
+   "a": "خبز تندور",
+   "p": 1.0,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Poratta",
+   "a": "بوراتا",
+   "p": 1.0,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Chappathi",
+   "a": "شاباتي",
+   "p": 1.0,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Idiyappam",
+   "a": "إيدي ابم",
+   "p": 1.0,
+   "g": "",
+   "c": "Breads"
+  },
+  {
+   "n": "Puttu",
+   "a": "بوتو",
+   "p": 1.5,
+   "g": "",
+   "c": "Breads"
+  }
+ ],
+ "teajunction": [
+  {
+   "n": "Selfie Chai",
+   "a": "شاي سيلفي",
+   "p": 2.5,
+   "g": "cordoba",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Matka Chai",
+   "a": "شاي مدكا",
+   "p": 5.0,
+   "g": "cordoba",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Royal Sulaimani",
+   "a": "سليماني رويال",
+   "p": 4.0,
+   "g": "cordoba",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Zafran Tea",
+   "a": "شاي زعفران",
+   "p": 4.0,
+   "g": "cordoba",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Kashmiri Tea",
+   "a": "شاي كشميري",
+   "p": 5.0,
+   "g": "cordoba",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Samavor Tea",
+   "a": "شاي سماور",
+   "p": 2.0,
+   "g": "cordoba",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Milk Zafran",
+   "a": "حليب زعفران",
+   "p": 5.0,
+   "g": "",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Ginger Tea",
+   "a": "شاي زنجبيل",
+   "p": 3.0,
+   "g": "",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Black Tea",
+   "a": "شاي اسود",
+   "p": 2.0,
+   "g": "",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Green Tea",
+   "a": "شاي اخضر",
+   "p": 2.0,
+   "g": "",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Coffee",
+   "a": "قهوة",
+   "p": 4.0,
+   "g": "",
+   "c": "Karak & Hot Drinks"
+  },
+  {
+   "n": "Burj Al Arab Club",
+   "a": "كلوب برج العرب",
+   "p": 22.0,
+   "g": "burj-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Selfie Club",
+   "a": "كلوب سلفي",
+   "p": 22.0,
+   "g": "selfie-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Kebab Club",
+   "a": "كلوب كباب",
+   "p": 20.0,
+   "g": "kebab-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Chicken Club",
+   "a": "كلوب دجاج",
+   "p": 18.0,
+   "g": "chicken-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Beef Club",
+   "a": "كلوب لحم بقر",
+   "p": 18.0,
+   "g": "beef-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Omelette Club",
+   "a": "كلوب بيض مقلي",
+   "p": 16.0,
+   "g": "omelette-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Hotdog Club",
+   "a": "كلوب نقانق",
+   "p": 16.0,
+   "g": "hotdog-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Vegetable Club",
+   "a": "كلوب خضار",
+   "p": 16.0,
+   "g": "vegetable-club",
+   "c": "Club Sandwiches"
+  },
+  {
+   "n": "Angus Beef Burger",
+   "a": "برجر لحم بقر انغوس",
+   "p": 22.0,
+   "g": "chicken-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Grilled Chicken Burger",
+   "a": "برجر دجاج مشوي",
+   "p": 20.0,
+   "g": "chicken-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Zinger Chicken Fillet Burger",
+   "a": "برجر زنجر دجاج فيلية",
+   "p": 18.0,
+   "g": "chicken-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Chicken Fillet Burger",
+   "a": "برجر دجاج فيلية",
+   "p": 16.0,
+   "g": "chicken-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Fish Fillet Burger",
+   "a": "برجر سمك فيلية",
+   "p": 16.0,
+   "g": "fish-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Healthy Burger",
+   "a": "البرجر الصحي",
+   "p": 20.0,
+   "g": "fish-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Selfie Burger",
+   "a": "برجر سيلفي",
+   "p": 15.0,
+   "g": "chicken-fillet-burger",
+   "c": "Burgers"
+  },
+  {
+   "n": "Hotdog",
+   "a": "هوت دوج",
+   "p": 12.0,
+   "g": "hotdog",
+   "c": "Burgers"
+  },
+  {
+   "n": "TJ Zinger Wrap",
+   "a": "تي جي رنجر راب",
+   "p": 18.0,
+   "g": "tj-wrap",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "TJ Popcorn Wrap",
+   "a": "تي جي بوب كورن راب",
+   "p": 16.0,
+   "g": "tj-wrap",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "TJ Kebab Wrap",
+   "a": "تي جي كباب راب",
+   "p": 16.0,
+   "g": "tj-wrap",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Special Chilly Wrap",
+   "a": "شيلي خاص راب",
+   "p": 11.0,
+   "g": "tj-wrap",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Magic Bite",
+   "a": "ماجيك بايت",
+   "p": 11.0,
+   "g": "",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Chilly Wrap",
+   "a": "شيلي راب",
+   "p": 9.0,
+   "g": "",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Chicken Wrap",
+   "a": "دجاج راب",
+   "p": 8.0,
+   "g": "",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Veg. Wrap",
+   "a": "خضار راب",
+   "p": 9.0,
+   "g": "",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Egg Wrap",
+   "a": "بيض راب",
+   "p": 9.0,
+   "g": "",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Hotdog Wrap",
+   "a": "نقانق راب",
+   "p": 9.0,
+   "g": "",
+   "c": "Wraps & Rolls"
+  },
+  {
+   "n": "Dum Porotta",
+   "a": "دم بوراتا",
+   "p": 32.0,
+   "g": "kothu-porotta",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Kunji Kozhi Roast",
+   "a": "كونجي كوزي روست",
+   "p": 28.0,
+   "g": "tandoor-chicken",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Dynamite Prawns",
+   "a": "روبيان ديناميت",
+   "p": 25.0,
+   "g": "beef-fry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Kaattu Pothu Fry",
+   "a": "كاتو بوتو مقلي",
+   "p": 25.0,
+   "g": "beef-dry-fry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Kunji Kozhi Fry",
+   "a": "كونجي كوزي مقلي",
+   "p": 23.0,
+   "g": "tandoor-chicken",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Beef Dry Fry",
+   "a": "لحم بقر دراي فراي",
+   "p": 23.0,
+   "g": "beef-dry-fry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Chicken Ularthiyathu",
+   "a": "دجاج اولارتيادي",
+   "p": 20.0,
+   "g": "beef-fry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Butter Chicken",
+   "a": "دجاج بالزبدة",
+   "p": 20.0,
+   "g": "chicken-curry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Kerala Beef Fry",
+   "a": "لحم بقر مقلي كيرلا",
+   "p": 19.0,
+   "g": "beef-fry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Tandoori Mexicy",
+   "a": "تندوري مكسيكي",
+   "p": 18.0,
+   "g": "tandoori-mexicy",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Chicken 65",
+   "a": "دجاج ٦٥",
+   "p": 16.0,
+   "g": "beef-fry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Kothu Porotta Beef/Chicken",
+   "a": "كوتو بوراتا",
+   "p": 16.0,
+   "g": "kothu-porotta",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Chicken Fillet Plate",
+   "a": "صحن دجاج فيلية",
+   "p": 16.0,
+   "g": "chicken-fillet-plate",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Ghee Rice + Beef/Chicken Curry",
+   "a": "أرز جي مع صالونه",
+   "p": 15.0,
+   "g": "ghee-rice-curry",
+   "c": "Mains & Grills"
+  },
+  {
+   "n": "Special Chicken Fried Rice",
+   "a": "أرز مقلي دجاج خاص",
+   "p": 20.0,
+   "g": "fried-rice",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Prawns Fried Rice",
+   "a": "أرز مقلي روبيان",
+   "p": 20.0,
+   "g": "fried-rice",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Chicken Schezwan Fried Rice",
+   "a": "أرز مقلي شيزوان",
+   "p": 18.0,
+   "g": "schezwan-noodles",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Chicken Fried Rice",
+   "a": "أرز مقلي دجاج",
+   "p": 18.0,
+   "g": "fried-rice",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Chicken Noodles",
+   "a": "معكرونه دجاج",
+   "p": 18.0,
+   "g": "noodles",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Mix Noodles",
+   "a": "معكرونه مشكل",
+   "p": 18.0,
+   "g": "mix-noodles",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Egg Fried Rice",
+   "a": "أرز مقلي بيض",
+   "p": 16.0,
+   "g": "fried-rice",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Vegetable Fried Rice",
+   "a": "أرز مقلي خضار",
+   "p": 16.0,
+   "g": "fried-rice",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Biriyani (Chicken/Beef)",
+   "a": "برياني دجاج/لحم بقر",
+   "p": 18.0,
+   "g": "biriyani-cup",
+   "c": "Rice & Noodles"
+  },
+  {
+   "n": "Juice Salvation",
+   "a": "جيوس سالفيشن",
+   "p": 16.0,
+   "g": "juice-salvation",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Hangover Cure",
+   "a": "علاج هانغوفر",
+   "p": 16.0,
+   "g": "hangover-cure",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Cordoba",
+   "a": "كوردوبا",
+   "p": 16.0,
+   "g": "cordoba",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Santiago",
+   "a": "سانتياغو",
+   "p": 16.0,
+   "g": "santiago",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Passion Mango",
+   "a": "باشن مانجو",
+   "p": 16.0,
+   "g": "fresh-juice",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Mint Mojito",
+   "a": "موهيتو نعناع",
+   "p": 14.0,
+   "g": "mint-mojito",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Blue Mojito",
+   "a": "موهيتو ازرق",
+   "p": 14.0,
+   "g": "mojito",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Kiwi Aboob",
+   "a": "كيوي عبود",
+   "p": 14.0,
+   "g": "kiwi-juice",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Oreo Shake",
+   "a": "شيك اوريو",
+   "p": 16.0,
+   "g": "tall-shake",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Nutella Shake",
+   "a": "شيك نوتيلا",
+   "p": 16.0,
+   "g": "vanilla-shake",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Mint Shake",
+   "a": "شيك نعناع",
+   "p": 15.0,
+   "g": "mint-shake",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Fresh Juice",
+   "a": "عصير طازج",
+   "p": 12.0,
+   "g": "juice-trio",
+   "c": "Mojitos & Shakes"
+  },
+  {
+   "n": "Special Falooda",
+   "a": "فالودة خاصة",
+   "p": 16.0,
+   "g": "tall-falooda",
+   "c": "Falooda & Desserts"
+  },
+  {
+   "n": "Sundae",
+   "a": "صنداي",
+   "p": 15.0,
+   "g": "sundae",
+   "c": "Falooda & Desserts"
+  },
+  {
+   "n": "Falooda",
+   "a": "فالودة",
+   "p": 14.0,
+   "g": "falooda",
+   "c": "Falooda & Desserts"
+  },
+  {
+   "n": "Ela Ada",
+   "a": "ايلا ادا",
+   "p": 6.0,
+   "g": "ela-ada",
+   "c": "Falooda & Desserts"
+  },
+  {
+   "n": "Ghee Roast",
+   "a": "جي روست",
+   "p": 9.0,
+   "g": "ghee-roast",
+   "c": "Breakfast Sets"
+  },
+  {
+   "n": "Idly Set",
+   "a": "ادلي ست",
+   "p": 6.5,
+   "g": "idly-set",
+   "c": "Breakfast Sets"
+  },
+  {
+   "n": "Uppuma",
+   "a": "أوبما",
+   "p": 5.0,
+   "g": "uppuma",
+   "c": "Breakfast Sets"
+  },
+  {
+   "n": "Kerala Meals",
+   "a": "وجبة كيرلا",
+   "p": 12.0,
+   "g": "kerala-meals",
+   "c": "Breakfast Sets"
+  },
+  {
+   "n": "Appam Set",
+   "a": "ابام ست",
+   "p": 8.5,
+   "g": "appam",
+   "c": "Breakfast Sets"
+  },
+  {
+   "n": "Poori Bhaji Set",
+   "a": "بوري باجي ست",
+   "p": 8.5,
+   "g": "poori-bhaji",
+   "c": "Breakfast Sets"
+  },
+  {
+   "n": "Naan / Paratha",
+   "a": "نان / براتا",
+   "p": 3.0,
+   "g": "naan",
+   "c": "Breakfast Sets"
+  }
+ ]
+}

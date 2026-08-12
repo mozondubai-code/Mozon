@@ -1,0 +1,2055 @@
+{
+ "mashad": [
+  {
+   "id": "breakfast",
+   "title": "Breakfast",
+   "ar": "فطور",
+   "icon": "🌅",
+   "dayparts": [
+    "morning"
+   ],
+   "sort": 0,
+   "items": [
+    {
+     "name": "Masala Dosa",
+     "ar": "مسالا دوسا",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "photos/appam.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Poori Bhaji",
+     "ar": "بوري باجي",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 1
+    },
+    {
+     "name": "Appam",
+     "ar": "ابام",
+     "price": 1.5,
+     "popular": 0,
+     "photo": "photos/appam.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Set Dosa",
+     "ar": "دوسا ست",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/appam.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Ghee Roast",
+     "ar": "جي روست",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 4
+    },
+    {
+     "name": "Uthappam",
+     "ar": "أوتبام",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Egg Dosa",
+     "ar": "بيض دوسا",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Idly Set",
+     "ar": "ادلي ست",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    },
+    {
+     "name": "Vada Set",
+     "ar": "وادا ست",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    },
+    {
+     "name": "Puttu Kadala",
+     "ar": "بوتو كدلا",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 9
+    },
+    {
+     "name": "Poratta + Chicken Curry",
+     "ar": "بوراتا + دجاج كاري",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 10
+    },
+    {
+     "name": "Poratta + Beef Curry",
+     "ar": "بوراتا + لحم كاري",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 11
+    }
+   ]
+  },
+  {
+   "id": "biriyani",
+   "title": "Biriyani & Rice",
+   "ar": "برياني",
+   "icon": "🍛",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 1,
+   "items": [
+    {
+     "name": "Chicken Dum Biriyani",
+     "ar": "برياني دجاج دم",
+     "price": 13.0,
+     "popular": 1,
+     "photo": "photos/chicken-dum-biriyani.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Mutton Dum Biriyani",
+     "ar": "برياني لحم دم",
+     "price": 17.0,
+     "popular": 0,
+     "photo": "photos/chicken-dum-biriyani.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Beef Dum Biriyani",
+     "ar": "برياني لحم بقر دم",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/chicken-dum-biriyani.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Chicken Fry Biriyani",
+     "ar": "برياني دجاج مقلي",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/chicken-fry-biriyani.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Fish Dum Biriyani",
+     "ar": "برياني سمك دم",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/fish-dum-biriyani.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Chicken 65 Biriyani",
+     "ar": "برياني دجاج ٦٥",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/chicken-fry-biriyani.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Lagone Biriyani",
+     "ar": "برياني لجون",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/chicken-dum-biriyani.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Pothi Biriyani",
+     "ar": "برياني بوتي",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/pothi-choru.jpg",
+     "sort": 7
+    },
+    {
+     "name": "Pothi Choru",
+     "ar": "بوتي جورو",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/pothi-choru.jpg",
+     "sort": 8
+    },
+    {
+     "name": "Kerala Meals",
+     "ar": "وجبة كيرلا",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "photos/kerala-meals.jpg",
+     "sort": 9
+    },
+    {
+     "name": "Kappa Biriyani",
+     "ar": "كابا برياني",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/kappa-biriyani.jpg",
+     "sort": 10
+    },
+    {
+     "name": "Veg. Biriyani",
+     "ar": "برياني خضار",
+     "price": 11.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 11
+    },
+    {
+     "name": "Egg Biriyani",
+     "ar": "برياني بيض",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 12
+    },
+    {
+     "name": "Ghee Rice",
+     "ar": "أرز بالسمن",
+     "price": 7.0,
+     "popular": 0,
+     "photo": "photos/ghee-rice.jpg",
+     "sort": 13
+    },
+    {
+     "name": "Ghee Rice + Beef",
+     "ar": "أرز جي لحم",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/ghee-rice.jpg",
+     "sort": 14
+    },
+    {
+     "name": "Ghee Rice + Chicken",
+     "ar": "أرز جي دجاج",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/ghee-rice.jpg",
+     "sort": 15
+    }
+   ]
+  },
+  {
+   "id": "tandoor",
+   "title": "Tandoor & Grills",
+   "ar": "تندور",
+   "icon": "🔥",
+   "dayparts": [
+    "evening",
+    "night"
+   ],
+   "sort": 2,
+   "items": [
+    {
+     "name": "Tandoor Mix Platter",
+     "ar": "تندور مشكل بلاتر",
+     "price": 45.0,
+     "popular": 1,
+     "photo": "photos/tandoor-mix-platter.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Tandoor Chicken Full",
+     "ar": "دجاج تندور كامل",
+     "price": 40.0,
+     "popular": 0,
+     "photo": "photos/tandoor-chicken.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Tandoor Chicken Half",
+     "ar": "دجاج تندور نصف",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/tandoor-chicken.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Tandoor Chicken Qtr.",
+     "ar": "دجاج تندور ربع",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/tandoor-chicken.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Pahadi Chicken Full",
+     "ar": "دجاج بهادي كامل",
+     "price": 40.0,
+     "popular": 0,
+     "photo": "photos/pahadi-chicken.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Pahadi Chicken Half",
+     "ar": "دجاج بهادي نصف",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/pahadi-chicken.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Chicken Tikka (6 pc)",
+     "ar": "دجاج تكا",
+     "price": 22.0,
+     "popular": 0,
+     "photo": "photos/tandoor-platter.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Quail Fry / Roast",
+     "ar": "فري مقلي",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/quail-fry.jpg",
+     "sort": 7
+    }
+   ]
+  },
+  {
+   "id": "chicken",
+   "title": "Chicken",
+   "ar": "دجاج",
+   "icon": "🍗",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 3,
+   "items": [
+    {
+     "name": "Butter Chicken",
+     "ar": "دجاج بتر",
+     "price": 15.0,
+     "popular": 1,
+     "photo": "photos/paneer-butter-masala.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Chicken Fry",
+     "ar": "دجاج مقلي",
+     "price": 9.0,
+     "popular": 0,
+     "photo": "photos/chicken-fry.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Kunji Kozhi",
+     "ar": "كونجي كوزي",
+     "price": 25.0,
+     "popular": 0,
+     "photo": "photos/chicken-fry.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Chicken Kuruma",
+     "ar": "دجاج كورما",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/mutton-kuruma.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Chicken Kadai",
+     "ar": "دجاج كداي",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 4
+    },
+    {
+     "name": "Chicken Malabar",
+     "ar": "دجاج ملبار",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Chicken Pepper Roast",
+     "ar": "دجاج فلفل روست",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Chicken Nadan Curry",
+     "ar": "دجاج نادن كاري",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    },
+    {
+     "name": "Chicken Kondattam",
+     "ar": "دجاج كونداتام",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    },
+    {
+     "name": "Chicken Kanthari",
+     "ar": "دجاج كانتاري",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 9
+    },
+    {
+     "name": "Chicken Hyderabadi",
+     "ar": "دجاج حيدرابادي",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 10
+    },
+    {
+     "name": "Chicken Chukka",
+     "ar": "دجاج شوكا",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 11
+    }
+   ]
+  },
+  {
+   "id": "beefmutton",
+   "title": "Beef & Mutton",
+   "ar": "لحم",
+   "icon": "🥩",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 4,
+   "items": [
+    {
+     "name": "Mutton Chaps",
+     "ar": "لحم جابس",
+     "price": 16.0,
+     "popular": 1,
+     "photo": "photos/mutton-chaps.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Mutton Kuruma",
+     "ar": "لحم كورما",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/mutton-kuruma.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Mutton Tawa",
+     "ar": "لحم ضأن تاوا",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/mutton-chaps.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Mutton Kadai",
+     "ar": "لحم ضأن كداي",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/mutton-kuruma.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Mutton Roast",
+     "ar": "لحم ضأن روست",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/mutton-chaps.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Beef Ularth",
+     "ar": "لحم بقر الرت",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Beef Coconut Fry",
+     "ar": "لحم بقر كوكونت مقلي",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Beef Pepper Masala",
+     "ar": "لحم بقر فلفل مسالا",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    },
+    {
+     "name": "Beef Dry Fry",
+     "ar": "لحم بقر دراي مقلي",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    },
+    {
+     "name": "Beef Varattu",
+     "ar": "لحم بقر وراتو",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 9
+    },
+    {
+     "name": "Kaattu Pothu Varattu",
+     "ar": "كاتو بوتو وراتو",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 10
+    }
+   ]
+  },
+  {
+   "id": "special",
+   "title": "Our Special",
+   "ar": "مميز",
+   "icon": "⭐",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 5,
+   "items": [
+    {
+     "name": "Kizhi Poratta Beef",
+     "ar": "كيجي بوراتا لحم",
+     "price": 15.0,
+     "popular": 1,
+     "photo": "photos/kizhi-poratta.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Kizhi Poratta Chicken",
+     "ar": "كيجي بوراتا دجاج",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/kizhi-poratta.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Kothu Poratta",
+     "ar": "كوتو بوراتا",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/kappa-biriyani.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Dum Poratta Beef",
+     "ar": "دم بوراتا لحم",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/kizhi-poratta.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Puttu Biriyani",
+     "ar": "بوتو برياني",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/kappa-biriyani.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Duck Varattu / Roast",
+     "ar": "بط وراتو",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/quail-fry.jpg",
+     "sort": 5
+    }
+   ]
+  },
+  {
+   "id": "seafood",
+   "title": "Seafood",
+   "ar": "بحرية",
+   "icon": "🐟",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 6,
+   "items": [
+    {
+     "name": "Fish Pollichathu",
+     "ar": "سمك بوليشاتو",
+     "price": 25.0,
+     "popular": 1,
+     "photo": "photos/fish-pollichathu.jpg",
+     "sort": 0
+    },
+    {
+     "name": "King Fish Mango Curry",
+     "ar": "سمك كينغ مانجو كاري",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/fish-curry.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Ayala Mulaku Curry",
+     "ar": "أيالا مولاكو كاري",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/fish-curry.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Prawns Roast",
+     "ar": "روبيان روست",
+     "price": 22.0,
+     "popular": 0,
+     "photo": "photos/chicken-chilli.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Crab Roast",
+     "ar": "سلطعون روست",
+     "price": 25.0,
+     "popular": 0,
+     "photo": "photos/chicken-chilli.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Fish Tawa Fry",
+     "ar": "سمك تاوا",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/fish-pollichathu.jpg",
+     "sort": 5
+    }
+   ]
+  },
+  {
+   "id": "chinese",
+   "title": "Chinese",
+   "ar": "صيني",
+   "icon": "🥡",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 7,
+   "items": [
+    {
+     "name": "Chicken Lollipop",
+     "ar": "دجاج لولي بوب",
+     "price": 15.0,
+     "popular": 1,
+     "photo": "photos/chicken-lollipop.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Chicken Chilli",
+     "ar": "دجاج شيلي",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/chicken-chilli.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Chicken Manchurian",
+     "ar": "دجاج منشوريان",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/chicken-chilli.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Beef Chilli",
+     "ar": "لحم شيلي",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/beef-chilli.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Gobi Manchurian",
+     "ar": "جوبي منشوريان",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/gobi-manchurian.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Chicken Fried Rice",
+     "ar": "أرز مقلي دجاج",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Schezwan Fried Rice",
+     "ar": "أرز مقلي شيزوان",
+     "price": 17.0,
+     "popular": 0,
+     "photo": "photos/schezwan-fried-rice.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Mix Fried Rice",
+     "ar": "أرز مقلي مشكل",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 7
+    },
+    {
+     "name": "Egg Fried Rice",
+     "ar": "أرز مقلي بيض",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 8
+    },
+    {
+     "name": "Chicken Noodles",
+     "ar": "معكرونه دجاج",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/noodles.jpg",
+     "sort": 9
+    },
+    {
+     "name": "Mix Noodles",
+     "ar": "معكرونه مشكل",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/mix-noodles.jpg",
+     "sort": 10
+    },
+    {
+     "name": "Veg. Noodles",
+     "ar": "معكرونه خضار",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/noodles.jpg",
+     "sort": 11
+    }
+   ]
+  },
+  {
+   "id": "veg",
+   "title": "Vegetarian",
+   "ar": "نباتي",
+   "icon": "🥗",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 8,
+   "items": [
+    {
+     "name": "Paneer Butter Masala",
+     "ar": "بانير زبدة مسالا",
+     "price": 12.0,
+     "popular": 1,
+     "photo": "photos/paneer-butter-masala.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Paneer Kadai",
+     "ar": "بانير كداي",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/paneer-butter-masala.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Paneer Palak",
+     "ar": "بانير بالك",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/paneer-butter-masala.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Dal Thadka",
+     "ar": "دال تدكا",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 3
+    },
+    {
+     "name": "Dal Fry",
+     "ar": "دال فراي",
+     "price": 8.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 4
+    },
+    {
+     "name": "Mushroom Masala",
+     "ar": "فطر مسالا",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Chana Masala",
+     "ar": "شانا مسالا",
+     "price": 8.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Mix Veg. Curry",
+     "ar": "خضار مشكل مسالا",
+     "price": 8.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    },
+    {
+     "name": "Bhindi Fry",
+     "ar": "بهندي فراي",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    }
+   ]
+  },
+  {
+   "id": "poratta",
+   "title": "Poratta Sandwiches",
+   "ar": "بوراتا",
+   "icon": "🌯",
+   "dayparts": [
+    "morning",
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 9,
+   "items": [
+    {
+     "name": "Zinger Poratta",
+     "ar": "بوراتا زنجر",
+     "price": 10.0,
+     "popular": 1,
+     "photo": "photos/zinger-wrap.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Chicken Chilli Poratta",
+     "ar": "بوراتا دجاج شيلي",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Beef Chilli Poratta",
+     "ar": "بوراتا لحم شيلي",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Chicken Tikka Poratta",
+     "ar": "بوراتا دجاج تكا",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Fillet Poratta",
+     "ar": "بوراتا فيلية",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Kabab Poratta",
+     "ar": "بوراتا كباب",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Nuggets Poratta",
+     "ar": "بوراتا نجتس",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Nutella Poratta",
+     "ar": "بوراتا نيوتيلا",
+     "price": 4.0,
+     "popular": 0,
+     "photo": "photos/nutella-poratta.jpg",
+     "sort": 7
+    },
+    {
+     "name": "Vegetable Poratta",
+     "ar": "بوراتا خضار",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    },
+    {
+     "name": "Egg Poratta",
+     "ar": "بوراتا بيض",
+     "price": 3.5,
+     "popular": 0,
+     "photo": "",
+     "sort": 9
+    },
+    {
+     "name": "Falafel Sandwich",
+     "ar": "سندويتش فلافل",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/felafel-plate.jpg",
+     "sort": 10
+    }
+   ]
+  },
+  {
+   "id": "plates",
+   "title": "Plates & Sides",
+   "ar": "أطباق",
+   "icon": "🍟",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 10,
+   "items": [
+    {
+     "name": "French Fries",
+     "ar": "بطاطا مقلي",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "photos/french-fries.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Chicken Nuggets Plate",
+     "ar": "صحن دجاج نجتس",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/french-fries.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Chicken Fillet Plate",
+     "ar": "صحن دجاج فيلية",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Felafel Plate",
+     "ar": "صحن فلافل",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "photos/felafel-plate.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Sweet Corn Soup",
+     "ar": "شوربة ذرة",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "photos/soup.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Hot & Sour Soup",
+     "ar": "شوربة حار",
+     "price": 10.0,
+     "popular": 0,
+     "photo": "photos/soup.jpg",
+     "sort": 5
+    }
+   ]
+  },
+  {
+   "id": "drinks",
+   "title": "Juices & Shakes",
+   "ar": "عصائر",
+   "icon": "🥤",
+   "dayparts": [
+    "morning",
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 11,
+   "items": [
+    {
+     "name": "Juice Salvation",
+     "ar": "جيوس سالفيشن",
+     "price": 15.0,
+     "popular": 1,
+     "photo": "photos/juice-salvation.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Anti Oxidant",
+     "ar": "انتي اوكسدنت",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/anti-oxidant.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Power Booster",
+     "ar": "باور بوستر",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/power-booster.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Cocktail Juice",
+     "ar": "كوكتيل",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/cocktail-juice.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Mango Passion",
+     "ar": "مانجو باشون",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/mango-passion.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Avocado Juice",
+     "ar": "افوكادو",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/avocado-juice.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Fresh Juice",
+     "ar": "عصير طازج",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/fresh-juice.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Nutella Shake",
+     "ar": "شيك نوتيلا",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/nutella-shake.jpg",
+     "sort": 7
+    },
+    {
+     "name": "KitKat Shake",
+     "ar": "شيك كتكات",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/kitkat-shake.jpg",
+     "sort": 8
+    },
+    {
+     "name": "Oreo Milkshake",
+     "ar": "شيك اوريو",
+     "price": 13.0,
+     "popular": 0,
+     "photo": "photos/oreo-milkshake.jpg",
+     "sort": 9
+    },
+    {
+     "name": "Samavor Tea",
+     "ar": "شاي سماور",
+     "price": 2.0,
+     "popular": 0,
+     "photo": "photos/samavor-tea.jpg",
+     "sort": 10
+    },
+    {
+     "name": "Lime Soda",
+     "ar": "ليمون صودا",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 11
+    }
+   ]
+  },
+  {
+   "id": "desserts",
+   "title": "Desserts",
+   "ar": "حلويات",
+   "icon": "🍨",
+   "dayparts": [
+    "evening",
+    "night"
+   ],
+   "sort": 12,
+   "items": [
+    {
+     "name": "Strawberry Falooda",
+     "ar": "فالودة فراولة",
+     "price": 15.0,
+     "popular": 1,
+     "photo": "photos/strawberry-falooda.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Avocado Falooda",
+     "ar": "فالودة أفوكادو",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/avocado-falooda.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Falooda",
+     "ar": "فالودة",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/falooda.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Fruit Salad with Ice Cream",
+     "ar": "سلطة فواكه مع ايسكريم",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/fruit-salad.jpg",
+     "sort": 3
+    }
+   ]
+  },
+  {
+   "id": "breads",
+   "title": "Breads",
+   "ar": "خبز",
+   "icon": "🫓",
+   "dayparts": [
+    "morning",
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 13,
+   "items": [
+    {
+     "name": "Garlic Naan",
+     "ar": "نان بالثوم",
+     "price": 3.5,
+     "popular": 0,
+     "photo": "",
+     "sort": 0
+    },
+    {
+     "name": "Butter Naan",
+     "ar": "نان بتر",
+     "price": 3.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 1
+    },
+    {
+     "name": "Naan",
+     "ar": "نان",
+     "price": 2.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 2
+    },
+    {
+     "name": "Tandoor Rotti",
+     "ar": "خبز تندور",
+     "price": 1.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 3
+    },
+    {
+     "name": "Poratta",
+     "ar": "بوراتا",
+     "price": 1.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 4
+    },
+    {
+     "name": "Chappathi",
+     "ar": "شاباتي",
+     "price": 1.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Idiyappam",
+     "ar": "إيدي ابم",
+     "price": 1.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Puttu",
+     "ar": "بوتو",
+     "price": 1.5,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    }
+   ]
+  }
+ ],
+ "teajunction": [
+  {
+   "id": "hot",
+   "title": "Karak & Hot Drinks",
+   "ar": "مشروبات ساخنة",
+   "icon": "☕",
+   "dayparts": [
+    "morning",
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 0,
+   "items": [
+    {
+     "name": "Selfie Chai",
+     "ar": "شاي سيلفي",
+     "price": 2.5,
+     "popular": 1,
+     "photo": "photos/cordoba.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Matka Chai",
+     "ar": "شاي مدكا",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/cordoba.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Royal Sulaimani",
+     "ar": "سليماني رويال",
+     "price": 4.0,
+     "popular": 0,
+     "photo": "photos/cordoba.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Zafran Tea",
+     "ar": "شاي زعفران",
+     "price": 4.0,
+     "popular": 0,
+     "photo": "photos/cordoba.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Kashmiri Tea",
+     "ar": "شاي كشميري",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/cordoba.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Samavor Tea",
+     "ar": "شاي سماور",
+     "price": 2.0,
+     "popular": 0,
+     "photo": "photos/cordoba.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Milk Zafran",
+     "ar": "حليب زعفران",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Ginger Tea",
+     "ar": "شاي زنجبيل",
+     "price": 3.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    },
+    {
+     "name": "Black Tea",
+     "ar": "شاي اسود",
+     "price": 2.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    },
+    {
+     "name": "Green Tea",
+     "ar": "شاي اخضر",
+     "price": 2.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 9
+    },
+    {
+     "name": "Coffee",
+     "ar": "قهوة",
+     "price": 4.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 10
+    }
+   ]
+  },
+  {
+   "id": "clubs",
+   "title": "Club Sandwiches",
+   "ar": "كلوب ساندويتش",
+   "icon": "🥪",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 1,
+   "items": [
+    {
+     "name": "Burj Al Arab Club",
+     "ar": "كلوب برج العرب",
+     "price": 22.0,
+     "popular": 1,
+     "photo": "photos/burj-club.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Selfie Club",
+     "ar": "كلوب سلفي",
+     "price": 22.0,
+     "popular": 0,
+     "photo": "photos/selfie-club.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Kebab Club",
+     "ar": "كلوب كباب",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/kebab-club.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Chicken Club",
+     "ar": "كلوب دجاج",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/chicken-club.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Beef Club",
+     "ar": "كلوب لحم بقر",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/beef-club.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Omelette Club",
+     "ar": "كلوب بيض مقلي",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/omelette-club.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Hotdog Club",
+     "ar": "كلوب نقانق",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/hotdog-club.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Vegetable Club",
+     "ar": "كلوب خضار",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/vegetable-club.jpg",
+     "sort": 7
+    }
+   ]
+  },
+  {
+   "id": "burgers",
+   "title": "Burgers",
+   "ar": "برجر",
+   "icon": "🍔",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 2,
+   "items": [
+    {
+     "name": "Angus Beef Burger",
+     "ar": "برجر لحم بقر انغوس",
+     "price": 22.0,
+     "popular": 1,
+     "photo": "photos/chicken-fillet-burger.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Grilled Chicken Burger",
+     "ar": "برجر دجاج مشوي",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet-burger.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Zinger Chicken Fillet Burger",
+     "ar": "برجر زنجر دجاج فيلية",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet-burger.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Chicken Fillet Burger",
+     "ar": "برجر دجاج فيلية",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet-burger.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Fish Fillet Burger",
+     "ar": "برجر سمك فيلية",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/fish-fillet-burger.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Healthy Burger",
+     "ar": "البرجر الصحي",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/fish-fillet-burger.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Selfie Burger",
+     "ar": "برجر سيلفي",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet-burger.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Hotdog",
+     "ar": "هوت دوج",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/hotdog.jpg",
+     "sort": 7
+    }
+   ]
+  },
+  {
+   "id": "wraps",
+   "title": "Wraps & Rolls",
+   "ar": "راب",
+   "icon": "🌯",
+   "dayparts": [
+    "morning",
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 3,
+   "items": [
+    {
+     "name": "TJ Zinger Wrap",
+     "ar": "تي جي رنجر راب",
+     "price": 18.0,
+     "popular": 1,
+     "photo": "photos/tj-wrap.jpg",
+     "sort": 0
+    },
+    {
+     "name": "TJ Popcorn Wrap",
+     "ar": "تي جي بوب كورن راب",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/tj-wrap.jpg",
+     "sort": 1
+    },
+    {
+     "name": "TJ Kebab Wrap",
+     "ar": "تي جي كباب راب",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/tj-wrap.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Special Chilly Wrap",
+     "ar": "شيلي خاص راب",
+     "price": 11.0,
+     "popular": 0,
+     "photo": "photos/tj-wrap.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Magic Bite",
+     "ar": "ماجيك بايت",
+     "price": 11.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 4
+    },
+    {
+     "name": "Chilly Wrap",
+     "ar": "شيلي راب",
+     "price": 9.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 5
+    },
+    {
+     "name": "Chicken Wrap",
+     "ar": "دجاج راب",
+     "price": 8.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 6
+    },
+    {
+     "name": "Veg. Wrap",
+     "ar": "خضار راب",
+     "price": 9.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 7
+    },
+    {
+     "name": "Egg Wrap",
+     "ar": "بيض راب",
+     "price": 9.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 8
+    },
+    {
+     "name": "Hotdog Wrap",
+     "ar": "نقانق راب",
+     "price": 9.0,
+     "popular": 0,
+     "photo": "",
+     "sort": 9
+    }
+   ]
+  },
+  {
+   "id": "mains",
+   "title": "Mains & Grills",
+   "ar": "أطباق رئيسية",
+   "icon": "🍗",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 4,
+   "items": [
+    {
+     "name": "Dum Porotta",
+     "ar": "دم بوراتا",
+     "price": 32.0,
+     "popular": 1,
+     "photo": "photos/kothu-porotta.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Kunji Kozhi Roast",
+     "ar": "كونجي كوزي روست",
+     "price": 28.0,
+     "popular": 0,
+     "photo": "photos/tandoor-chicken.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Dynamite Prawns",
+     "ar": "روبيان ديناميت",
+     "price": 25.0,
+     "popular": 0,
+     "photo": "photos/beef-fry.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Kaattu Pothu Fry",
+     "ar": "كاتو بوتو مقلي",
+     "price": 25.0,
+     "popular": 0,
+     "photo": "photos/beef-dry-fry.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Kunji Kozhi Fry",
+     "ar": "كونجي كوزي مقلي",
+     "price": 23.0,
+     "popular": 0,
+     "photo": "photos/tandoor-chicken.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Beef Dry Fry",
+     "ar": "لحم بقر دراي فراي",
+     "price": 23.0,
+     "popular": 0,
+     "photo": "photos/beef-dry-fry.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Chicken Ularthiyathu",
+     "ar": "دجاج اولارتيادي",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/beef-fry.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Butter Chicken",
+     "ar": "دجاج بالزبدة",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/chicken-curry.jpg",
+     "sort": 7
+    },
+    {
+     "name": "Kerala Beef Fry",
+     "ar": "لحم بقر مقلي كيرلا",
+     "price": 19.0,
+     "popular": 0,
+     "photo": "photos/beef-fry.jpg",
+     "sort": 8
+    },
+    {
+     "name": "Tandoori Mexicy",
+     "ar": "تندوري مكسيكي",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/tandoori-mexicy.jpg",
+     "sort": 9
+    },
+    {
+     "name": "Chicken 65",
+     "ar": "دجاج ٦٥",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/beef-fry.jpg",
+     "sort": 10
+    },
+    {
+     "name": "Kothu Porotta Beef/Chicken",
+     "ar": "كوتو بوراتا",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/kothu-porotta.jpg",
+     "sort": 11
+    },
+    {
+     "name": "Chicken Fillet Plate",
+     "ar": "صحن دجاج فيلية",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/chicken-fillet-plate.jpg",
+     "sort": 12
+    },
+    {
+     "name": "Ghee Rice + Beef/Chicken Curry",
+     "ar": "أرز جي مع صالونه",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/ghee-rice-curry.jpg",
+     "sort": 13
+    }
+   ]
+  },
+  {
+   "id": "rice",
+   "title": "Rice & Noodles",
+   "ar": "أرز",
+   "icon": "🍚",
+   "dayparts": [
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 5,
+   "items": [
+    {
+     "name": "Special Chicken Fried Rice",
+     "ar": "أرز مقلي دجاج خاص",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Prawns Fried Rice",
+     "ar": "أرز مقلي روبيان",
+     "price": 20.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Chicken Schezwan Fried Rice",
+     "ar": "أرز مقلي شيزوان",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/schezwan-noodles.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Chicken Fried Rice",
+     "ar": "أرز مقلي دجاج",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Chicken Noodles",
+     "ar": "معكرونه دجاج",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/noodles.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Mix Noodles",
+     "ar": "معكرونه مشكل",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/mix-noodles.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Egg Fried Rice",
+     "ar": "أرز مقلي بيض",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Vegetable Fried Rice",
+     "ar": "أرز مقلي خضار",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/fried-rice.jpg",
+     "sort": 7
+    },
+    {
+     "name": "Biriyani (Chicken/Beef)",
+     "ar": "برياني دجاج/لحم بقر",
+     "price": 18.0,
+     "popular": 0,
+     "photo": "photos/biriyani-cup.jpg",
+     "sort": 8
+    }
+   ]
+  },
+  {
+   "id": "cold",
+   "title": "Mojitos & Shakes",
+   "ar": "موهيتو وشيك",
+   "icon": "🥤",
+   "dayparts": [
+    "morning",
+    "noon",
+    "evening",
+    "night"
+   ],
+   "sort": 6,
+   "items": [
+    {
+     "name": "Juice Salvation",
+     "ar": "جيوس سالفيشن",
+     "price": 16.0,
+     "popular": 1,
+     "photo": "photos/juice-salvation.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Hangover Cure",
+     "ar": "علاج هانغوفر",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/hangover-cure.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Cordoba",
+     "ar": "كوردوبا",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/cordoba.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Santiago",
+     "ar": "سانتياغو",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/santiago.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Passion Mango",
+     "ar": "باشن مانجو",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/fresh-juice.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Mint Mojito",
+     "ar": "موهيتو نعناع",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/mint-mojito.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Blue Mojito",
+     "ar": "موهيتو ازرق",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/mojito.jpg",
+     "sort": 6
+    },
+    {
+     "name": "Kiwi Aboob",
+     "ar": "كيوي عبود",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/kiwi-juice.jpg",
+     "sort": 7
+    },
+    {
+     "name": "Oreo Shake",
+     "ar": "شيك اوريو",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/tall-shake.jpg",
+     "sort": 8
+    },
+    {
+     "name": "Nutella Shake",
+     "ar": "شيك نوتيلا",
+     "price": 16.0,
+     "popular": 0,
+     "photo": "photos/vanilla-shake.jpg",
+     "sort": 9
+    },
+    {
+     "name": "Mint Shake",
+     "ar": "شيك نعناع",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/mint-shake.jpg",
+     "sort": 10
+    },
+    {
+     "name": "Fresh Juice",
+     "ar": "عصير طازج",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/juice-trio.jpg",
+     "sort": 11
+    }
+   ]
+  },
+  {
+   "id": "desserts",
+   "title": "Falooda & Desserts",
+   "ar": "حلويات",
+   "icon": "🍨",
+   "dayparts": [
+    "evening",
+    "night"
+   ],
+   "sort": 7,
+   "items": [
+    {
+     "name": "Special Falooda",
+     "ar": "فالودة خاصة",
+     "price": 16.0,
+     "popular": 1,
+     "photo": "photos/tall-falooda.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Sundae",
+     "ar": "صنداي",
+     "price": 15.0,
+     "popular": 0,
+     "photo": "photos/sundae.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Falooda",
+     "ar": "فالودة",
+     "price": 14.0,
+     "popular": 0,
+     "photo": "photos/falooda.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Ela Ada",
+     "ar": "ايلا ادا",
+     "price": 6.0,
+     "popular": 0,
+     "photo": "photos/ela-ada.jpg",
+     "sort": 3
+    }
+   ]
+  },
+  {
+   "id": "sets",
+   "title": "Breakfast Sets",
+   "ar": "فطور",
+   "icon": "🌅",
+   "dayparts": [
+    "morning"
+   ],
+   "sort": 8,
+   "items": [
+    {
+     "name": "Ghee Roast",
+     "ar": "جي روست",
+     "price": 9.0,
+     "popular": 0,
+     "photo": "photos/ghee-roast.jpg",
+     "sort": 0
+    },
+    {
+     "name": "Idly Set",
+     "ar": "ادلي ست",
+     "price": 6.5,
+     "popular": 0,
+     "photo": "photos/idly-set.jpg",
+     "sort": 1
+    },
+    {
+     "name": "Uppuma",
+     "ar": "أوبما",
+     "price": 5.0,
+     "popular": 0,
+     "photo": "photos/uppuma.jpg",
+     "sort": 2
+    },
+    {
+     "name": "Kerala Meals",
+     "ar": "وجبة كيرلا",
+     "price": 12.0,
+     "popular": 0,
+     "photo": "photos/kerala-meals.jpg",
+     "sort": 3
+    },
+    {
+     "name": "Appam Set",
+     "ar": "ابام ست",
+     "price": 8.5,
+     "popular": 0,
+     "photo": "photos/appam.jpg",
+     "sort": 4
+    },
+    {
+     "name": "Poori Bhaji Set",
+     "ar": "بوري باجي ست",
+     "price": 8.5,
+     "popular": 0,
+     "photo": "photos/poori-bhaji.jpg",
+     "sort": 5
+    },
+    {
+     "name": "Naan / Paratha",
+     "ar": "نان / براتا",
+     "price": 3.0,
+     "popular": 0,
+     "photo": "photos/naan.jpg",
+     "sort": 6
+    }
+   ]
+  }
+ ]
+}
