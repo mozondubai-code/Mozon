@@ -1,0 +1,18 @@
+# mai_z_ah store — static site, no build step needed.
+# Works for BOTH:
+#  • Drag-and-drop (app.netlify.com/drop) — files are served from the folder root.
+#  • Git connect — in Netlify UI set "Base directory" = mai_z_ah, leave build command empty.
+
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200

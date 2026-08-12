@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>mai_z_ah — Premium Jewellery & Jhumkas | Order on WhatsApp</title>
+<meta name="description" content="mai_z_ah — shop premium handcrafted jhumkas, chandbali earrings, kundan studs & bracelets. Best prices, offers & fast WhatsApp ordering." />
+<meta name="theme-color" content="#10B981" />
+<meta property="og:title" content="mai_z_ah — Premium Jewellery" />
+<meta property="og:description" content="Handcrafted jhumkas, chandbali, studs & bracelets. Order instantly on WhatsApp." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>" />
+<style>
+:root{
+  --emerald:#10B981; --emerald-d:#059669; --emerald-l:#34d399;
+  --gold:#F59E0B; --gold-d:#d97706; --gold-l:#fbbf24;
+  --bg:#f7f8f9; --bg-2:#ffffff; --card:#ffffff; --text:#0f172a; --muted:#64748b;
+  --border:#e5e7eb; --shadow:0 10px 30px rgba(2,6,23,.08); --shadow-lg:0 20px 50px rgba(2,6,23,.14);
+  --glass:rgba(255,255,255,.7); --radius:18px;
+}
+[data-theme="dark"]{
+  --bg:#0b1120; --bg-2:#0f172a; --card:#121a2b; --text:#e5e7eb; --muted:#94a3b8;
+  --border:#1e293b; --shadow:0 10px 30px rgba(0,0,0,.4); --shadow-lg:0 20px 50px rgba(0,0,0,.55);
+  --glass:rgba(15,23,42,.7);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;transition:background .3s,color .3s;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.container{max-width:1200px;margin:0 auto;padding:0 18px}
+.grad{background:linear-gradient(135deg,var(--emerald),var(--emerald-d))}
+.gold-grad{background:linear-gradient(135deg,var(--gold-l),var(--gold-d))}
+
+/* announcement bar */
+.announce{background:linear-gradient(90deg,var(--emerald-d),var(--emerald),var(--gold-d));color:#fff;font-size:.82rem;text-align:center;padding:7px 10px;letter-spacing:.3px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.announce b{background:rgba(0,0,0,.18);padding:2px 8px;border-radius:20px;font-variant-numeric:tabular-nums}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;gap:14px;padding:12px 0}
+.logo{font-size:1.5rem;font-weight:800;letter-spacing:.5px;background:linear-gradient(135deg,var(--emerald),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+.logo small{display:block;font-size:.52rem;letter-spacing:3px;color:var(--muted);-webkit-text-fill-color:var(--muted);font-weight:600}
+.nav-links{display:flex;gap:22px;margin-left:18px;font-size:.92rem;font-weight:600}
+.nav-links a{color:var(--muted);transition:.2s}
+.nav-links a:hover{color:var(--emerald)}
+.nav-spacer{flex:1}
+.icon-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:1.15rem;position:relative;transition:.2s;background:var(--bg-2);border:1px solid var(--border)}
+.icon-btn:hover{background:var(--emerald);color:#fff;transform:translateY(-2px)}
+.badge-count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#111;font-size:.68rem;font-weight:800;min-width:19px;height:19px;border-radius:10px;display:grid;place-items:center;padding:0 4px}
+.badge-count:empty{display:none}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:56px 0 44px;background:
+  radial-gradient(1200px 400px at 80% -10%,rgba(16,185,129,.18),transparent),
+  radial-gradient(900px 400px at 10% 120%,rgba(245,158,11,.16),transparent)}
+.hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;font-weight:800;letter-spacing:-1px}
+.hero h1 span{background:linear-gradient(135deg,var(--emerald),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);margin:16px 0 24px;font-size:1.06rem;max-width:520px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{padding:13px 24px;border-radius:40px;font-weight:700;display:inline-flex;align-items:center;gap:9px;transition:.2s;font-size:.95rem}
+.btn-primary{background:linear-gradient(135deg,var(--emerald),var(--emerald-d));color:#fff;box-shadow:0 10px 24px rgba(16,185,129,.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(16,185,129,.5)}
+.btn-gold{background:linear-gradient(135deg,var(--gold-l),var(--gold-d));color:#221a00}
+.btn-ghost{background:var(--bg-2);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--emerald);color:var(--emerald)}
+.hero-card{position:relative;aspect-ratio:1;border-radius:26px;overflow:hidden;box-shadow:var(--shadow-lg);border:3px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,var(--emerald),var(--gold)) border-box}
+.hero-card img{width:100%;height:100%;object-fit:cover;animation:kb 14s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12)}}
+.hero-badge{position:absolute;top:16px;left:16px;background:var(--gold);color:#211a00;font-weight:800;font-size:.78rem;padding:7px 14px;border-radius:30px;box-shadow:var(--shadow)}
+.trust{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.trust div{font-size:.82rem;color:var(--muted)}
+.trust b{display:block;font-size:1.25rem;color:var(--text);background:linear-gradient(135deg,var(--emerald),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* controls */
+.shop-head{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin:38px 0 18px}
+.shop-head h2{font-size:1.7rem;font-weight:800}
+.search{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:40px;padding:9px 16px;min-width:min(320px,90vw);box-shadow:var(--shadow)}
+.search input{border:none;background:none;outline:none;color:var(--text);width:100%;font-size:.95rem}
+.chips{display:flex;gap:10px;overflow-x:auto;padding:6px 2px 12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;padding:9px 18px;border-radius:30px;background:var(--card);border:1px solid var(--border);font-weight:600;font-size:.88rem;transition:.2s}
+.chip.active{background:linear-gradient(135deg,var(--emerald),var(--emerald-d));color:#fff;border-color:transparent}
+.chip:hover:not(.active){border-color:var(--emerald)}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;margin:16px 0 40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.25s;display:flex;flex-direction:column;animation:pop .4s ease both}
+@keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.card-img{position:relative;aspect-ratio:1;overflow:hidden;cursor:zoom-in;background:#0d1117}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover .card-img img{transform:scale(1.08)}
+.tags{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px}
+.tag{font-size:.68rem;font-weight:800;padding:4px 10px;border-radius:20px;color:#fff;letter-spacing:.4px;box-shadow:var(--shadow)}
+.tag.new{background:linear-gradient(135deg,var(--emerald),var(--emerald-d))}
+.tag.best{background:linear-gradient(135deg,var(--gold-l),var(--gold-d));color:#211a00}
+.tag.offer{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.wish{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;background:var(--glass);backdrop-filter:blur(6px);display:grid;place-items:center;font-size:1.1rem;transition:.2s}
+.wish:hover{transform:scale(1.15)}
+.wish.on{color:#ef4444}
+.card-body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-body h3{font-size:1rem;font-weight:700;line-height:1.25}
+.card-body .desc{font-size:.82rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.2em}
+.stars{color:var(--gold);font-size:.8rem;letter-spacing:1px}
+.stars small{color:var(--muted);letter-spacing:0}
+.price{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.price .now{font-size:1.2rem;font-weight:800;color:var(--emerald)}
+.price .mrp{font-size:.85rem;color:var(--muted);text-decoration:line-through}
+.price .off{font-size:.72rem;font-weight:800;color:#fff;background:#ef4444;padding:2px 7px;border-radius:6px}
+.card-actions{margin-top:auto;display:flex;gap:8px}
+.qty{display:flex;align-items:center;border:1px solid var(--border);border-radius:30px;overflow:hidden}
+.qty button{width:32px;height:38px;font-size:1.1rem;font-weight:700;background:var(--bg-2)}
+.qty button:hover{background:var(--emerald);color:#fff}
+.qty span{width:30px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.add{flex:1;background:linear-gradient(135deg,var(--emerald),var(--emerald-d));color:#fff;border-radius:30px;font-weight:700;font-size:.86rem;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 10px}
+.add:hover{filter:brightness(1.08)}
+
+/* drawer + modal */
+.overlay{position:fixed;inset:0;background:rgba(2,6,23,.55);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:.3s;z-index:90}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--bg-2);z-index:100;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.drawer.show{transform:none}
+.drawer-head{padding:18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.drawer-head h3{font-size:1.2rem;font-weight:800}
+.drawer-body{flex:1;overflow-y:auto;padding:16px}
+.close-x{width:38px;height:38px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:1.2rem}
+.close-x:hover{background:#ef4444;color:#fff}
+.citem{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--border)}
+.citem img{width:66px;height:66px;border-radius:12px;object-fit:cover}
+.citem .ci-info{flex:1;min-width:0}
+.citem h4{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.citem .ci-price{color:var(--emerald);font-weight:800;font-size:.9rem}
+.ci-rm{color:var(--muted);font-size:.78rem;margin-top:4px}
+.ci-rm:hover{color:#ef4444}
+.empty{text-align:center;color:var(--muted);padding:50px 20px}
+.empty span{font-size:3rem;display:block;margin-bottom:10px}
+.summary{padding:16px;border-top:1px solid var(--border);background:var(--card)}
+.srow{display:flex;justify-content:space-between;font-size:.92rem;margin:6px 0;color:var(--muted)}
+.srow.total{color:var(--text);font-weight:800;font-size:1.15rem;border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}
+.srow.disc span:last-child{color:var(--emerald);font-weight:700}
+
+/* forms */
+.field{margin:12px 0}
+.field label{display:block;font-size:.82rem;font-weight:700;margin-bottom:5px}
+.field input,.field textarea{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);font-size:.92rem;outline:none;transition:.2s;font-family:inherit}
+.field input:focus,.field textarea:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+.field textarea{resize:vertical;min-height:64px}
+.req{color:#ef4444}
+.loc-banner{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(245,158,11,.12));border:1px dashed var(--emerald);border-radius:14px;padding:14px;margin:14px 0;text-align:center}
+.loc-btn{width:100%;background:linear-gradient(135deg,var(--emerald),var(--emerald-d));color:#fff;padding:13px;border-radius:12px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;font-size:.95rem}
+.loc-btn:hover{filter:brightness(1.08)}
+.loc-btn:disabled{opacity:.7;cursor:wait}
+.loc-status{font-size:.85rem;margin-top:10px;font-weight:600}
+.loc-status a{color:var(--emerald);text-decoration:underline}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.place{width:100%;background:#25D366;color:#fff;padding:15px;border-radius:14px;font-weight:800;font-size:1.02rem;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;box-shadow:0 10px 24px rgba(37,211,102,.4)}
+.place:hover{filter:brightness(1.06);transform:translateY(-2px)}
+
+/* product modal */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:.3s}
+.modal.show{opacity:1;visibility:visible}
+.modal-card{background:var(--bg-2);border-radius:22px;max-width:820px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:scale(.94);transition:.3s}
+.modal.show .modal-card{transform:none}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr}
+.zoom-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:#0d1117;cursor:crosshair}
+.zoom-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .1s}
+.modal-info{padding:22px;display:flex;flex-direction:column;gap:12px}
+.modal-info h2{font-size:1.5rem;font-weight:800}
+.rev{border-top:1px dashed var(--border);padding-top:12px;margin-top:6px}
+.rev h4{font-size:.9rem;margin-bottom:8px}
+.rev .r{font-size:.83rem;color:var(--muted);margin:7px 0}
+.rev .r b{color:var(--text)}
+.share-row{display:flex;gap:8px;flex-wrap:wrap}
+.share-row .btn{padding:9px 14px;font-size:.82rem;background:var(--bg);border:1px solid var(--border)}
+.share-row .btn:hover{border-color:var(--emerald);color:var(--emerald)}
+
+/* generic modal (pages) */
+.page-modal .modal-card{max-width:640px;padding:26px}
+.page-modal h2{font-size:1.5rem;margin-bottom:12px;background:linear-gradient(135deg,var(--emerald),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.page-modal h3{font-size:1.05rem;margin:16px 0 6px}
+.page-modal p,.page-modal li{color:var(--muted);font-size:.92rem;margin:6px 0}
+.page-modal ul{padding-left:20px}
+.faq-q{font-weight:700;color:var(--text);cursor:pointer;padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px}
+.faq-a{display:none;color:var(--muted);font-size:.9rem;padding:0 0 12px}
+.faq-a.open{display:block}
+
+/* payment */
+.pay-qr{text-align:center}
+.pay-qr img{width:210px;height:210px;margin:10px auto;border-radius:14px;border:6px solid #fff;box-shadow:var(--shadow)}
+.upi{font-weight:800;font-size:1.05rem;background:var(--bg);border:1px dashed var(--emerald);border-radius:12px;padding:12px;letter-spacing:.5px}
+
+/* floating whatsapp */
+.fab{position:fixed;bottom:22px;right:22px;z-index:80;width:60px;height:60px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;font-size:1.7rem;box-shadow:0 12px 28px rgba(37,211,102,.5);animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.fab:hover{transform:scale(1.1)}
+
+/* footer */
+footer{background:var(--bg-2);border-top:1px solid var(--border);margin-top:40px;padding:44px 0 20px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+.foot-grid h4{font-size:1rem;margin-bottom:12px}
+.foot-grid a,.foot-grid p{display:block;color:var(--muted);font-size:.9rem;margin:7px 0;transition:.2s}
+.foot-grid a:hover{color:var(--emerald)}
+.socials{display:flex;gap:12px;margin-top:14px}
+.socials a{width:42px;height:42px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:grid;place-items:center;font-size:1.2rem}
+.socials a:hover{background:linear-gradient(135deg,var(--emerald),var(--gold));color:#fff;transform:translateY(-3px)}
+.copy{text-align:center;color:var(--muted);font-size:.83rem;border-top:1px solid var(--border);margin-top:26px;padding-top:18px}
+
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--text);color:var(--bg);padding:13px 22px;border-radius:40px;font-weight:700;font-size:.9rem;z-index:200;box-shadow:var(--shadow-lg);transition:transform .35s;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:860px){
+  .hero-in{grid-template-columns:1fr}
+  .hero-card{max-width:420px;margin:0 auto;order:-1}
+  .nav-links{display:none}
+  .modal-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .foot-grid{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .card-body{padding:11px}
+  .add span{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Announcement -->
+<div class="announce">
+  🎉 Festive Offer — Extra <b>15% OFF</b> on all Jhumkas &nbsp;|&nbsp; Ends in <b id="countdown">--:--:--</b> &nbsp;|&nbsp; Free delivery over ₹3000
+</div>
+
+<!-- Header -->
+<header>
+  <div class="container nav">
+    <div class="logo">mai_z_ah<small>JEWELLERY</small></div>
+    <nav class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#" onclick="openPage('about');return false">About</a>
+      <a href="#" onclick="openPage('contact');return false">Contact</a>
+      <a href="#" onclick="openPage('faq');return false">FAQs</a>
+    </nav>
+    <div class="nav-spacer"></div>
+    <button class="icon-btn" title="Toggle theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="icon-btn" title="Wishlist" onclick="toggleWishView()">❤️<span class="badge-count" id="wishCount"></span></button>
+    <button class="icon-btn" title="Cart" onclick="openCart()">🛒<span class="badge-count" id="cartCount"></span></button>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-in">
+    <div>
+      <div class="hero-badge">✨ Handcrafted Premium Jewellery</div>
+      <h1 style="margin-top:14px">Adorn Your <span>Elegance</span> with mai_z_ah</h1>
+      <p>Exquisite jhumkas, chandbali earrings, kundan studs & bracelets — crafted to make every moment shine. Browse, pick your favourites and order instantly on WhatsApp.</p>
+      <div class="cta">
+        <a href="#shop" class="btn btn-primary">🛍️ Shop Now</a>
+        <button class="btn btn-gold" onclick="filterBy('offer')">🔥 View Offers</button>
+      </div>
+      <div class="trust">
+        <div><b>500+</b> Happy Customers</div>
+        <div><b>4.9★</b> Avg. Rating</div>
+        <div><b>24h</b> Fast Dispatch</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-badge" style="left:auto;right:16px;background:var(--emerald);color:#fff">New Collection</div>
+      <img src="assets/products/sapphire-chandbali.png" alt="Featured jewellery" />
+    </div>
+  </div>
+</section>
+
+<!-- Shop -->
+<main class="container" id="shop">
+  <div class="shop-head">
+    <h2>Our Collection</h2>
+    <div class="search">
+      🔍<input id="searchInput" type="search" placeholder="Search jhumkas, studs, bracelets…" oninput="render()" />
+    </div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="font-size:1.4rem">mai_z_ah<small>JEWELLERY</small></div>
+        <p style="margin-top:12px">Premium handcrafted jewellery for every occasion. Shine bright, order easy — straight to WhatsApp. 💚</p>
+        <div class="socials">
+          <a id="ig" href="#" target="_blank" rel="noopener" title="Instagram">📸</a>
+          <a id="fb" href="#" target="_blank" rel="noopener" title="Facebook">📘</a>
+          <a id="waFoot" href="#" target="_blank" rel="noopener" title="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#" onclick="filterBy('new');return false">New Arrivals</a>
+        <a href="#" onclick="filterBy('best');return false">Best Sellers</a>
+        <a href="#" onclick="filterBy('offer');return false">Offers</a>
+        <a href="#" onclick="openPay();return false">Payment / UPI QR</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#" onclick="openPage('about');return false">About Us</a>
+        <a href="#" onclick="openPage('contact');return false">Contact Us</a>
+        <a href="#" onclick="openPage('faq');return false">FAQs</a>
+        <a href="#" onclick="openPage('privacy');return false">Privacy Policy</a>
+        <a href="#" onclick="openPage('terms');return false">Terms & Conditions</a>
+      </div>
+    </div>
+    <div class="copy">© <span id="yr"></span> mai_z_ah Jewellery. All rights reserved. Made with 💚 for shining smiles.</div>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a class="fab" id="fabWa" href="#" target="_blank" rel="noopener" title="Chat on WhatsApp">💬</a>
+
+<!-- Cart drawer -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-head">
+    <h3>🛒 Your Cart</h3>
+    <button class="close-x" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="summary" id="cartSummary"></div>
+</aside>
+
+<!-- Product modal -->
+<div class="modal" id="prodModal">
+  <div class="modal-card">
+    <div class="modal-grid">
+      <div class="zoom-wrap" id="zoomWrap"><img id="mImg" src="" alt="" /></div>
+      <div class="modal-info" id="mInfo"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Page modal -->
+<div class="modal page-modal" id="pageModal">
+  <div class="modal-card">
+    <div style="display:flex;justify-content:flex-end"><button class="close-x" onclick="closeAll()">✕</button></div>
+    <div id="pageBody"></div>
+  </div>
+</div>
+
+<!-- Payment modal -->
+<div class="modal page-modal" id="payModal">
+  <div class="modal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2>Scan & Pay 💳</h2><button class="close-x" onclick="closeAll()">✕</button>
+    </div>
+    <div class="pay-qr">
+      <p style="color:var(--muted)">Pay securely via any UPI app, then share the screenshot on WhatsApp with your order.</p>
+      <img id="qrImg" alt="UPI QR code" />
+      <div class="upi">UPI: <span id="upiText"></span></div>
+      <a class="btn btn-primary" id="upiLink" style="margin-top:14px" href="#">Pay in UPI App</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ CONFIG — edit these ============ */
+const CONFIG = {
+  brand: "mai_z_ah",
+  whatsapp: "971500000000",              // <-- REPLACE with your WhatsApp number (country code, no +, no spaces)
+  instagram: "https://instagram.com/mai_z_ah",
+  facebook: "https://facebook.com/",
+  upiId: "maizah@upi",                   // <-- REPLACE with your real UPI ID
+  currency: "₹",
+  deliveryCharge: 50,
+  freeDeliveryAbove: 3000,
+};
+
+/* ============ PRODUCTS (prices in ₹) ============ */
+const DEFAULT_PRODUCTS = [
+  {id:1, name:"Black Onyx Antique Jhumka", type:"Jhumka", img:"assets/products/black-onyx-jhumka.png",
+   desc:"Oxidised gold-tone jhumka with jet-black onyx beads. A timeless statement piece.",
+   price:749, mrp:1299, rating:4.8, reviews:126, tags:["best"]},
+  {id:2, name:"Citrine Dual-Tone Jhumka", type:"Jhumka", img:"assets/products/citrine-silver-jhumka.png",
+   desc:"Silver & gold dual-tone jhumka studded with warm citrine crystals. Wedding ready.",
+   price:899, mrp:1599, rating:4.7, reviews:88, tags:["best"]},
+  {id:3, name:"Leafy Trio Meenakari Jhumka", type:"Jhumka", img:"assets/products/leaf-jhumka-trio.png",
+   desc:"Hand-painted leaf meenakari jhumkas — available in emerald, gold & silver finish.",
+   price:1099, mrp:1899, rating:4.9, reviews:64, tags:["new"]},
+  {id:4, name:"Kundan Sunflower Stud", type:"Studs", img:"assets/products/kundan-flower-stud.png",
+   desc:"Uncut kundan sunflower studs with a sparkling CZ centre. Everyday elegance.",
+   price:599, mrp:999, rating:4.8, reviews:152, tags:["best"]},
+  {id:5, name:"Pastel Chandbali Trio", type:"Chandbali", img:"assets/products/chandbali-pastel-trio.png",
+   desc:"Regal chandbali in multicolour, blush pink & mint — pick your festive mood.",
+   price:1299, mrp:2199, rating:4.9, reviews:47, tags:["new"]},
+  {id:6, name:"Emerald Copper Temple Jhumka", type:"Jhumka", img:"assets/products/emerald-copper-jhumka.png",
+   desc:"Antique copper temple jhumka crowned with green stones & emerald bead droplets.",
+   price:849, mrp:1499, rating:4.6, reviews:73, tags:[]},
+  {id:7, name:"Blue Kundan Chandbali", type:"Chandbali", img:"assets/products/blue-kundan-chandbali.png",
+   desc:"Grand kundan chandbali with royal-blue bead fringe. The showstopper of the season.",
+   price:1449, mrp:2599, rating:4.9, reviews:59, tags:["offer"]},
+  {id:8, name:"Heart CZ Butterfly Stud", type:"Studs", img:"assets/products/heart-cz-stud.png",
+   desc:"Sterling-look heart stud paved with CZ and a delicate black enamel butterfly.",
+   price:499, mrp:899, rating:4.7, reviews:110, tags:["new"]},
+  {id:9, name:"Sapphire Royal Chandbali", type:"Chandbali", img:"assets/products/sapphire-chandbali.png",
+   desc:"Gold-plated chandbali with kundan work & sapphire-blue drops. Pure royalty.",
+   price:1399, mrp:2499, rating:5.0, reviews:81, tags:["best"]},
+  {id:10, name:"Blue Butterfly Pearl Bracelet", type:"Bracelet", img:"assets/products/butterfly-pearl-bracelet.png",
+   desc:"Shell-pearl bracelet with a crystal butterfly charm & adjustable chain. Dainty & chic.",
+   price:699, mrp:1199, rating:4.8, reviews:94, tags:["new"]},
+  {id:11, name:"Rangeen Bead Jhumka — 5 Colours", type:"Jhumka", img:"assets/products/royal-jhumka-set.png",
+   desc:"Antique jhumka with vibrant bead droplets — choose from purple, blue, red, black or green.",
+   price:799, mrp:1399, rating:4.7, reviews:138, tags:["offer"]},
+  {id:12, name:"Teenace Golden Jhumka", type:"Jhumka", img:"assets/products/teenace-gold-jhumka.png",
+   desc:"Classic golden jhumka with beaded dome — lightweight, comfy & a daily favourite.",
+   price:549, mrp:949, rating:4.6, reviews:67, tags:[]},
+];
+
+/* Owner can override the catalog from admin.html (same browser). Falls back to defaults. */
+let PRODUCTS;
+try { const ov=JSON.parse(localStorage.getItem('maizah_products')); PRODUCTS = (Array.isArray(ov)&&ov.length)?ov:DEFAULT_PRODUCTS; }
+catch(e){ PRODUCTS = DEFAULT_PRODUCTS; }
+
+/* ============ STATE ============ */
+let cart = JSON.parse(localStorage.getItem('maizah_cart')||'{}');       // {id:qty}
+let wish = JSON.parse(localStorage.getItem('maizah_wish')||'[]');
+let qtyPick = {};                                                       // per-card qty before add
+let activeFilter = 'all';
+let wishViewOn = false;
+const money = n => CONFIG.currency + Math.round(n).toLocaleString('en-IN');
+const byId = id => PRODUCTS.find(p=>p.id===id);
+const save = () => { localStorage.setItem('maizah_cart',JSON.stringify(cart)); localStorage.setItem('maizah_wish',JSON.stringify(wish)); };
+
+/* ============ INIT ============ */
+document.getElementById('yr').textContent = new Date().getFullYear();
+document.getElementById('ig').href = CONFIG.instagram;
+document.getElementById('fb').href = CONFIG.facebook;
+const waBase = 'https://wa.me/'+CONFIG.whatsapp;
+document.getElementById('waFoot').href = waBase;
+document.getElementById('fabWa').href = waBase+'?text='+encodeURIComponent('Hello mai_z_ah, I have a question about your jewellery. 💎');
+if(localStorage.getItem('maizah_theme')==='dark') setTheme('dark');
+
+const FILTERS = [
+  {k:'all',label:'✨ All'},{k:'new',label:'🆕 New Arrivals'},{k:'best',label:'⭐ Best Sellers'},
+  {k:'offer',label:'🔥 Offers'},{k:'Jhumka',label:'Jhumkas'},{k:'Chandbali',label:'Chandbali'},
+  {k:'Studs',label:'Studs'},{k:'Bracelet',label:'Bracelets'}
+];
+
+function buildChips(){
+  document.getElementById('chips').innerHTML = FILTERS.map(f=>
+    `<button class="chip ${f.k===activeFilter&&!wishViewOn?'active':''}" onclick="filterBy('${f.k}')">${f.label}</button>`).join('');
+}
+
+function matchesFilter(p){
+  if(activeFilter==='all') return true;
+  if(['new','best','offer'].includes(activeFilter)) return p.tags.includes(activeFilter);
+  return p.type===activeFilter;
+}
+
+function render(){
+  buildChips();
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  let list = PRODUCTS.filter(p=>{
+    if(wishViewOn && !wish.includes(p.id)) return false;
+    if(!wishViewOn && !matchesFilter(p)) return false;
+    if(q && !(p.name+' '+p.desc+' '+p.type).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const grid = document.getElementById('grid');
+  if(!list.length){ grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><span>🔍</span>No products found.${wishViewOn?' Your wishlist is empty — tap ❤️ on products you love!':''}</div>`; }
+  else grid.innerHTML = list.map(cardHTML).join('');
+  document.getElementById('cartCount').textContent = Object.values(cart).reduce((a,b)=>a+b,0)||'';
+  document.getElementById('wishCount').textContent = wish.length||'';
+}
+
+function cardHTML(p){
+  const off = Math.round((1-p.price/p.mrp)*100);
+  const q = qtyPick[p.id]||1;
+  const tagHTML = [
+    p.tags.includes('new')?'<span class="tag new">NEW</span>':'',
+    p.tags.includes('best')?'<span class="tag best">BEST SELLER</span>':'',
+    p.tags.includes('offer')?'<span class="tag offer">OFFER</span>':''
+  ].join('');
+  return `<div class="card">
+    <div class="card-img" onclick="openProduct(${p.id})">
+      <div class="tags">${tagHTML}</div>
+      <button class="wish ${wish.includes(p.id)?'on':''}" onclick="event.stopPropagation();toggleWish(${p.id})">${wish.includes(p.id)?'❤️':'🤍'}</button>
+      <img src="${p.img}" alt="${p.name}" loading="lazy" />
+    </div>
+    <div class="card-body">
+      <h3>${p.name}</h3>
+      <div class="stars">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))} <small>${p.rating} (${p.reviews})</small></div>
+      <p class="desc">${p.desc}</p>
+      <div class="price"><span class="now">${money(p.price)}</span><span class="mrp">${money(p.mrp)}</span><span class="off">${off}% OFF</span></div>
+      <div class="card-actions">
+        <div class="qty">
+          <button onclick="pick(${p.id},-1)">−</button><span id="q${p.id}">${q}</span><button onclick="pick(${p.id},1)">+</button>
+        </div>
+        <button class="add" onclick="addToCart(${p.id})">🛒 <span>Add</span></button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function pick(id,d){ qtyPick[id]=Math.max(1,(qtyPick[id]||1)+d); const el=document.getElementById('q'+id); if(el) el.textContent=qtyPick[id]; }
+
+/* ============ CART ============ */
+function addToCart(id){
+  cart[id]=(cart[id]||0)+(qtyPick[id]||1); qtyPick[id]=1; save(); render();
+  const el=document.getElementById('q'+id); if(el) el.textContent=1;
+  toast('✅ Added to cart');
+}
+function setQty(id,d){ cart[id]=(cart[id]||0)+d; if(cart[id]<=0) delete cart[id]; save(); render(); renderCart(); }
+function removeItem(id){ delete cart[id]; save(); render(); renderCart(); }
+
+function totals(){
+  let subtotal=0, discount=0, count=0;
+  for(const id in cart){ const p=byId(+id), q=cart[id]; subtotal+=p.mrp*q; discount+=(p.mrp-p.price)*q; count+=q; }
+  const payable = subtotal-discount;
+  const delivery = count===0?0:(payable>=CONFIG.freeDeliveryAbove?0:CONFIG.deliveryCharge);
+  return {subtotal,discount,delivery,grand:payable+delivery,count};
+}
+
+function renderCart(){
+  const body=document.getElementById('cartBody'), sum=document.getElementById('cartSummary');
+  const ids=Object.keys(cart);
+  if(!ids.length){ body.innerHTML=`<div class="empty"><span>🛍️</span>Your cart is empty.<br>Add some sparkle! ✨</div>`; sum.innerHTML=''; return; }
+  body.innerHTML = ids.map(id=>{ const p=byId(+id),q=cart[id]; return `
+    <div class="citem">
+      <img src="${p.img}" alt="${p.name}"/>
+      <div class="ci-info">
+        <h4>${p.name}</h4>
+        <div class="ci-price">${money(p.price)} <span style="color:var(--muted);text-decoration:line-through;font-weight:400">${money(p.mrp)}</span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+          <div class="qty"><button onclick="setQty(${p.id},-1)">−</button><span>${q}</span><button onclick="setQty(${p.id},1)">+</button></div>
+          <span style="font-weight:800">${money(p.price*q)}</span>
+        </div>
+        <div class="ci-rm" onclick="removeItem(${p.id})">🗑️ Remove</div>
+      </div>
+    </div>`; }).join('');
+  const t=totals();
+  sum.innerHTML=`
+    <div class="srow"><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+    <div class="srow disc"><span>Offer Discount</span><span>− ${money(t.discount)}</span></div>
+    <div class="srow"><span>Delivery Charge</span><span>${t.delivery===0?'FREE':money(t.delivery)}</span></div>
+    <div class="srow total"><span>Grand Total</span><span>${money(t.grand)}</span></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="openCheckout()">Proceed to Checkout →</button>`;
+}
+
+function openCart(){ renderCart(); openDrawer(); }
+function openDrawer(){ document.getElementById('overlay').classList.add('show'); document.getElementById('cartDrawer').classList.add('show'); document.body.style.overflow='hidden'; }
+
+/* ============ CHECKOUT ============ */
+let geo = null;   // {lat,lng}
+function openCheckout(){
+  if(!Object.keys(cart).length){ toast('🛍️ Cart is empty'); return; }
+  const t=totals();
+  document.getElementById('cartBody').innerHTML = `
+    <button class="btn btn-ghost" style="margin-bottom:8px" onclick="openCart()">← Back to cart</button>
+    <h3 style="margin:6px 0 4px">Delivery Details</h3>
+    <div class="field"><label>Full Name <span class="req">*</span></label><input id="f_name" placeholder="Your name"/></div>
+    <div class="field"><label>Mobile Number <span class="req">*</span></label><input id="f_phone" type="tel" inputmode="numeric" placeholder="e.g. 9876543210"/></div>
+    <div class="field"><label>Delivery Location / City <span class="req">*</span></label><input id="f_city" placeholder="e.g. Dubai"/></div>
+    <div class="field"><label>Full Address <span class="req">*</span></label><textarea id="f_addr" placeholder="House / Flat, street, area"></textarea></div>
+    <div class="field"><label>Landmark</label><input id="f_land" placeholder="Nearby landmark (optional)"/></div>
+    <div class="field"><label>Order Notes</label><textarea id="f_note" placeholder="Any special request (optional)"></textarea></div>
+
+    <div class="loc-banner">
+      <div style="font-weight:800;margin-bottom:6px">📍 Share your exact location</div>
+      <div style="font-size:.82rem;color:var(--muted);margin-bottom:10px">Tap below to attach your current location pin — helps us deliver faster & accurately.</div>
+      <button class="loc-btn" id="locBtn" onclick="sendLocation()">📍 Send my current location</button>
+      <div class="loc-status" id="locStatus"></div>
+    </div>`;
+
+  document.getElementById('cartSummary').innerHTML = `
+    <div class="srow"><span>Items (${t.count})</span><span>${money(t.subtotal)}</span></div>
+    <div class="srow disc"><span>Offer Discount</span><span>− ${money(t.discount)}</span></div>
+    <div class="srow"><span>Delivery</span><span>${t.delivery===0?'FREE':money(t.delivery)}</span></div>
+    <div class="srow total"><span>Grand Total</span><span>${money(t.grand)}</span></div>
+    <button class="place" onclick="placeOrder()">💬 Place Order on WhatsApp</button>`;
+}
+
+/* Location — user-initiated, framed as a banner (no auto pop-up on load) */
+function sendLocation(){
+  const btn=document.getElementById('locBtn'), st=document.getElementById('locStatus');
+  if(!navigator.geolocation){ st.innerHTML='⚠️ Location not supported on this device. Please type your address.'; return; }
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span> Sending your current location…';
+  st.textContent='';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    geo={lat:pos.coords.latitude.toFixed(6), lng:pos.coords.longitude.toFixed(6)};
+    const link=`https://maps.google.com/?q=${geo.lat},${geo.lng}`;
+    btn.disabled=false; btn.innerHTML='📍 Location captured ✓ (tap to resend)';
+    btn.style.background='linear-gradient(135deg,var(--gold-l),var(--gold-d))'; btn.style.color='#211a00';
+    st.innerHTML=`✅ Pinned! <a href="${link}" target="_blank" rel="noopener">View on map</a> — added to your order.`;
+    toast('📍 Location captured');
+  }, err=>{
+    btn.disabled=false; btn.innerHTML='📍 Send my current location';
+    st.innerHTML = err.code===1
+      ? '⚠️ Permission denied. No problem — just type your address above.'
+      : '⚠️ Could not fetch location. Please type your address above.';
+  }, {enableHighAccuracy:true, timeout:10000, maximumAge:0});
+}
+
+function placeOrder(){
+  const g=id=>document.getElementById(id).value.trim();
+  const name=g('f_name'), phone=g('f_phone'), city=g('f_city'), addr=g('f_addr'), land=g('f_land'), note=g('f_note');
+  if(!name||!phone||!city||!addr){ toast('⚠️ Please fill name, mobile, city & address'); return; }
+  if(!/^[0-9+\-\s]{7,15}$/.test(phone)){ toast('⚠️ Enter a valid mobile number'); return; }
+  const t=totals();
+  let m = `Hello ${CONFIG.brand},\nI would like to place an order.\n\n`;
+  m += `*Customer Name:* ${name}\n`;
+  m += `*Phone:* ${phone}\n`;
+  m += `*Address:* ${addr}, ${city}\n`;
+  if(land) m += `*Landmark:* ${land}\n`;
+  if(geo) m += `*Location Pin:* https://maps.google.com/?q=${geo.lat},${geo.lng}\n`;
+  m += `\n*Items:*\n`;
+  for(const id in cart){ const p=byId(+id),q=cart[id]; m += `• ${p.name} ×${q} = ${money(p.price*q)}\n`; }
+  m += `\n*Subtotal:* ${money(t.subtotal)}\n`;
+  m += `*Offer Discount:* − ${money(t.discount)}\n`;
+  m += `*Delivery Charge:* ${t.delivery===0?'FREE':money(t.delivery)}\n`;
+  m += `*Grand Total:* ${money(t.grand)}\n`;
+  if(note) m += `\n*Notes:* ${note}\n`;
+  m += `\nThank you! 💎`;
+
+  // save order locally (for admin panel)
+  const orders=JSON.parse(localStorage.getItem('maizah_orders')||'[]');
+  orders.push({date:new Date().toISOString(),name,phone,city,addr,land,note,geo,items:Object.entries(cart).map(([id,q])=>({name:byId(+id).name,qty:q,price:byId(+id).price})),total:t.grand});
+  localStorage.setItem('maizah_orders',JSON.stringify(orders));
+
+  window.open(waBase+'?text='+encodeURIComponent(m),'_blank');
+  toast('✅ Opening WhatsApp…');
+}
+
+/* ============ WISHLIST ============ */
+function toggleWish(id){
+  const i=wish.indexOf(id);
+  if(i>-1){ wish.splice(i,1); toast('💔 Removed from wishlist'); } else { wish.push(id); toast('❤️ Added to wishlist'); }
+  save(); render();
+}
+function toggleWishView(){ wishViewOn=!wishViewOn; if(wishViewOn) activeFilter='all'; document.getElementById('searchInput').value=''; render(); document.getElementById('shop').scrollIntoView({behavior:'smooth'}); toast(wishViewOn?'❤️ Showing your wishlist':'Showing all products'); }
+function filterBy(k){ wishViewOn=false; activeFilter=k; render(); document.getElementById('shop').scrollIntoView({behavior:'smooth'}); }
+
+/* ============ PRODUCT MODAL + ZOOM ============ */
+function openProduct(id){
+  const p=byId(id); const off=Math.round((1-p.price/p.mrp)*100);
+  document.getElementById('mImg').src=p.img;
+  const reviews=[
+    {n:'Ayesha K.',t:'Absolutely stunning! Even prettier in person. 😍'},
+    {n:'Meera R.',t:'Great quality for the price. Got so many compliments!'},
+    {n:'Sana P.',t:'Fast delivery & lovely packaging. Will order again ⭐'}
+  ];
+  document.getElementById('mInfo').innerHTML=`
+    <div class="stars">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))} <small>${p.rating} · ${p.reviews} reviews</small></div>
+    <h2>${p.name}</h2>
+    <p style="color:var(--muted)">${p.desc}</p>
+    <div class="price"><span class="now" style="font-size:1.5rem">${money(p.price)}</span><span class="mrp">${money(p.mrp)}</span><span class="off">${off}% OFF</span></div>
+    <div class="card-actions" style="max-width:280px">
+      <div class="qty"><button onclick="pick(${p.id},-1);document.getElementById('mq').textContent=qtyPick[${p.id}]||1">−</button><span id="mq">${qtyPick[p.id]||1}</span><button onclick="pick(${p.id},1);document.getElementById('mq').textContent=qtyPick[${p.id}]||1">+</button></div>
+      <button class="add" onclick="addToCart(${p.id})">🛒 Add to Cart</button>
+    </div>
+    <div class="share-row">
+      <button class="btn" onclick="toggleWish(${p.id});openProduct(${p.id})">${wish.includes(p.id)?'❤️ Wishlisted':'🤍 Wishlist'}</button>
+      <button class="btn" onclick="shareProduct('${p.name.replace(/'/g,'')}')">🔗 Share</button>
+      <button class="btn" onclick="openPay()">💳 Pay via UPI</button>
+    </div>
+    <div class="rev">
+      <h4>⭐ Customer Reviews</h4>
+      ${reviews.map(r=>`<div class="r"><b>${r.n}</b> — ${r.t}</div>`).join('')}
+    </div>`;
+  showModal('prodModal');
+}
+// image zoom
+const zw=document.getElementById('zoomWrap'), mi=document.getElementById('mImg');
+zw.addEventListener('mousemove',e=>{ const r=zw.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width*100, y=(e.clientY-r.top)/r.height*100; mi.style.transformOrigin=`${x}% ${y}%`; mi.style.transform='scale(2.2)'; });
+zw.addEventListener('mouseleave',()=>{ mi.style.transform='scale(1)'; });
+
+function shareProduct(name){
+  const data={title:'mai_z_ah — '+name, text:`Check out ${name} at mai_z_ah! 💎`, url:location.href};
+  if(navigator.share){ navigator.share(data).catch(()=>{}); }
+  else { navigator.clipboard?.writeText(data.text+' '+location.href); toast('🔗 Link copied to clipboard'); }
+}
+
+/* ============ PAYMENT ============ */
+function openPay(){
+  const amt=totals().grand;
+  const upi=`upi://pay?pa=${encodeURIComponent(CONFIG.upiId)}&pn=${encodeURIComponent(CONFIG.brand)}${amt?('&am='+amt):''}&cu=INR`;
+  document.getElementById('qrImg').src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(upi);
+  document.getElementById('upiText').textContent=CONFIG.upiId;
+  document.getElementById('upiLink').href=upi;
+  showModal('payModal');
+}
+
+/* ============ PAGES ============ */
+const PAGES = {
+  about:`<h2>About mai_z_ah</h2>
+    <p>mai_z_ah is a boutique jewellery label crafting <b>premium, affordable</b> jhumkas, chandbali earrings, kundan studs and bracelets. Every piece is hand-picked for quality, shine and comfort.</p>
+    <p>What started on Instagram (<a href="${CONFIG.instagram}" target="_blank" rel="noopener" style="color:var(--emerald)">@mai_z_ah</a>) is now a full online store — with the same personal touch. We believe every woman deserves to sparkle without breaking the bank.</p>
+    <h3>Why shop with us?</h3>
+    <ul><li>✨ Handcrafted, quality-checked designs</li><li>🚚 Fast dispatch within 24 hours</li><li>💬 Easy ordering — straight to WhatsApp</li><li>💝 Lovingly packed, ready to gift</li></ul>`,
+  contact:`<h2>Contact Us</h2>
+    <p>We'd love to hear from you! Reach out any time:</p>
+    <ul>
+      <li>💬 WhatsApp: <a href="${waBase}" target="_blank" rel="noopener" style="color:var(--emerald)">Chat with us</a></li>
+      <li>📸 Instagram: <a href="${CONFIG.instagram}" target="_blank" rel="noopener" style="color:var(--emerald)">@mai_z_ah</a></li>
+      <li>🕐 Support hours: 10 AM – 8 PM, all days</li>
+    </ul>
+    <p>For order status, custom requests or bulk enquiries, message us on WhatsApp — we usually reply within minutes. 💚</p>`,
+  faq:`<h2>Frequently Asked Questions</h2>
+    ${[
+      ['How do I place an order?','Add items to your cart, fill in your delivery details, tap “Place Order on WhatsApp”, and send us the pre-filled message. That’s it!'],
+      ['What are the delivery charges?','A flat '+CONFIG.currency+CONFIG.deliveryCharge+' delivery charge applies. Orders above '+CONFIG.currency+CONFIG.freeDeliveryAbove+' ship FREE.'],
+      ['Which payment methods do you accept?','You can pay via UPI (scan the QR in the Payment section) or as agreed on WhatsApp. Cash on delivery may be available in select areas.'],
+      ['Do you deliver to my area?','We deliver widely! Share your location pin at checkout and we’ll confirm delivery & timing on WhatsApp.'],
+      ['Can I return or exchange?','Yes — if a piece arrives damaged, message us on WhatsApp within 48 hours with a photo and we’ll make it right.'],
+    ].map(([q,a])=>`<div class="faq-q" onclick="this.nextElementSibling.classList.toggle('open')">${q}<span>＋</span></div><div class="faq-a">${a}</div>`).join('')}`,
+  privacy:`<h2>Privacy Policy</h2>
+    <p>Your privacy matters to us. Here's how we handle your information:</p>
+    <ul>
+      <li>We only collect the details you provide at checkout (name, phone, address) to fulfil your order.</li>
+      <li>Your location pin, if shared, is used solely for delivery and is sent only via your own WhatsApp message.</li>
+      <li>We never sell or share your data with third parties for marketing.</li>
+      <li>Cart & wishlist are stored locally in your browser, not on any server.</li>
+    </ul>
+    <p>Questions about your data? Message us on WhatsApp any time.</p>`,
+  terms:`<h2>Terms & Conditions</h2>
+    <ul>
+      <li>All prices are in ${CONFIG.currency} and inclusive of applicable taxes unless stated otherwise.</li>
+      <li>Orders are confirmed only after WhatsApp communication and payment/COD agreement.</li>
+      <li>Product colours may vary slightly due to lighting and screen settings.</li>
+      <li>Delivery timelines are estimates and may vary by location.</li>
+      <li>mai_z_ah reserves the right to update prices, offers and these terms at any time.</li>
+    </ul>
+    <p>By placing an order you agree to these terms. Thank you for shopping with mai_z_ah! 💎</p>`
+};
+function openPage(k){ document.getElementById('pageBody').innerHTML=PAGES[k]; showModal('pageModal'); }
+
+/* ============ MODAL / THEME / TOAST HELPERS ============ */
+function showModal(id){ document.getElementById('overlay').classList.add('show'); document.getElementById(id).classList.add('show'); document.body.style.overflow='hidden'; }
+function closeAll(){ document.getElementById('overlay').classList.remove('show'); document.querySelectorAll('.drawer,.modal').forEach(m=>m.classList.remove('show')); document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
+
+function setTheme(t){ document.documentElement.setAttribute('data-theme',t); document.getElementById('themeBtn').textContent = t==='dark'?'☀️':'🌙'; localStorage.setItem('maizah_theme',t); }
+function toggleTheme(){ setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); }
+
+let toastT;
+function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2200); }
+
+/* ============ COUNTDOWN ============ */
+function tick(){
+  const end=new Date(); end.setHours(23,59,59,0);
+  let d=Math.max(0,end-new Date()); const h=String(Math.floor(d/3.6e6)).padStart(2,'0');
+  d%=3.6e6; const m=String(Math.floor(d/6e4)).padStart(2,'0'); const s=String(Math.floor(d%6e4/1000)).padStart(2,'0');
+  document.getElementById('countdown').textContent=`${h}:${m}:${s}`;
+}
+setInterval(tick,1000); tick();
+
+render();
+</script>
+</body>
+</html>

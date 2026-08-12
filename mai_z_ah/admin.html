@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>mai_z_ah — Admin Panel</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>"/>
+<style>
+:root{--emerald:#10B981;--emerald-d:#059669;--gold:#F59E0B;--bg:#f4f6f8;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e5e7eb}
+[data-theme="dark"]{--bg:#0b1120;--card:#121a2b;--text:#e5e7eb;--muted:#94a3b8;--border:#1e293b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:18px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--emerald),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:9px 18px;border-radius:30px;background:var(--card);border:1px solid var(--border);font-weight:700;cursor:pointer}
+.tab.active{background:linear-gradient(135deg,var(--emerald),var(--emerald-d));color:#fff;border-color:transparent}
+.btn{padding:10px 18px;border-radius:10px;font-weight:700;cursor:pointer;border:none;font-size:.9rem}
+.btn-p{background:linear-gradient(135deg,var(--emerald),var(--emerald-d));color:#fff}
+.btn-g{background:var(--card);border:1px solid var(--border);color:var(--text)}
+.btn-d{background:#ef4444;color:#fff}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#d97706);color:#211a00}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(2,6,23,.05)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+img.thumb{width:46px;height:46px;border-radius:8px;object-fit:cover}
+input,textarea,select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text);font-family:inherit;font-size:.88rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+label{font-size:.76rem;font-weight:700;color:var(--muted);display:block;margin:8px 0 3px}
+.pill{font-size:.7rem;font-weight:800;padding:3px 9px;border-radius:20px;color:#fff;margin-right:4px}
+.on{background:var(--emerald)}.off{background:#94a3b8}
+.muted{color:var(--muted);font-size:.85rem}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.hide{display:none}
+.note{background:rgba(245,158,11,.12);border:1px dashed var(--gold);border-radius:10px;padding:12px;font-size:.85rem;margin-bottom:14px}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">mai_z_ah · Admin 🛠️</div>
+    <div class="bar" style="margin:0">
+      <button class="btn btn-g" onclick="toggleTheme()">🌓 Theme</button>
+      <a class="btn btn-g" href="index.html" target="_blank">🛍️ View Store</a>
+    </div>
+  </header>
+
+  <div class="note">⚠️ This is a <b>no-backend</b> panel — products & orders are stored in <b>this browser only</b> (localStorage). Use the same device/browser as your live edits, and use <b>Export</b> to keep backups. To make catalog changes visible to customers on the live site, either edit on the same browser they use, or copy the exported product JSON into <code>index.html</code>.</div>
+
+  <div class="tabs">
+    <div class="tab active" data-t="products" onclick="switchTab('products')">📦 Products</div>
+    <div class="tab" data-t="orders" onclick="switchTab('orders')">🧾 Orders</div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section id="tab-products">
+    <div class="bar">
+      <button class="btn btn-p" onclick="editProduct(null)">＋ Add Product</button>
+      <button class="btn btn-gold" onclick="exportProducts()">⬇️ Export Products (JSON)</button>
+      <button class="btn btn-g" onclick="importProducts()">⬆️ Import JSON</button>
+      <button class="btn btn-d" onclick="resetProducts()">↺ Reset to Defaults</button>
+    </div>
+    <div class="card" id="editCard" style="display:none"></div>
+    <div class="card">
+      <table id="prodTable"></table>
+    </div>
+  </section>
+
+  <!-- ORDERS -->
+  <section id="tab-orders" class="hide">
+    <div class="bar">
+      <button class="btn btn-gold" onclick="exportOrders()">⬇️ Export Orders (CSV)</button>
+      <button class="btn btn-d" onclick="clearOrders()">🗑️ Clear Orders</button>
+    </div>
+    <div class="card"><div id="ordersWrap"></div></div>
+  </section>
+</div>
+
+<script>
+const KP='maizah_products', KO='maizah_orders';
+if(localStorage.getItem('maizah_theme')==='dark') document.documentElement.setAttribute('data-theme','dark');
+function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('maizah_theme',d?'light':'dark');}
+function switchTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.t===t));document.getElementById('tab-products').classList.toggle('hide',t!=='products');document.getElementById('tab-orders').classList.toggle('hide',t!=='orders');if(t==='orders')renderOrders();}
+
+/* Default catalog — keep in sync with index.html DEFAULT_PRODUCTS */
+const DEFAULTS=[
+ {id:1,name:"Black Onyx Antique Jhumka",type:"Jhumka",img:"assets/products/black-onyx-jhumka.png",desc:"Oxidised gold-tone jhumka with jet-black onyx beads. A timeless statement piece.",price:749,mrp:1299,rating:4.8,reviews:126,tags:["best"]},
+ {id:2,name:"Citrine Dual-Tone Jhumka",type:"Jhumka",img:"assets/products/citrine-silver-jhumka.png",desc:"Silver & gold dual-tone jhumka studded with warm citrine crystals. Wedding ready.",price:899,mrp:1599,rating:4.7,reviews:88,tags:["best"]},
+ {id:3,name:"Leafy Trio Meenakari Jhumka",type:"Jhumka",img:"assets/products/leaf-jhumka-trio.png",desc:"Hand-painted leaf meenakari jhumkas — available in emerald, gold & silver finish.",price:1099,mrp:1899,rating:4.9,reviews:64,tags:["new"]},
+ {id:4,name:"Kundan Sunflower Stud",type:"Studs",img:"assets/products/kundan-flower-stud.png",desc:"Uncut kundan sunflower studs with a sparkling CZ centre. Everyday elegance.",price:599,mrp:999,rating:4.8,reviews:152,tags:["best"]},
+ {id:5,name:"Pastel Chandbali Trio",type:"Chandbali",img:"assets/products/chandbali-pastel-trio.png",desc:"Regal chandbali in multicolour, blush pink & mint — pick your festive mood.",price:1299,mrp:2199,rating:4.9,reviews:47,tags:["new"]},
+ {id:6,name:"Emerald Copper Temple Jhumka",type:"Jhumka",img:"assets/products/emerald-copper-jhumka.png",desc:"Antique copper temple jhumka crowned with green stones & emerald bead droplets.",price:849,mrp:1499,rating:4.6,reviews:73,tags:[]},
+ {id:7,name:"Blue Kundan Chandbali",type:"Chandbali",img:"assets/products/blue-kundan-chandbali.png",desc:"Grand kundan chandbali with royal-blue bead fringe. The showstopper of the season.",price:1449,mrp:2599,rating:4.9,reviews:59,tags:["offer"]},
+ {id:8,name:"Heart CZ Butterfly Stud",type:"Studs",img:"assets/products/heart-cz-stud.png",desc:"Sterling-look heart stud paved with CZ and a delicate black enamel butterfly.",price:499,mrp:899,rating:4.7,reviews:110,tags:["new"]},
+ {id:9,name:"Sapphire Royal Chandbali",type:"Chandbali",img:"assets/products/sapphire-chandbali.png",desc:"Gold-plated chandbali with kundan work & sapphire-blue drops. Pure royalty.",price:1399,mrp:2499,rating:5.0,reviews:81,tags:["best"]},
+ {id:10,name:"Blue Butterfly Pearl Bracelet",type:"Bracelet",img:"assets/products/butterfly-pearl-bracelet.png",desc:"Shell-pearl bracelet with a crystal butterfly charm & adjustable chain. Dainty & chic.",price:699,mrp:1199,rating:4.8,reviews:94,tags:["new"]},
+ {id:11,name:"Rangeen Bead Jhumka — 5 Colours",type:"Jhumka",img:"assets/products/royal-jhumka-set.png",desc:"Antique jhumka with vibrant bead droplets — choose from purple, blue, red, black or green.",price:799,mrp:1399,rating:4.7,reviews:138,tags:["offer"]},
+ {id:12,name:"Teenace Golden Jhumka",type:"Jhumka",img:"assets/products/teenace-gold-jhumka.png",desc:"Classic golden jhumka with beaded dome — lightweight, comfy & a daily favourite.",price:549,mrp:949,rating:4.6,reviews:67,tags:[]},
+];
+let products = load();
+function load(){ try{const o=JSON.parse(localStorage.getItem(KP)); return (Array.isArray(o)&&o.length)?o:structuredClone(DEFAULTS);}catch(e){return structuredClone(DEFAULTS);} }
+function persist(){ localStorage.setItem(KP,JSON.stringify(products)); renderProducts(); }
+const money=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+
+function renderProducts(){
+  const t=document.getElementById('prodTable');
+  t.innerHTML=`<tr><th></th><th>Name</th><th>Type</th><th>Price</th><th>MRP</th><th>Badges</th><th>Status</th><th></th></tr>`+
+  products.map(p=>`<tr>
+    <td><img class="thumb" src="${p.img}" onerror="this.style.opacity=.2"></td>
+    <td><b>${p.name}</b><div class="muted">⭐ ${p.rating} · ${p.reviews} reviews</div></td>
+    <td>${p.type}</td>
+    <td><b style="color:var(--emerald)">${money(p.price)}</b></td>
+    <td class="muted"><s>${money(p.mrp)}</s></td>
+    <td>${(p.tags||[]).map(x=>`<span class="pill on">${x}</span>`).join('')||'<span class="muted">—</span>'}</td>
+    <td>${p.disabled?'<span class="pill off">Hidden</span>':'<span class="pill on">Live</span>'}</td>
+    <td><div class="row-actions">
+      <button class="btn btn-g" onclick="editProduct(${p.id})">✏️</button>
+      <button class="btn btn-g" onclick="toggleDisable(${p.id})">${p.disabled?'👁️':'🚫'}</button>
+      <button class="btn btn-d" onclick="delProduct(${p.id})">🗑️</button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function editProduct(id){
+  const p = id? products.find(x=>x.id===id) : {id:Math.max(0,...products.map(x=>x.id))+1,name:"",type:"Jhumka",img:"assets/products/",desc:"",price:0,mrp:0,rating:4.8,reviews:0,tags:[]};
+  const c=document.getElementById('editCard'); c.style.display='block';
+  const has=t=>(p.tags||[]).includes(t)?'checked':'';
+  c.innerHTML=`<h3 style="margin-bottom:8px">${id?'Edit':'Add'} Product</h3>
+    <div class="grid2">
+      <div><label>Name</label><input id="e_name" value="${esc(p.name)}"></div>
+      <div><label>Type</label><select id="e_type">${['Jhumka','Chandbali','Studs','Bracelet','Necklace','Other'].map(t=>`<option ${p.type===t?'selected':''}>${t}</option>`).join('')}</select></div>
+    </div>
+    <label>Image path or URL</label><input id="e_img" value="${esc(p.img)}">
+    <label>Description</label><textarea id="e_desc" rows="2">${esc(p.desc)}</textarea>
+    <div class="grid3">
+      <div><label>Price ₹</label><input id="e_price" type="number" value="${p.price}"></div>
+      <div><label>MRP ₹</label><input id="e_mrp" type="number" value="${p.mrp}"></div>
+      <div><label>Rating</label><input id="e_rating" type="number" step="0.1" value="${p.rating}"></div>
+    </div>
+    <div class="grid3">
+      <div><label>Reviews count</label><input id="e_reviews" type="number" value="${p.reviews}"></div>
+      <div><label style="margin-top:8px">Badges</label>
+        <span class="muted">
+          <label style="display:inline"><input type="checkbox" id="e_new" ${has('new')} style="width:auto"> New</label>
+          <label style="display:inline"><input type="checkbox" id="e_best" ${has('best')} style="width:auto"> Best</label>
+          <label style="display:inline"><input type="checkbox" id="e_offer" ${has('offer')} style="width:auto"> Offer</label>
+        </span>
+      </div>
+    </div>
+    <div class="bar" style="margin-top:14px">
+      <button class="btn btn-p" onclick="saveProduct(${p.id},${id?'true':'false'})">💾 Save</button>
+      <button class="btn btn-g" onclick="document.getElementById('editCard').style.display='none'">Cancel</button>
+    </div>`;
+  c.scrollIntoView({behavior:'smooth'});
+}
+function saveProduct(id,exists){
+  const v=x=>document.getElementById(x).value, ck=x=>document.getElementById(x).checked;
+  const tags=[]; if(ck('e_new'))tags.push('new'); if(ck('e_best'))tags.push('best'); if(ck('e_offer'))tags.push('offer');
+  const obj={id,name:v('e_name').trim(),type:v('e_type'),img:v('e_img').trim(),desc:v('e_desc').trim(),
+    price:+v('e_price'),mrp:+v('e_mrp'),rating:+v('e_rating'),reviews:+v('e_reviews'),tags};
+  if(!obj.name){alert('Name is required');return;}
+  if(exists){ const i=products.findIndex(x=>x.id===id); products[i]={...products[i],...obj}; }
+  else products.push(obj);
+  document.getElementById('editCard').style.display='none'; persist();
+}
+function toggleDisable(id){const p=products.find(x=>x.id===id);p.disabled=!p.disabled;persist();}
+function delProduct(id){if(confirm('Delete this product?')){products=products.filter(x=>x.id!==id);persist();}}
+function resetProducts(){if(confirm('Reset catalog to defaults? Your custom edits will be lost.')){localStorage.removeItem(KP);products=load();renderProducts();}}
+function exportProducts(){download('maizah-products.json',JSON.stringify(products.filter(p=>!p.disabled),null,2));}
+function importProducts(){
+  const i=document.createElement('input');i.type='file';i.accept='.json';
+  i.onchange=e=>{const f=e.target.files[0];const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(Array.isArray(d)){products=d;persist();alert('Imported '+d.length+' products.');}else alert('Invalid file');}catch(err){alert('Invalid JSON');}};r.readAsText(f);};
+  i.click();
+}
+
+/* Orders */
+function renderOrders(){
+  const orders=JSON.parse(localStorage.getItem(KO)||'[]').slice().reverse();
+  const w=document.getElementById('ordersWrap');
+  if(!orders.length){w.innerHTML='<p class="muted">No orders recorded on this device yet. Orders placed through this browser appear here.</p>';return;}
+  w.innerHTML=`<p class="muted" style="margin-bottom:10px">${orders.length} order(s) recorded on this device.</p>`+
+  orders.map(o=>`<div class="card" style="margin:0 0 10px">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">
+      <b>${esc(o.name)} · ${esc(o.phone)}</b><span class="muted">${new Date(o.date).toLocaleString()}</span>
+    </div>
+    <div class="muted">${esc(o.addr||'')}, ${esc(o.city||'')} ${o.land?('· '+esc(o.land)):''}</div>
+    ${o.geo?`<div class="muted">📍 <a href="https://maps.google.com/?q=${o.geo.lat},${o.geo.lng}" target="_blank" style="color:var(--emerald)">Location pin</a></div>`:''}
+    <table style="margin-top:8px">${o.items.map(it=>`<tr><td>${esc(it.name)}</td><td>×${it.qty}</td><td>${money(it.price*it.qty)}</td></tr>`).join('')}</table>
+    <div style="text-align:right;font-weight:800;margin-top:6px">Total: ${money(o.total)}</div>
+    ${o.note?`<div class="muted">📝 ${esc(o.note)}</div>`:''}
+  </div>`).join('');
+}
+function exportOrders(){
+  const orders=JSON.parse(localStorage.getItem(KO)||'[]');
+  if(!orders.length){alert('No orders to export.');return;}
+  const rows=[['Date','Name','Phone','City','Address','Landmark','Items','Total','LocationPin','Notes']];
+  orders.forEach(o=>rows.push([new Date(o.date).toLocaleString(),o.name,o.phone,o.city,o.addr,o.land||'',
+    o.items.map(i=>`${i.name} x${i.qty}`).join('; '),o.total,o.geo?`https://maps.google.com/?q=${o.geo.lat},${o.geo.lng}`:'',o.note||'']));
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download('maizah-orders.csv',csv);
+}
+function clearOrders(){if(confirm('Clear all recorded orders on this device?')){localStorage.removeItem(KO);renderOrders();}}
+
+/* utils */
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function download(name,content){const b=new Blob([content],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();}
+
+renderProducts();
+</script>
+</body>
+</html>
