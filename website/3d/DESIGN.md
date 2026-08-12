@@ -17,7 +17,7 @@ this repo's own verified data in `website/index.html`, so NAP stays consistent.
 | Section (id) | Nav label | Planned technique | Built technique | Notes |
 |---|---|---|---|---|
 | `hero` | HOME | video-scroll-effect (frame scrub) | video-scroll-effect (frame scrub) | 59 frames of the supplied clip, scrubbed on scroll with `loopBack` (forward over the first half of the section, back over the second) |
-| `story` | STORY | hybrid-2d3d (`abstract`) | hybrid-2d3d (`abstract`) | Editorial copy + count-up stats (4.5★ rating, 24h marinade, 145+ reviews); inline idle-rotating torus knot in brand gold |
+| `story` | STORY | hybrid-2d3d (`abstract`) | 5D 360&deg; photo showcase | Editorial copy + count-up stats (4.5★, 24h marinade, 145+ reviews); the abstract WebGL object is replaced by the real product photography on four animated depth planes (see below) |
 | `menu` | MENU | hybrid-2d3d (`platter`) | hybrid-2d3d (`platter`) | Six signature items priced from the main site's menu section; stage/copy columns mirrored for rhythm |
 | `experience` | EXPLORE | pointer-follow-effect (`abstract`) | pointer-follow-effect (`abstract`) | Cursor-driven golden particle field; static centered pose on touch/reduced-motion, overlay copy still scroll-driven |
 | `order` | ORDER | outro (no 3D) | outro (no 3D) | Offers-site CTA, WhatsApp, tel link, address/hours |
@@ -60,6 +60,33 @@ the actual product is a drop-in replacement: re-run the same extraction into
 | `--ink` | `#fdf6ee` | Warm off-white text |
 
 Fonts: Bebas Neue (display) + Inter (body).
+
+## 5D 360&deg; showcase (story section)
+
+The photography and the layered hero treatment come from PR #19 on the `Mozon` repo,
+re-grounded for this page's dark palette. Four depth planes move independently:
+
+1. Exploding-piece backdrop — slow 70s spin inside a 16s drift, blurred and dimmed
+2. Turntable — orbit ring with a gold marker (26s) plus a pulsing contact shadow
+3. Product — floating bob (7s) with a `showcaseTurn` rotateY tease (6s)
+4. A live `360&deg; fresh cut` badge
+
+`site.js` adds pointer parallax on top: the stage tilts, and the backdrop and
+turntable drift by different amounts, so the planes separate in depth. Fine pointers
+only; every plane holds still under `prefers-reduced-motion`.
+
+Two fixes were needed on the source assets:
+
+- **White halo.** The burst cut-out had ~6% opaque near-white pixels left over — a
+  halo that is invisible on the light main site but reads as a white cloud on this
+  dark ground. Cleared with a border-seeded flood fill so only white *connected to
+  the outside* was removed, leaving the pieces' own highlights intact, then feathered.
+- **Hard bottom edge.** The drumstick cut-out ends in a straight crop at the wrist,
+  which reads as a crop rather than a subject once it sits inside the ring. Faded out
+  over the last stretch with a `mask-image` gradient.
+
+Assets are resized and served WebP-first with a PNG fallback (drumstick 67 KB /
+burst 236 KB as WebP).
 
 ## Atmosphere layer
 

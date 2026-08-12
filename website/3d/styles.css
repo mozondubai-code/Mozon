@@ -582,3 +582,180 @@ body {
   color: rgba(253, 246, 238, 0.9);
   text-shadow: 0 2px 16px rgba(0,0,0,0.9);
 }
+
+/* ---------- 5D 360° turntable showcase (real product photography) ----------
+   Four depth planes, each animated separately so the stage reads as dimensional
+   rather than as one moving image. Ported from the main site's hero treatment and
+   re-grounded for this page's dark palette. The JS-driven parallax writes inline
+   transforms on .showcase-stage / .burst-layer / .turntable, so the drift and spin
+   animations live on nested wrappers where they cannot fight those writes. */
+.showcase {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  perspective: 1000px;
+}
+.showcase-stage {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #3a2a1e, #150c07 70%);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.showcase-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 30% 18%, rgba(255, 255, 255, 0.14), transparent 42%);
+}
+
+/* Plane 1 — ambient exploding-piece backdrop */
+.burst-layer {
+  position: absolute;
+  inset: -18%;
+  z-index: 1;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.burst-drift {
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
+  opacity: 0.55;
+  filter: blur(1px) saturate(1.05);
+  animation: burstDrift 16s ease-in-out infinite;
+}
+.burst-spin {
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
+  animation: burstSpin 70s linear infinite;
+}
+.burst-spin img {
+  width: 100%; height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.45));
+}
+@keyframes burstSpin { to { transform: rotate(360deg); } }
+@keyframes burstDrift { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.04); } }
+
+/* Plane 2 — the turntable the product sits on */
+.turntable {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.turntable-ring {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 193, 7, 0.25);
+  animation: ringSpin 26s linear infinite;
+}
+.turntable-ring::before {
+  content: "";
+  position: absolute;
+  top: -6px; left: 50%;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 18px var(--gold);
+}
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+.turntable-shadow {
+  position: absolute;
+  left: 50%; bottom: 14%;
+  width: 56%; height: 8%;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.7), transparent 75%);
+  filter: blur(2px);
+  animation: shadowPulse 6s ease-in-out infinite alternate;
+}
+@keyframes shadowPulse {
+  0%   { transform: translateX(-50%) scaleX(0.7); opacity: 0.45; }
+  100% { transform: translateX(-50%) scaleX(1);   opacity: 0.65; }
+}
+
+/* Plane 3 — the product itself: floating bob plus a turntable tease-turn */
+.chicken-float {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  animation: floaty 7s ease-in-out infinite;
+}
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+.chicken-hero {
+  height: clamp(210px, 32vw, 350px);
+  width: auto;
+  transform-origin: center 62%;
+  filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.55));
+  animation: showcaseTurn 6s ease-in-out infinite alternate;
+}
+@keyframes showcaseTurn {
+  0%   { transform: perspective(1400px) rotateY(-22deg) rotateZ(-2deg); }
+  100% { transform: perspective(1400px) rotateY(22deg) rotateZ(2deg); }
+}
+
+/* Plane 4 — live badge */
+.orbit-badge {
+  position: absolute;
+  top: 2%; right: 0;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--ink);
+  color: #150c07;
+  padding: 8px 14px;
+  border-radius: 100px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.orbit-badge i {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: badgePulse 2s infinite;
+}
+.orbit-badge small {
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+}
+@keyframes badgePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(229, 57, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); }
+}
+
+@media (max-width: 800px) {
+  .showcase { max-width: 420px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Hold every plane still — the photography still reads as a composed showcase. */
+  .burst-drift, .burst-spin, .turntable-ring, .turntable-shadow,
+  .chicken-float, .chicken-hero, .orbit-badge i { animation: none; }
+  .chicken-hero { transform: perspective(1400px) rotateY(-8deg); }
+}
+
+/* The source cut-out ends in a straight edge at the wrist. Against the ring that
+   reads as a crop rather than a subject, so fade the last stretch out instead. */
+.chicken-hero {
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, rgba(0, 0, 0, 0.35) 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 74%, rgba(0, 0, 0, 0.35) 92%, transparent 100%);
+}
+
+/* The showcase's burst layer deliberately bleeds past its container (inset: -18%),
+   which on a narrow viewport made the whole document scrollable sideways by ~47px.
+   `overflow-x: clip` on the root stops that without creating a scroll container —
+   `hidden` here would break every position: sticky section on the page. */
+html { overflow-x: clip; }

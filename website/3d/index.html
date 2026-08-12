@@ -74,8 +74,34 @@
           <div class="stat"><span class="stat-num" data-count="145" data-suffix="+">0</span><span class="stat-label">REVIEWS</span></div>
         </div>
       </div>
-      <div class="hybrid-stage">
-        <canvas></canvas>
+      <!-- 5D 360° turntable showcase — real product photography on four moving
+           depth planes: drifting/spinning burst backdrop, orbit ring + contact
+           shadow, floating drumstick with a turntable tease-turn, and a live badge.
+           Pointer parallax across the planes is wired up in site.js. -->
+      <div class="showcase" aria-hidden="true">
+        <div class="showcase-stage">
+          <div class="burst-layer">
+            <div class="burst-drift">
+              <div class="burst-spin">
+                <picture>
+                  <source srcset="assets/img/hero-chicken-burst.webp" type="image/webp" />
+                  <img src="assets/img/hero-chicken-burst.png" alt="" loading="lazy" width="1200" height="1103" />
+                </picture>
+              </div>
+            </div>
+          </div>
+          <div class="turntable">
+            <div class="turntable-shadow"></div>
+            <div class="turntable-ring"></div>
+            <div class="chicken-float">
+              <picture>
+                <source srcset="assets/img/hero-chicken-drumstick.webp" type="image/webp" />
+                <img class="chicken-hero" src="assets/img/hero-chicken-drumstick.png" alt="A hand holding a freshly broasted Mozon Broast drumstick" loading="lazy" width="521" height="1100" />
+              </picture>
+            </div>
+          </div>
+          <span class="orbit-badge"><i></i>360&deg; <small>fresh cut</small></span>
+        </div>
       </div>
     </div>
   </section>
@@ -206,11 +232,6 @@
   <!-- ===================== one entry per hybrid-2d3d section ===================== -->
   <script>
     window.HYBRID_SECTIONS = [
-      {
-        section: "#story",
-        motion: "abstract",
-        palette: { accent: "#ffc107", bg: "#140a06" },
-      },
       {
         section: "#menu",
         motion: "platter",

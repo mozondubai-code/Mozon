@@ -82,6 +82,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
   }
 
+  /* ---- 5D showcase: pointer parallax across the depth planes ----
+     Each plane drifts a different amount, and the stage itself tilts, so the
+     photography reads as several planes at different depths rather than one
+     flat image. Fine pointers only — there is nothing to track on touch, and
+     the CSS already holds every plane still under reduced motion. */
+  const showcase = document.querySelector(".showcase");
+  if (showcase && !reduceMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    const stage = showcase.querySelector(".showcase-stage");
+    const burst = showcase.querySelector(".burst-layer");
+    const turntable = showcase.querySelector(".turntable");
+    showcase.addEventListener("pointermove", (event) => {
+      const { x, y } = window.Choreography.normalizedPointer(event, showcase);
+      if (stage) stage.style.transform = `rotateX(${(y * -8).toFixed(1)}deg) rotateY(${(x * 10).toFixed(1)}deg)`;
+      if (burst) burst.style.transform = `translate3d(${(x * -16).toFixed(1)}px, ${(y * -16).toFixed(1)}px, 0)`;
+      if (turntable) turntable.style.transform = `translate3d(${(x * 10).toFixed(1)}px, ${(y * 10).toFixed(1)}px, 0)`;
+    });
+    showcase.addEventListener("pointerleave", () => {
+      for (const el of [stage, burst, turntable]) if (el) el.style.transform = "";
+    });
+  }
+
   /* ---- Ambient ember field behind the page ----
      Deliberately dim and slow: atmosphere only, never competing with content.
      Skipped entirely under reduced-motion. */
