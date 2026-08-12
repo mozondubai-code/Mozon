@@ -118,17 +118,29 @@
     });
   });
 
-  /* ---- Parallax on hero visual ---- */
+  /* ---- Parallax on hero visual (layered for a "5D" depth feel) ---- */
   var visual = document.querySelector(".hero-visual");
   var hero = document.querySelector(".hero");
+  var burstLayer = document.querySelector(".burst-layer");
+  var turntable = document.querySelector(".turntable");
+  var stage = document.querySelector(".visual-stage");
   if (visual && hero) {
     hero.addEventListener("pointermove", function (ev) {
       var r = hero.getBoundingClientRect();
       var px = (ev.clientX - r.left) / r.width - 0.5;
       var py = (ev.clientY - r.top) / r.height - 0.5;
       visual.style.transform = "translate3d(" + (px * 22).toFixed(1) + "px," + (py * 22).toFixed(1) + "px,0)";
+      // Each layer drifts a different amount so the stage reads as several depth planes.
+      if (stage) stage.style.transform = "rotateX(" + (py * -8).toFixed(1) + "deg) rotateY(" + (px * 10).toFixed(1) + "deg)";
+      if (burstLayer) burstLayer.style.transform = "translate3d(" + (px * -16).toFixed(1) + "px," + (py * -16).toFixed(1) + "px,0)";
+      if (turntable) turntable.style.transform = "translate3d(" + (px * 10).toFixed(1) + "px," + (py * 10).toFixed(1) + "px,0)";
     });
-    hero.addEventListener("pointerleave", function () { visual.style.transform = "translate3d(0,0,0)"; });
+    hero.addEventListener("pointerleave", function () {
+      visual.style.transform = "translate3d(0,0,0)";
+      if (stage) stage.style.transform = "";
+      if (burstLayer) burstLayer.style.transform = "";
+      if (turntable) turntable.style.transform = "";
+    });
   }
 
   /* ---- Dish spotlight follows cursor ---- */
