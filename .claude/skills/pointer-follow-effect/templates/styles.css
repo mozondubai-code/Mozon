@@ -1,0 +1,49 @@
+/* ---------- Pointer-driven WebGL section (mirrors .world) ---------- */
+.parallax {
+  position: relative;
+  height: 400vh;   /* scroll still pins the section for a dwell period —
+                       the 3D scene itself is driven by cursor, not scroll */
+}
+.parallax .sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #0a0a12;
+  cursor: none;
+}
+.parallax .sticky canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.parallax-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: rgba(244, 246, 251, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.parallax .sticky:hover .parallax-hint {
+  opacity: 1;
+}
+@media (hover: none), (pointer: coarse) {
+  .parallax .sticky { cursor: auto; }
+  .parallax-hint { display: none; }  /* no pointer to hint at on touch devices */
+}
+@media (prefers-reduced-motion: reduce) {
+  .parallax { height: 100vh; }
+  .parallax .sticky { position: relative; }
+  .parallax-hint { display: none; }
+}

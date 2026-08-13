@@ -1,0 +1,249 @@
+<!-- ============================================================
+     CANONICAL PROJECT SHELL — scroll3d
+     This is the ONE index.html every project starts from, regardless of
+     which technique skills the plan uses. Copy it once, then each skill
+     fills in / deletes the example <section> blocks and registry entries
+     it owns. Do not keep a per-skill copy of this file: divergent shells
+     were how a project ended up missing the Three.js tag (and silently
+     dead WebGL sections) when video-scroll-effect happened to run first.
+
+     Delete the example sections and the registry entries for techniques
+     the plan does not use. Leaving an unused empty registry array is
+     harmless — every engine skips sections whose element is missing.
+     ============================================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><!-- brand from site plan --></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <nav class="hud">
+        <span class="hud-brand"><!-- brand --></span>
+        <div class="hud-nav">
+          <!-- one <a> per section, generated from plan.sections — example shape: -->
+          <a href="#hero" class="hud-nav-link">Home</a>
+          <a href="#tour" class="hud-nav-link">Explore</a>
+          <!-- ...one per section, in plan order... -->
+        </div>
+      </nav>
+
+  <!-- Example: a video-scroll-effect section (frame-scrub) -->
+  <section class="cinematic" id="hero">
+    <div class="sticky">
+      <div class="preloader">
+        <div class="preloader-bar"><div class="preloader-fill"></div></div>
+        <span class="preloader-text">LOADING 0%</span>
+      </div>
+      <canvas></canvas>
+      <div class="vignette"></div>
+      <div class="overlay">
+        <h1 class="reveal-line" data-in="0.00" data-out="0.30"><!-- line 1 --></h1>
+        <h1 class="reveal-line" data-in="0.34" data-out="0.64"><!-- line 2 --></h1>
+        <h1 class="reveal-line" data-in="0.70" data-out="1.30"><!-- line 3 --></h1>
+      </div>
+      <div class="progress"><div class="progress-fill"></div></div>
+      <div class="scroll-hint">SCROLL ▾</div>
+    </div>
+  </section>
+
+  <!-- Example: a 3d-scene-effect section (real-time WebGL, scroll-driven) -->
+  <section class="world" id="specs">
+    <div class="sticky">
+      <canvas></canvas>
+      <div class="overlay">
+        <h1 class="reveal-line" data-in="0.00" data-out="0.50"><!-- section headline --></h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example: a pointer-follow-effect section (real-time WebGL, cursor-driven) -->
+  <section class="parallax" id="showcase">
+    <div class="sticky">
+      <canvas></canvas>
+      <div class="overlay">
+        <h1 class="reveal-line" data-in="0.00" data-out="0.50"><!-- section headline --></h1>
+      </div>
+      <div class="parallax-hint">MOVE YOUR CURSOR</div>
+    </div>
+  </section>
+
+  <!-- Example: a click-navigate section (real-time WebGL, hotspot-driven) -->
+  <section class="explore" id="tour">
+    <div class="sticky">
+      <canvas></canvas>
+      <div class="explore-caption reveal"><!-- active waypoint's caption --></div>
+      <div class="hotspots">
+        <button class="hotspot" data-waypoint="0" style="--hx: 30%; --hy: 45%;">Angle</button>
+        <button class="hotspot" data-waypoint="1" style="--hx: 65%; --hy: 55%;">Detail</button>
+        <button class="hotspot" data-waypoint="2" style="--hx: 50%; --hy: 30%;">Feature</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example: a physics-play section (real-time WebGL + cannon-es, drag-driven) -->
+  <section class="physics" id="play">
+    <div class="sticky">
+      <canvas></canvas>
+      <div class="overlay">
+        <h1 class="reveal-line" data-in="0.00" data-out="0.50"><!-- section headline --></h1>
+      </div>
+      <div class="physics-hint">DRAG THE OBJECTS</div>
+    </div>
+  </section>
+
+  <!-- Example: a hybrid-2d3d section (flat editorial layout + inline 3D object) -->
+  <section class="hybrid" id="story">
+    <div class="hybrid-grid">
+      <div class="hybrid-copy">
+        <h2 class="reveal"><!-- headline --></h2>
+        <p class="reveal"><!-- copy --></p>
+        <div class="stats">
+          <div class="stat"><span class="stat-num" data-count="100" data-suffix="%">0</span><span class="stat-label">LABEL</span></div>
+        </div>
+      </div>
+      <div class="hybrid-stage">
+        <canvas></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example: a cursor-trail section (canvas-2D particle trail, cursor-driven) -->
+  <section class="trail" id="atmosphere">
+    <div class="sticky">
+      <canvas></canvas>
+      <div class="overlay">
+        <h1 class="reveal-line" data-in="0.00" data-out="0.50"><!-- section headline --></h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Standard content section, no 3D -->
+  <section class="outro">
+    <h2 class="reveal"><!-- outro headline --></h2>
+    <p class="reveal"><!-- closing copy --></p>
+  </section>
+
+  <!-- Lenis smooth scroll — shared driver across scroll-driven engines -->
+  <script src="https://unpkg.com/lenis@1.3.21/dist/lenis.min.js"></script>
+
+  <!-- Three.js — needed for any WebGL section (3d-scene-effect, pointer-follow-effect,
+       click-navigate, physics-play, hybrid-2d3d).
+       PIN RATIONALE: r160 is the LAST release that ships build/three.min.js — the UMD
+       build was removed in r161. Do not bump this version without also migrating every
+       engine to an ES module + import map, which is a much larger change. r160 logs a
+       deprecation warning in console on load; that warning is expected, not a bug. -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+  <!-- cannon-es — only needed if the plan includes any physics-play sections. ESM-only:
+       load as a module and republish it on window so the classic engine script below
+       can use it. physics-play.js must NOT assume CANNON exists at DOMContentLoaded —
+       it gates its own init on window.CANNON / the "cannon-ready" event instead. -->
+  <script type="module">
+    import * as CANNON from "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js";
+    window.CANNON = CANNON;
+    window.dispatchEvent(new Event("cannon-ready"));
+  </script>
+
+  <!-- Shared scroll/pointer utilities — MUST load before any engine script below.
+       Every engine hard-fails with a console error if window.Choreography is missing,
+       so never reorder or drop this tag. -->
+  <script src="choreography.js"></script>
+
+  <!-- ===================== EDIT ME — one entry per video-scroll-effect section ===================== -->
+  <script>
+    window.SCRUB_SECTIONS = [
+      {
+        section: "#hero",
+        frameCount: 179,
+        bg: "#02030a",
+        framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
+      },
+    ];
+  </script>
+
+  <!-- ===================== EDIT ME — one entry per 3d-scene-effect section ===================== -->
+  <script>
+    window.WORLD_SECTIONS = [
+      {
+        section: "#specs",
+        motion: "orbit",              // orbit | turntable | fly-through | morph | reveal | abstract
+        palette: { accent: "#38bdf8", bg: "#0a0a12" },
+      },
+    ];
+  </script>
+
+  <!-- ===================== EDIT ME — one entry per pointer-follow-effect section ===================== -->
+  <script>
+    window.PARALLAX_SECTIONS = [
+      {
+        section: "#showcase",
+        motion: "orbit",
+        palette: { accent: "#ffb443", bg: "#0a0a12" },
+      },
+    ];
+  </script>
+
+  <!-- ===================== EDIT ME — one entry per click-navigate section ===================== -->
+  <script>
+    window.EXPLORE_SECTIONS = [
+      {
+        section: "#tour",
+        motion: "orbit",
+        palette: { accent: "#38bdf8", bg: "#0a0a12" },
+        waypoints: [
+          { id: "angle", label: "Angle", caption: "…", camera: { x: 4, y: 1, z: 4 }, lookAt: { x: 0, y: 0, z: 0 } },
+          { id: "detail", label: "Detail", caption: "…", camera: { x: -3, y: 0.5, z: 2 }, lookAt: { x: 0.3, y: 0, z: 0 } },
+          { id: "feature", label: "Feature", caption: "…", camera: { x: 0, y: 3, z: 3 }, lookAt: { x: 0, y: 0.2, z: 0 } },
+        ],
+      },
+    ];
+  </script>
+
+  <!-- ===================== EDIT ME — one entry per physics-play section ===================== -->
+  <script>
+    window.PHYSICS_SECTIONS = [
+      {
+        section: "#play",
+        palette: { accent: "#ff3b30", bg: "#0a0a12" },
+        objectCount: 6,
+      },
+    ];
+  </script>
+
+  <!-- ===================== EDIT ME — one entry per hybrid-2d3d section ===================== -->
+  <script>
+    window.HYBRID_SECTIONS = [
+      {
+        section: "#story",
+        motion: "abstract",
+        palette: { accent: "#38bdf8", bg: "#0a0a12" },
+      },
+    ];
+  </script>
+
+  <!-- ===================== EDIT ME — one entry per cursor-trail section ===================== -->
+  <script>
+    window.TRAIL_SECTIONS = [
+      {
+        section: "#atmosphere",
+        palette: { accent: "#ffb443", bg: "#05070d" },
+        particleCount: 150,
+      },
+    ];
+  </script>
+  <!-- ============================================================================================ -->
+
+  <script src="video-scroll-effect.js"></script>
+  <script src="3d-scene-effect.js"></script>
+  <script src="pointer-follow-effect.js"></script>
+  <script src="click-navigate.js"></script>
+  <script src="physics-play.js"></script>
+  <script src="hybrid-2d3d.js"></script>
+  <script src="cursor-trail.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+/* ---------- Cursor-trail particle section (mirrors .world) ---------- */
+.trail {
+  position: relative;
+  height: 400vh;
+}
+.trail .sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #05070d;
+}
+.trail .sticky canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .trail { height: 100vh; }
+  .trail .sticky { position: relative; }
+}

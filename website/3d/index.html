@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mozon Broast — 3D Experience | Al Nahda, Dubai</title>
+  <meta name="description" content="Step inside Mozon Broast — crispy pressure-broasted chicken in Al Nahda 2, Deira, Dubai. Rated 4.5★ by 145+ diners. Open daily 11AM–2AM. Order now." />
+  <link rel="canonical" href="https://mozonbroast.ae/3d/" />
+  <meta property="og:title" content="Mozon Broast — 3D Experience" />
+  <meta property="og:description" content="Crispy pressure-broasted chicken in Al Nahda 2, Deira, Dubai. Rated 4.5★. Open daily 11AM–2AM." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mozonbroast.ae/3d/" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍗</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient ember field + cursor glow — atmosphere layer behind all content -->
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Sitewide scroll progress -->
+  <div class="page-progress" aria-hidden="true"><div class="page-progress-fill"></div></div>
+
+  <nav class="hud">
+    <span class="hud-brand">MOZON<span class="dim">◆</span>BROAST</span>
+    <div class="hud-nav">
+      <a href="#hero" class="hud-nav-link">HOME</a>
+      <a href="#story" class="hud-nav-link">STORY</a>
+      <a href="#menu" class="hud-nav-link">MENU</a>
+      <a href="#experience" class="hud-nav-link">EXPLORE</a>
+      <a href="#order" class="hud-nav-link">ORDER</a>
+      <a href="../index.html" class="hud-nav-link">MAIN SITE</a>
+    </div>
+  </nav>
+
+  <!-- HOME — video-scroll-effect: real footage, scrubbed frame-by-frame on scroll -->
+  <section class="cinematic" id="hero">
+    <div class="sticky">
+      <div class="preloader">
+        <div class="preloader-bar"><div class="preloader-fill"></div></div>
+        <span class="preloader-text">LOADING 0%</span>
+      </div>
+      <canvas></canvas>
+      <div class="vignette"></div>
+      <div class="overlay">
+        <!-- first line's window starts negative so it is already at full opacity
+             at progress 0 — otherwise the hero headline is invisible until the
+             visitor starts scrolling. -->
+        <h1 class="reveal-line" data-in="-0.30" data-out="0.32">MOZON BROAST</h1>
+        <h1 class="reveal-line" data-in="0.36" data-out="0.66">GOLDEN. CRISPY. FRESH.</h1>
+        <h1 class="reveal-line" data-in="0.70" data-out="1.30">OPEN DAILY 11AM – 2AM</h1>
+      </div>
+      <div class="hero-kicker">AL NAHDA 2 · DEIRA · DUBAI</div>
+      <div class="progress"><div class="progress-fill"></div></div>
+      <div class="scroll-hint">SCROLL ▾</div>
+    </div>
+  </section>
+
+  <!-- STORY — hybrid-2d3d editorial section -->
+  <section class="hybrid" id="story">
+    <div class="hybrid-grid">
+      <div class="hybrid-copy">
+        <h2 class="reveal">BROAST DONE THE RIGHT WAY</h2>
+        <p class="reveal">
+          Every piece is marinated for a full day, then pressure-broasted to order —
+          juices locked in, crust deep and golden, never frozen. It's why Al Nahda
+          keeps coming back, and why we're rated 4.5★ across 145+ reviews.
+        </p>
+        <div class="stats">
+          <div class="stat"><span class="stat-num" data-count="4.5" data-suffix="★">0</span><span class="stat-label">RATED</span></div>
+          <div class="stat"><span class="stat-num" data-count="24" data-suffix="H">0</span><span class="stat-label">MARINADE</span></div>
+          <div class="stat"><span class="stat-num" data-count="145" data-suffix="+">0</span><span class="stat-label">REVIEWS</span></div>
+        </div>
+      </div>
+      <!-- 5D 360° turntable showcase — real product photography on four moving
+           depth planes: drifting/spinning burst backdrop, orbit ring + contact
+           shadow, floating drumstick with a turntable tease-turn, and a live badge.
+           Pointer parallax across the planes is wired up in site.js. -->
+      <div class="showcase" aria-hidden="true">
+        <div class="showcase-stage">
+          <div class="burst-layer">
+            <div class="burst-drift">
+              <div class="burst-spin">
+                <picture>
+                  <source srcset="assets/img/hero-chicken-burst.webp" type="image/webp" />
+                  <img src="assets/img/hero-chicken-burst.png" alt="" loading="lazy" width="1200" height="1103" />
+                </picture>
+              </div>
+            </div>
+          </div>
+          <div class="turntable">
+            <div class="turntable-shadow"></div>
+            <div class="turntable-ring"></div>
+            <div class="chicken-float">
+              <picture>
+                <source srcset="assets/img/hero-chicken-drumstick.webp" type="image/webp" />
+                <img class="chicken-hero" src="assets/img/hero-chicken-drumstick.png" alt="A hand holding a freshly broasted Mozon Broast drumstick" loading="lazy" width="521" height="1100" />
+              </picture>
+            </div>
+          </div>
+          <span class="orbit-badge"><i></i>360&deg; <small>fresh cut</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU — hybrid-2d3d editorial section with signature items -->
+  <section class="hybrid" id="menu">
+    <div class="hybrid-grid">
+      <!-- Signature plate: the supplied footage as a short silent loop, replacing
+           the procedural WebGL platter that used to sit here. Same clean studio
+           window and crop as the hero frames. -->
+      <div class="hybrid-stage video-stage">
+        <video class="stage-video" autoplay muted loop playsinline preload="metadata"
+               poster="assets/video/signature-plate-poster.jpg">
+          <source src="assets/video/signature-plate.webm" type="video/webm" />
+          <source src="assets/video/signature-plate.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="hybrid-copy">
+        <h2 class="reveal">SIGNATURE PLATES</h2>
+        <div class="menu-list reveal">
+          <div class="menu-item">
+            <span><span class="menu-item-name">Broasted Chicken · 4 pcs</span><span class="menu-item-desc">Pressure-broasted, 24-hour marinade</span></span>
+            <span class="menu-item-price">AED 24</span>
+          </div>
+          <div class="menu-item">
+            <span><span class="menu-item-name">Broasted Chicken · 8 pcs</span><span class="menu-item-desc">The family favourite</span></span>
+            <span class="menu-item-price">AED 45</span>
+          </div>
+          <div class="menu-item">
+            <span><span class="menu-item-name">Feast Combo</span><span class="menu-item-desc">Chicken, sides and drinks to share</span></span>
+            <span class="menu-item-price">AED 68</span>
+          </div>
+          <div class="menu-item">
+            <span><span class="menu-item-name">Mozon Chicken Burger</span><span class="menu-item-desc">Our signature burger</span></span>
+            <span class="menu-item-price">AED 18</span>
+          </div>
+          <div class="menu-item">
+            <span><span class="menu-item-name">Loaded Fries</span><span class="menu-item-desc">Piled high with toppings</span></span>
+            <span class="menu-item-price">AED 20</span>
+          </div>
+          <div class="menu-item">
+            <span><span class="menu-item-name">Fresh Mojitos</span><span class="menu-item-desc">Made fresh to order</span></span>
+            <span class="menu-item-price">AED 15</span>
+          </div>
+        </div>
+        <div class="cta-row reveal" style="justify-content: flex-start;">
+          <a class="cta ghost" href="../index.html#menu">FULL MENU →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE — pointer-follow-effect, cursor-driven golden particle field -->
+  <section class="parallax" id="experience">
+    <div class="sticky">
+      <canvas></canvas>
+      <div class="vignette"></div>
+      <div class="overlay">
+        <h1 class="reveal-line" data-in="-0.25" data-out="0.40">PRESSURE-BROASTED TO ORDER</h1>
+        <h1 class="reveal-line" data-in="0.45" data-out="1.30">FRESH, NEVER FROZEN</h1>
+      </div>
+      <div class="parallax-hint">MOVE YOUR CURSOR</div>
+    </div>
+  </section>
+
+  <!-- ORDER — standard content section, no 3D -->
+  <section class="outro" id="order">
+    <h2 class="reveal">HUNGRY? ORDER NOW</h2>
+    <p class="reveal">
+      Fast local delivery across Al Nahda · Open daily 11AM – 2AM
+    </p>
+    <div class="cta-row reveal">
+      <a class="cta gold" href="https://offersmozon.ae" target="_blank" rel="noopener">SEE OFFERS &amp; ORDER</a>
+      <a class="cta primary" href="https://wa.me/971524877701?text=Hi%20Mozon%20Broast%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener">ORDER ON WHATSAPP</a>
+      <a class="cta ghost" href="tel:+971524877701">CALL +971 52 487 7701</a>
+    </div>
+    <p class="reveal outro-meta">
+      Mozon Broast · Shop 1, 3 Street, Al Nahda Second, Deira, Dubai, UAE<br />
+      <a href="../index.html">← Back to the main site</a>
+    </p>
+  </section>
+
+  <!-- Lenis smooth scroll — shared driver across scroll-driven engines.
+       Vendored under vendor/ rather than CDN-loaded so the page has no
+       third-party runtime dependency and works offline / behind a proxy. -->
+  <script src="vendor/lenis-1.3.21.min.js"></script>
+
+  <!-- Three.js — needed for any WebGL section.
+       PIN RATIONALE: r160 is the LAST release that ships build/three.min.js — the UMD
+       build was removed in r161. Do not bump this version without also migrating every
+       engine to an ES module + import map. r160 logs a deprecation warning in console
+       on load; that warning is expected, not a bug. -->
+  <script src="vendor/three-0.160.0.min.js"></script>
+
+  <!-- Shared scroll/pointer utilities — MUST load before site.js and any engine script. -->
+  <script src="choreography.js"></script>
+
+  <!-- ===================== one entry per video-scroll-effect section =====================
+       53 frames extracted from the supplied clip's clean segment (2.70s-4.90s at 24fps),
+       cropped to drop the render-overlay text and watermark. loopBack scrubs forward
+       through the frames over the first half of the section and back over the second,
+       so one short clip covers the whole scroll without visible looping. -->
+  <script>
+    window.SCRUB_SECTIONS = [
+      {
+        section: "#hero",
+        frameCount: 53,
+        bg: "#0c0605",
+        framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
+        beats: [
+          {
+            name: "reveal",
+            frameCount: 53,
+            framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
+            progressStart: 0,
+            progressEnd: 1,
+            loopBack: true,
+          },
+        ],
+      },
+    ];
+  </script>
+
+  <!-- ===================== one entry per pointer-follow-effect section ===================== -->
+  <script>
+    window.PARALLAX_SECTIONS = [
+      {
+        section: "#experience",
+        motion: "abstract",
+        palette: { accent: "#ffc107", bg: "#140a06" },
+      },
+    ];
+  </script>
+
+  <!-- site.js owns Lenis + reveals here (no video-scroll-effect in this build);
+       it must come before the engine scripts so window.__lenis exists when
+       their DOMContentLoaded handlers run. -->
+  <script src="site.js"></script>
+  <script src="video-scroll-effect.js"></script>
+  <script src="pointer-follow-effect.js"></script>
+</body>
+</html>
