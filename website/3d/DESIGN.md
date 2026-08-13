@@ -16,9 +16,9 @@ this repo's own verified data in `website/index.html`, so NAP stays consistent.
 
 | Section (id) | Nav label | Planned technique | Built technique | Notes |
 |---|---|---|---|---|
-| `hero` | HOME | video-scroll-effect (frame scrub) | video-scroll-effect (frame scrub) | 59 frames of the supplied clip, scrubbed on scroll with `loopBack` (forward over the first half of the section, back over the second) |
+| `hero` | HOME | video-scroll-effect (frame scrub) | video-scroll-effect (frame scrub) | 53 frames of the supplied clip, scrubbed on scroll with `loopBack` (forward over the first half of the section, back over the second) |
 | `story` | STORY | hybrid-2d3d (`abstract`) | 5D 360&deg; photo showcase | Editorial copy + count-up stats (4.5★, 24h marinade, 145+ reviews); the abstract WebGL object is replaced by the real product photography on four animated depth planes (see below) |
-| `menu` | MENU | hybrid-2d3d (`platter`) | hybrid-2d3d (`platter`) | Six signature items priced from the main site's menu section; stage/copy columns mirrored for rhythm |
+| `menu` | MENU | hybrid-2d3d (`platter`) | looping video stage | Six signature items priced from the main site's menu section; stage/copy columns mirrored for rhythm |
 | `experience` | EXPLORE | pointer-follow-effect (`abstract`) | pointer-follow-effect (`abstract`) | Cursor-driven golden particle field; static centered pose on touch/reduced-motion, overlay copy still scroll-driven |
 | `order` | ORDER | outro (no 3D) | outro (no 3D) | Offers-site CTA, WhatsApp, tel link, address/hours |
 
@@ -30,9 +30,13 @@ clip, and every other section is real-time WebGL.
 Source: a user-supplied 10.01s / 1280×720 / 24fps clip. Only part of it is usable on
 a restaurant site — it opens inside a mock 3D-software UI with garbled text, and ends
 on a sci-fi "5D hyper-asset" frame with more garbled text. The clean studio segment
-runs roughly 2.70s–5.15s.
+runs roughly 2.70s–4.90s.
 
-- **Window:** 2.70s → 5.15s → 59 frames at native 24fps.
+- **Window:** 2.70s → 4.90s → 53 frames at native 24fps. The blue "3D MODEL
+  DOWNLOAD" wireframe fades in at ~4.95s, not ~5.2s as first assumed — an earlier
+  cut to 5.15s put the wireframe into the last four hero frames. Both the frame
+  sequence and the menu loop are now checked frame-by-frame for cyan pixels
+  (`b > r + 35 and b > 110`); 106 of 106 frames come back clean.
 - **Crop:** `crop=1130:616:0:0` removes the garbled "ASSET: 8192 x 4608" overlay along
   the bottom and the AI-tool sparkle watermark bottom-right, keeping the whole
   drumstick. Scaled to 1280 wide, JPEG q6 → 3.4 MB total for the sequence.
@@ -49,6 +53,22 @@ runs roughly 2.70s–5.15s.
 The footage is generic CGI chicken, not Mozon's own food. Swapping in real footage of
 the actual product is a drop-in replacement: re-run the same extraction into
 `frames/hero/` and update `frameCount`.
+
+## Signature-plate loop (menu section)
+
+The menu stage plays the same footage as a short silent loop instead of the
+procedural WebGL platter. Cut from the same clean window, but cropped 4:3
+(`crop=820:616:160:0`) and centred on the drumstick — the hero's wide 1130&times;616 crop
+lost most of the subject once `object-fit: cover` squared it off in the 1:1 stage.
+Encoded to WebM (VP9, 126 KB) with an MP4 fallback (H.264, 148 KB) and a poster frame.
+
+The clip was shot on a light studio backdrop, which lands as a bright block in this
+dark layout, so the stage carries a vignette and a slight grade. Playback pauses when
+the section scrolls out of view, and `autoplay` is stripped under
+`prefers-reduced-motion` so the poster frame stands in.
+
+With this change no `hybrid-2d3d` sections remain, so that engine and its registry
+are removed from the page entirely.
 
 ## Palette
 
@@ -106,7 +126,7 @@ deliberately dim so it never competes with content:
 - `site.js` — Lenis driver, `.reveal`/`.stat-num` IntersectionObserver, overlay driver for pinned `.world` sections (jobs `video-scroll-effect.js` would own in a scrub build), plus the atmosphere layer above
 - `video-scroll-effect.js` — frame-scrub engine (patched, see below)
 - `pointer-follow-effect.js`, `hybrid-2d3d.js` — scaffold engines; `hybrid-2d3d.js` carries an added `platter` geometry case
-- `frames/hero/` — 59 extracted JPEG frames
+- `frames/hero/` — 53 extracted JPEG frames
 - `vendor/` — `three@0.160.0` and `lenis@1.3.21`, vendored from the npm registry so the page has no third-party runtime dependency
 
 ## Fixes made to the upstream scaffold

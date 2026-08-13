@@ -82,6 +82,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
   }
 
+  /* ---- Looping stage videos ----
+     The markup carries `autoplay` so the loop starts without waiting on JS, but
+     autoplay ignores prefers-reduced-motion — pause it here and let the poster
+     frame stand in. Playback is also paused while the section is off-screen so a
+     background video is not decoding for nothing. */
+  const stageVideos = [...document.querySelectorAll(".stage-video")];
+  if (stageVideos.length) {
+    if (reduceMotion) {
+      stageVideos.forEach((v) => { v.removeAttribute("autoplay"); v.pause(); });
+    } else {
+      const vio = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.play().catch(() => {});
+          else e.target.pause();
+        });
+      }, { threshold: 0.15 });
+      stageVideos.forEach((v) => vio.observe(v));
+    }
+  }
+
   /* ---- 5D showcase: pointer parallax across the depth planes ----
      Each plane drifts a different amount, and the stage itself tilts, so the
      photography reads as several planes at different depths rather than one

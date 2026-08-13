@@ -109,8 +109,15 @@
   <!-- MENU — hybrid-2d3d editorial section with signature items -->
   <section class="hybrid" id="menu">
     <div class="hybrid-grid">
-      <div class="hybrid-stage">
-        <canvas></canvas>
+      <!-- Signature plate: the supplied footage as a short silent loop, replacing
+           the procedural WebGL platter that used to sit here. Same clean studio
+           window and crop as the hero frames. -->
+      <div class="hybrid-stage video-stage">
+        <video class="stage-video" autoplay muted loop playsinline preload="metadata"
+               poster="assets/video/signature-plate-poster.jpg">
+          <source src="assets/video/signature-plate.webm" type="video/webm" />
+          <source src="assets/video/signature-plate.mp4" type="video/mp4" />
+        </video>
       </div>
       <div class="hybrid-copy">
         <h2 class="reveal">SIGNATURE PLATES</h2>
@@ -193,7 +200,7 @@
   <script src="choreography.js"></script>
 
   <!-- ===================== one entry per video-scroll-effect section =====================
-       59 frames extracted from the supplied clip's clean segment (2.70s–5.15s at 24fps),
+       53 frames extracted from the supplied clip's clean segment (2.70s-4.90s at 24fps),
        cropped to drop the render-overlay text and watermark. loopBack scrubs forward
        through the frames over the first half of the section and back over the second,
        so one short clip covers the whole scroll without visible looping. -->
@@ -201,13 +208,13 @@
     window.SCRUB_SECTIONS = [
       {
         section: "#hero",
-        frameCount: 59,
+        frameCount: 53,
         bg: "#0c0605",
         framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
         beats: [
           {
             name: "reveal",
-            frameCount: 59,
+            frameCount: 53,
             framePath: (i) => `frames/hero/frame_${String(i).padStart(4, "0")}.jpg`,
             progressStart: 0,
             progressEnd: 1,
@@ -229,23 +236,11 @@
     ];
   </script>
 
-  <!-- ===================== one entry per hybrid-2d3d section ===================== -->
-  <script>
-    window.HYBRID_SECTIONS = [
-      {
-        section: "#menu",
-        motion: "platter",
-        palette: { accent: "#ffc107", bg: "#140a06" },
-      },
-    ];
-  </script>
-
   <!-- site.js owns Lenis + reveals here (no video-scroll-effect in this build);
        it must come before the engine scripts so window.__lenis exists when
        their DOMContentLoaded handlers run. -->
   <script src="site.js"></script>
   <script src="video-scroll-effect.js"></script>
   <script src="pointer-follow-effect.js"></script>
-  <script src="hybrid-2d3d.js"></script>
 </body>
 </html>
