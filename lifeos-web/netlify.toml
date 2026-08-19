@@ -1,0 +1,17 @@
+# Netlify config for Life OS (static site — no build step)
+[build]
+  publish = "."
+  command = ""
+
+# Single-page app: serve index.html for any unknown path
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
