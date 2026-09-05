@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#D32F2F">
+<title>Mozon Broast — Corporate Ordering & Office Loyalty Program</title>
+<meta name="description" content="Order Mozon Broast for your office or factory in Al Nahda, Dubai. Direct WhatsApp ordering, corporate promo, and a loyalty program that rewards the office in-charge.">
+<link rel="canonical" href="https://mozonbroast.ae/corporate/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e8431e'/%3E%3Cstop offset='1' stop-color='%23ffb527'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='44' height='44' rx='13' fill='url(%23g)'/%3E%3Cg transform='rotate(-38 22 22)' fill='%23fff'%3E%3Ccircle cx='15.5' cy='22' r='8.6'/%3E%3Crect x='21' y='19.4' width='13' height='5.2' rx='2.6'/%3E%3Ccircle cx='33' cy='18.4' r='3.3'/%3E%3Ccircle cx='33' cy='25.6' r='3.3'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --red: #D32F2F;
+    --yellow: #FFC107;
+    --dark: #1A1A1A;
+    --card: #FFFFFF;
+    --bg: #F5F5F5;
+    --border: #E0E0E0;
+    --success: #2E7D32;
+    --gold: #B8860B;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 60%, #1A1A1A 100%);
+    color: white;
+    padding: 40px 20px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 3px;
+    position: relative;
+  }
+  .hero-logo span { color: var(--yellow); }
+  .hero-sub {
+    font-size: 15px;
+    opacity: 0.85;
+    margin-top: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 18px;
+    position: relative;
+    backdrop-filter: blur(4px);
+  }
+
+  /* MAIN LAYOUT */
+  .container { max-width: 780px; margin: 0 auto; padding: 0 16px 60px; }
+
+  /* INFO BOX */
+  .info-strip {
+    background: var(--yellow);
+    color: var(--dark);
+    text-align: center;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .info-strip a { color: var(--dark); }
+
+  /* LOYALTY BANNER — shows when a personal ?ref= link is used */
+  .ref-banner {
+    display: none;
+    background: linear-gradient(90deg, #1A1A1A, #3E2723);
+    color: #FFC107;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    border: 1.5px solid #FFC107;
+  }
+  .ref-banner.show { display: block; }
+
+  /* SECTION HEADERS */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 16px;
+  }
+  .section-head .icon {
+    width: 40px; height: 40px;
+    background: var(--red);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .section-head h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--dark);
+  }
+  .section-head .pill {
+    background: var(--red);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* FORM CARD */
+  .form-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border: 1px solid var(--border);
+  }
+
+  /* LOYALTY EXPLAINER CARD */
+  .loyalty-card {
+    background: linear-gradient(135deg, #1A1A1A 0%, #3E2723 100%);
+    color: #FFF7EA;
+    border-radius: 16px;
+    padding: 26px;
+    margin-bottom: 16px;
+    border: 1.5px solid #FFC107;
+  }
+  .loyalty-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1.5px;
+    color: var(--yellow);
+    margin-bottom: 10px;
+  }
+  .loyalty-card p { font-size: 14px; line-height: 1.65; opacity: 0.92; margin-bottom: 8px; }
+  .loyalty-card .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 16px 0 6px; }
+  @media(max-width:560px){ .loyalty-card .steps { grid-template-columns: 1fr; } }
+  .loyalty-card .step {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,193,7,0.35);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .loyalty-card .step .big { font-size: 26px; margin-bottom: 6px; }
+  .loyalty-card .step b { display: block; font-size: 13px; color: var(--yellow); margin-bottom: 4px; }
+  .loyalty-card .step span { font-size: 12px; opacity: 0.85; line-height: 1.45; display: block; }
+  .loyalty-card .fine { font-size: 11.5px; opacity: 0.65; margin-top: 10px; }
+  .loyalty-card a { color: var(--yellow); font-weight: 700; }
+
+  /* FIELDS */
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .field label .req { color: var(--red); margin-left: 2px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    background: #FAFAFA;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    color: var(--dark);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(211,47,47,0.1);
+    background: #fff;
+  }
+  .field textarea { resize: vertical; min-height: 90px; }
+  .field select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:500px){ .row-2 { grid-template-columns: 1fr; } }
+
+  /* MENU ITEMS */
+  .category-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--red);
+    letter-spacing: 1px;
+    margin: 24px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--yellow);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .category-title:first-child { margin-top: 0; }
+
+  .item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:600px){ .item-grid { grid-template-columns: 1fr; } }
+
+  .item-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #FAFAFA;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    min-height: 80px;
+  }
+  .item-card:active {
+    border-color: var(--red);
+    background: #FFF5F5;
+    transform: scale(0.98);
+  }
+  .item-card.selected {
+    border-color: var(--red);
+    background: #FFF5F5;
+  }
+  .item-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px; right: 10px;
+    width: 22px; height: 22px;
+    background: var(--red);
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: grid; place-items: center;
+  }
+  .item-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+  .item-desc {
+    font-size: 11px;
+    color: #888;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .item-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--red);
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  /* QTY COUNTER */
+  .qty-row {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .item-card.selected .qty-row { display: flex; }
+  .qty-btn {
+    width: 36px; height: 36px;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: grid; place-items: center;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    flex-shrink: 0;
+  }
+  .qty-btn:hover { background: #B71C1C; }
+  .qty-num {
+    font-weight: 700;
+    font-size: 15px;
+    min-width: 20px;
+    text-align: center;
+  }
+  .qty-label { font-size: 11px; color: #888; }
+
+  /* PROMO STRIP */
+  .promo-strip {
+    background: linear-gradient(90deg, var(--red) 0%, #FF6F00 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .promo-strip h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .promo-strip p { font-size: 13px; opacity: 0.9; }
+  .promo-strip .code {
+    display: inline-block;
+    background: white;
+    color: var(--red);
+    font-weight: 800;
+    font-size: 18px;
+    padding: 6px 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+    letter-spacing: 2px;
+  }
+
+  .hint { font-size: 12px; color: #999; margin-top: 6px; }
+  .promo-feedback, .ref-feedback {
+    display: none;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+  .promo-feedback.valid, .ref-feedback.valid {
+    display: block;
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1.5px solid #A5D6A7;
+  }
+  .promo-feedback.invalid {
+    display: block;
+    background: #FFEBEE;
+    color: #C62828;
+    border: 1.5px solid #EF9A9A;
+  }
+  .discount-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #2E7D32;
+    font-weight: 700;
+  }
+  .points-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background: #FFF8E1;
+    border: 1.5px solid #FFC107;
+    font-size: 14px;
+    color: #7A5C00;
+    font-weight: 700;
+  }
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo">🍗 MOZON <span>BROAST</span></div>
+  <div class="hero-sub">Al Nahda 2 · Near NMC Hospital · Dubai</div>
+  <div class="hero-badge">🏢 Corporate Ordering · 🏆 Office Loyalty Program</div>
+</div>
+
+<div class="info-strip">
+  📞 Call / WhatsApp: <a href="tel:+971524877701">+971 52 487 7701</a> &nbsp;|&nbsp; 🕐 Open Daily 12PM – 2AM &nbsp;|&nbsp; 🛵 Free Delivery within 5km
+</div>
+
+<div class="container">
+
+  <!-- PERSONAL REF LINK BANNER -->
+  <div class="ref-banner" id="refBanner"></div>
+
+  <!-- LOYALTY PROGRAM EXPLAINER -->
+  <div style="margin-top:28px;"></div>
+  <div class="loyalty-card">
+    <h3>🏆 Office Loyalty Program</h3>
+    <p>Are you the person who collects the food orders at your office or factory? This program is for <strong>you</strong>. Register once, and every order your team places through your Office Code earns <strong>you</strong> points.</p>
+    <div class="steps">
+      <div class="step"><div class="big">🎫</div><b>1 · Get your code</b><span>WhatsApp us the word <strong>LOYALTY</strong> + your company name — we send your personal Office Code &amp; link in minutes.</span></div>
+      <div class="step"><div class="big">🍗</div><b>2 · Your office orders</b><span>Share your link with colleagues. Every AED&nbsp;1 ordered under your code = <strong>1 point</strong> for you.</span></div>
+      <div class="step"><div class="big">🎁</div><b>3 · You get rewarded</b><span>Redeem your points for rewards from Mozon Broast — we confirm your balance &amp; rewards on WhatsApp.</span></div>
+    </div>
+    <p style="margin-top:10px;">👉 <a href="https://wa.me/971524877701?text=LOYALTY%20-%20I%20want%20an%20Office%20Code%20for%20my%20company" target="_blank" rel="noopener">Tap here to get your Office Code on WhatsApp</a></p>
+    <p class="fine">Points are credited to the registered office in-charge. Mozon Broast confirms points and rewards on WhatsApp. Program terms may be updated by Mozon Broast.</p>
+  </div>
+
+  <!-- PROMO -->
+  <div class="promo-strip">
+    <h3>🎁 CORPORATE FIRST ORDER SPECIAL</h3>
+    <p>Use code below on your <strong>first corporate order</strong> — get <strong>10% OFF</strong> your total (excludes canned sodas)</p>
+    <div class="code">CORP10</div>
+  </div>
+
+  <!-- ORDER FORM -->
+  <div class="section-head">
+    <div class="icon">✍️</div>
+    <h2>PLACE YOUR ORDER</h2>
+  </div>
+
+  <div id="mainForm">
+
+    <!-- CONTACT INFO -->
+    <div class="form-card">
+      <div class="category-title">👤 Your Details</div>
+      <div class="row-2">
+        <div class="field">
+          <label>Your Name <span class="req">*</span></label>
+          <input type="text" id="name" placeholder="e.g. Ahmed Ali" required>
+        </div>
+        <div class="field">
+          <label>Phone / WhatsApp <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="+971 50 000 0000" required>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Company / Building Name <span class="req">*</span></label>
+          <input type="text" id="company" placeholder="e.g. NMC Hospital, A2Z Center">
+        </div>
+        <div class="field">
+          <label>Floor / Office Number</label>
+          <input type="text" id="office" placeholder="e.g. Floor 3, Office 12">
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="yourname@company.com">
+        </div>
+        <div class="field">
+          <label>🏆 Office Code (loyalty)</label>
+          <input type="text" id="refcode" placeholder="e.g. ALFA01" oninput="checkRef()" autocomplete="off" style="text-transform:uppercase;">
+          <div class="ref-feedback" id="refFeedback"></div>
+          <p class="hint">The code of your office in-charge — their points, your lunch. No code? Leave empty.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER DETAILS -->
+    <div class="form-card">
+      <div class="category-title">📦 Order Details</div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Number of People <span class="req">*</span></label>
+          <select id="pax">
+            <option value="">Select...</option>
+            <option value="1-2">1–2 people</option>
+            <option value="3-5">3–5 people</option>
+            <option value="6-10">6–10 people</option>
+            <option value="11-20">11–20 people</option>
+            <option value="20+">20+ people</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Delivery Date <span class="req">*</span></label>
+          <input type="date" id="date" min="">
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Delivery Time <span class="req">*</span></label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="timeHour" style="flex:1;padding:13px 10px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:Inter,sans-serif;background:#FAFAFA;outline:none;color:var(--dark);appearance:none;text-align:center;">
+              <option value="">Hr</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>11</option><option>12</option>
+            </select>
+            <span style="font-size:20px;font-weight:700;color:#555;">:</span>
+            <select id="timeMin" style="flex:1;padding:13px 10px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:Inter,sans-serif;background:#FAFAFA;outline:none;color:var(--dark);appearance:none;text-align:center;">
+              <option value="">Min</option>
+              <option value="00">00</option><option value="15">15</option>
+              <option value="30">30</option><option value="45">45</option>
+            </select>
+            <select id="timeAmPm" style="flex:1;padding:13px 10px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:Inter,sans-serif;background:#FAFAFA;outline:none;color:var(--dark);appearance:none;text-align:center;">
+              <option value="">AM/PM</option>
+              <option>AM</option><option>PM</option>
+            </select>
+          </div>
+          <p style="font-size:11px;color:#999;margin-top:5px;">We are open 12:00 PM – 2:00 AM</p>
+        </div>
+        <div class="field">
+          <label>Promo Code</label>
+          <input type="text" id="promo" placeholder="Enter code: CORP10" oninput="checkPromo()" autocomplete="off">
+          <div class="promo-feedback" id="promoFeedback"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU ITEMS -->
+    <div class="form-card">
+      <div class="category-title">🍗 BROASTED CHICKEN</div>
+      <div class="item-grid" id="grid-broast"></div>
+
+      <div class="category-title">🍚 MADHOOT (Rice)</div>
+      <div class="item-grid" id="grid-madhoot"></div>
+
+      <div class="category-title">🍔 BURGERS & SANDWICHES</div>
+      <div class="item-grid" id="grid-burger"></div>
+
+      <div class="category-title">🌯 WRAPS</div>
+      <div class="item-grid" id="grid-wraps"></div>
+
+      <div class="category-title">🍟 FRIES & APPETIZERS</div>
+      <div class="item-grid" id="grid-fries"></div>
+
+      <div class="category-title">🥤 DRINKS & JUICES</div>
+      <div class="item-grid" id="grid-drinks"></div>
+
+      <div class="category-title">🥤 KINZA CANS (AED 3)</div>
+      <div class="item-grid" id="grid-cans_small"></div>
+
+      <div class="category-title">🍾 PEPSI / 7UP / DEW (2 Liter — AED 6)</div>
+      <div class="item-grid" id="grid-cans_large"></div>
+    </div>
+
+    <!-- SPECIAL REQUESTS -->
+    <div class="form-card">
+      <div class="category-title">💬 Special Requests</div>
+      <div class="field">
+        <label>Notes / Special Instructions</label>
+        <textarea id="notes" placeholder="e.g. Extra garlic sauce, no spicy, allergies, customizations..."></textarea>
+      </div>
+      <div class="field">
+        <label>Payment Method <span class="req">*</span></label>
+        <select id="payment">
+          <option value="">Select...</option>
+          <option value="cash">Cash on Delivery</option>
+          <option value="card">Card on Delivery</option>
+          <option value="transfer">Bank Transfer</option>
+          <option value="monthly">Monthly Corporate Invoice</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- TOTAL & SUBMIT -->
+    <div class="form-card" id="orderSummary" style="display:none;">
+      <div class="category-title">🧾 Order Summary</div>
+      <div id="summaryList" style="margin-bottom:16px;"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:2px solid var(--border);">
+        <span style="font-weight:700;font-size:16px;">Estimated Total</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--red);" id="totalDisplay">AED 0</span>
+      </div>
+      <div class="points-row" id="pointsRow" style="display:none;">
+        <span>🏆 Loyalty points this order</span>
+        <span id="pointsDisplay">0 pts</span>
+      </div>
+      <p style="font-size:11px;color:#999;margin-top:8px;">* Final price confirmed by our team on WhatsApp</p>
+    </div>
+
+    <!-- SINGLE ORDER BUTTON — tapping this directly opens WhatsApp -->
+    <a id="placeOrderBtn" href="#"
+       onclick="return buildAndGo(this)"
+       style="display:flex;align-items:center;justify-content:center;gap:14px;
+              width:100%;padding:20px;
+              background:#25D366;color:white;text-decoration:none;
+              font-size:19px;font-weight:800;font-family:'Inter',sans-serif;
+              border-radius:16px;margin-top:8px;letter-spacing:0.3px;
+              box-shadow:0 6px 20px rgba(37,211,102,0.45);
+              transition:background 0.2s,transform 0.1s;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      📲 PLACE ORDER ON WHATSAPP
+    </a>
+    <p style="text-align:center;font-size:12px;color:#aaa;margin-top:8px;">
+      One tap → WhatsApp opens with your full order ready to send
+    </p>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ════════════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════════════
+const WHATSAPP_NUMBER = '971524877701';
+const POINTS_PER_AED = 1; // 1 AED ordered = 1 loyalty point for the office in-charge
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7T-ueWUWpCf7TVhn99JKXaX-KzYI05voDrVk2op9QpZjOpen22wLdwGd7Hde1N4JV/exec';
+
+// Menu data
+const menuData = {
+  broast: [
+    { name: "2 Pcs Broast", desc: "Garlic, Ketchup, Fries, Pitta", price: 14 },
+    { name: "4 Pcs Broast", desc: "Garlic, Ketchup, Fries, Pitta", price: 24 },
+    { name: "8 Pcs Broast", desc: "Garlic, Ketchup, Fries, Pitta", price: 47 },
+    { name: "16 Pcs Broast", desc: "Garlic, Ketchup, Fries, Pitta, Drink", price: 95 },
+    { name: "20 Pcs Broast", desc: "Coleslaw, Garlic, Ketchup, Fries, Pitta, Drink", price: 115 },
+    { name: "Single Combo", desc: "2 pcs + 2 Strips + Mini Drink + Coleslaw + Garlic + Fries", price: 26 },
+    { name: "Value Meal", desc: "6 pcs + 4 Strips + Coleslaw + Garlic + Fries + Pitta + Drink", price: 68 },
+    { name: "Deluxe Meal", desc: "8 pcs + 4 Strips + 5 Garlic + Fries + Pitta + Drink", price: 75 },
+    { name: "Burger Combo", desc: "2 pcs + 1 Burger + Fries + Pitta + 3 Garlic + Ketchup", price: 29 },
+    { name: "Chicken Strips (5 pcs)", desc: "Crispy strips", price: 13 },
+    { name: "Chicken Strips (10 pcs)", desc: "Crispy strips family pack", price: 22 },
+  ],
+  madhoot: [
+    { name: "Chicken Madhoot (Quarter)", desc: "Pressure chicken rice", price: 16 },
+    { name: "Chicken Madhoot (Half)", desc: "Pressure chicken rice", price: 30 },
+    { name: "Chicken Madhoot (Full)", desc: "Pressure chicken rice", price: 55 },
+    { name: "Madhoot + 2 Pcs Broast (Quarter)", desc: "Rice + broasted", price: 20 },
+    { name: "Madhoot + 4 Pcs Broast (Half)", desc: "Rice + broasted", price: 37 },
+    { name: "Madhoot + 8 Pcs Broast (Full)", desc: "Rice + broasted", price: 70 },
+    { name: "Al Faham Madhoot (Half)", desc: "Grilled style", price: 37 },
+    { name: "Al Faham Madhoot (Full)", desc: "Grilled style", price: 69 },
+    { name: "Beef Madhoot (Quarter)", desc: "Beef rice", price: 22 },
+    { name: "Beef Madhoot (Half)", desc: "Beef rice", price: 42 },
+    { name: "Chicken Madhoot Family (10 persons)", desc: "Family platter", price: 135 },
+  ],
+  burger: [
+    { name: "Truffle Beef Burger (Single)", desc: "Premium truffle beef", price: 21 },
+    { name: "Truffle Beef Burger (Meal)", desc: "With fries & drink", price: 27 },
+    { name: "Beef Classic Burger (Single)", desc: "Classic beef", price: 20 },
+    { name: "Beef Classic Burger (Meal)", desc: "With fries & drink", price: 26 },
+    { name: "Lusso Zinger (Single)", desc: "Chicken zinger", price: 14 },
+    { name: "Lusso Zinger (Meal)", desc: "With fries & drink", price: 20 },
+    { name: "Grilled Chicken Burger (Single)", desc: "Grilled chicken", price: 16 },
+    { name: "Grilled Chicken Burger (Meal)", desc: "With fries & drink", price: 22 },
+  ],
+  wraps: [
+    { name: "Chicken Fajita Wrap", desc: "Chicken fajita sandwich", price: 10 },
+    { name: "Shrimp Wrap Sandwich", desc: "Shrimp wrap", price: 13 },
+    { name: "Truffle Beef Tortilla Wrap", desc: "Truffle beef wrap", price: 14 },
+    { name: "Strips Wrap Sandwich", desc: "Chicken strips wrap", price: 10 },
+    { name: "Dynamite Chicken Wrap", desc: "Spicy dynamite wrap", price: 12 },
+  ],
+  fries: [
+    { name: "French Fries", desc: "Classic crispy fries", price: 8 },
+    { name: "Spicy French Fries", desc: "Hot & spicy", price: 11 },
+    { name: "Normal Loaded Fries", desc: "Loaded with toppings", price: 17 },
+    { name: "Beef Loaded Fries", desc: "With beef topping", price: 23 },
+    { name: "Lusso Chicken Fries", desc: "Chicken loaded", price: 21 },
+    { name: "Chicken Dynamite 6 Pcs", desc: "Spicy dynamite pieces", price: 21 },
+    { name: "Shrimp Dynamite 6 Pcs", desc: "Crispy shrimp bites", price: 26 },
+    { name: "Hummus Plate", desc: "Fresh hummus", price: 8 },
+    { name: "Chicken Popcorn", desc: "Bite-size crispy chicken", price: 10 },
+    { name: "Pistachio Chicken Popcorn", desc: "Pistachio coated", price: 16 },
+    { name: "Dynamite Popcorn", desc: "Spicy dynamite bites", price: 16 },
+    { name: "Turkish Alfaham (Half)", desc: "Grilled Turkish style", price: 26 },
+    { name: "Peri Peri Alfaham (Half)", desc: "Peri peri marination", price: 26 },
+  ],
+  drinks: [
+    { name: "Orange Juice", desc: "Fresh squeezed", price: 11 },
+    { name: "Mango Juice", desc: "Fresh mango", price: 12 },
+    { name: "Avocado Juice", desc: "Creamy avocado", price: 12 },
+    { name: "Lemon Mint", desc: "Refreshing lemon mint", price: 9 },
+    { name: "Lusso Signature", desc: "House special blend", price: 15 },
+    { name: "Crystal", desc: "Special blend", price: 15 },
+    { name: "Mushtani", desc: "Special blend", price: 15 },
+    { name: "Emarathi", desc: "UAE special blend", price: 16 },
+    { name: "Green Apple Mojito", desc: "Refreshing mojito", price: 11 },
+    { name: "Passion Fruit Mojito", desc: "Tropical mojito", price: 11 },
+    { name: "Watermelon Mojito", desc: "Sweet & fresh", price: 11 },
+    { name: "Blue Lemonade Mojito", desc: "Signature blue mojito", price: 11 },
+    { name: "Saudi Champagne", desc: "Non-alcoholic special", price: 22 },
+    { name: "Mocktail (Jug)", desc: "Large jug mocktail", price: 40 },
+    { name: "Garlic Sauce", desc: "Per cup", price: 1 },
+    { name: "Coleslaw", desc: "Per serving", price: 6 },
+    { name: "Dynamite Sauce", desc: "Per cup", price: 3 },
+  ],
+  cans_small: [
+    { name: "Kinza Cola", desc: "Can 250ml", price: 3 },
+    { name: "Kinza Orange", desc: "Can 250ml", price: 3 },
+    { name: "Kinza Lemon", desc: "Can 250ml", price: 3 },
+    { name: "Kinza Lemon Diet", desc: "Can 250ml", price: 3 },
+    { name: "Kinza Citrus", desc: "Can 250ml", price: 3 },
+    { name: "Pepsi Diet", desc: "Can 250ml", price: 3 },
+    { name: "Cola Diet", desc: "Can 250ml", price: 3 },
+  ],
+  cans_large: [
+    { name: "Pepsi", desc: "2 Liter Bottle", price: 6 },
+    { name: "7UP", desc: "2 Liter Bottle", price: 6 },
+    { name: "Mountain Dew", desc: "2 Liter Bottle", price: 6 },
+    { name: "Sprite", desc: "2 Liter Bottle", price: 6 },
+    { name: "Mirinda", desc: "2 Liter Bottle", price: 6 },
+  ]
+};
+
+const quantities = {};
+let total = 0;
+
+// Valid coupon codes — CORP10 gives 10% off total except cans
+const VALID_CODES = ['CORP10'];
+// These categories are EXCLUDED from discount (canned sodas)
+const NO_DISCOUNT_CATS = ['cans_small', 'cans_large'];
+// drinks category key — also excluded from discount
+const DRINK_CATEGORY = 'drinks';
+
+// ════════════════════════════════════════════════════════
+//  OFFICE CODE (LOYALTY) — from ?ref= link, remembered per device
+// ════════════════════════════════════════════════════════
+function cleanRef(v) {
+  return (v || '').toUpperCase().replace(/[^A-Z0-9\-]/g, '').slice(0, 12);
+}
+
+function getSavedRef() {
+  try { return localStorage.getItem('mozonRefCode') || ''; } catch (e) { return ''; }
+}
+function saveRef(code) {
+  try { localStorage.setItem('mozonRefCode', code); } catch (e) {}
+}
+
+function initRef() {
+  let ref = '';
+  try {
+    ref = cleanRef(new URLSearchParams(location.search).get('ref'));
+  } catch (e) {}
+  if (!ref) ref = cleanRef(getSavedRef());
+  if (ref) {
+    document.getElementById('refcode').value = ref;
+    const banner = document.getElementById('refBanner');
+    banner.innerHTML = '🏆 Ordering under Office Code <span style="letter-spacing:2px;">' + ref + '</span> — loyalty points from this order go to your office in-charge!';
+    banner.classList.add('show');
+  }
+  checkRef();
+}
+
+function checkRef() {
+  const input = document.getElementById('refcode');
+  const code = cleanRef(input.value);
+  if (input.value !== code) input.value = code;
+  const fb = document.getElementById('refFeedback');
+  if (code) {
+    fb.className = 'ref-feedback valid';
+    fb.textContent = '🏆 Points from this order will be credited to Office Code ' + code;
+  } else {
+    fb.className = 'ref-feedback';
+    fb.textContent = '';
+  }
+  updateTotal();
+}
+
+function isValidPromo(code) {
+  return VALID_CODES.includes(code.trim().toUpperCase());
+}
+
+function checkPromo() {
+  const code = document.getElementById('promo').value.trim();
+  const fb = document.getElementById('promoFeedback');
+  if (!code) {
+    fb.className = 'promo-feedback';
+    fb.textContent = '';
+  } else if (isValidPromo(code)) {
+    fb.className = 'promo-feedback valid';
+    fb.textContent = '✅ Code applied! 10% discount on your order (canned sodas excluded)';
+  } else {
+    fb.className = 'promo-feedback invalid';
+    fb.textContent = '❌ Invalid code. Use: CORP10';
+  }
+  updateTotal();
+}
+
+function buildGrid(items, gridId, categoryKey) {
+  const grid = document.getElementById(gridId);
+  items.forEach((item, idx) => {
+    const key = categoryKey + '-' + idx;
+    quantities[key] = 0;
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.id = 'card-' + key;
+    card.innerHTML = `
+      <div style="flex:1;">
+        <div class="item-name">${item.name}</div>
+        <div class="item-desc">${item.desc}</div>
+        <div class="item-price">AED ${item.price}</div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="changeQty(event,'${key}',-1)">−</button>
+          <span class="qty-num" id="qty-${key}">1</span>
+          <button class="qty-btn" onclick="changeQty(event,'${key}',1)">+</button>
+          <span class="qty-label">qty</span>
+        </div>
+      </div>
+    `;
+    card.onclick = () => toggleItem(key, item, card);
+    grid.appendChild(card);
+  });
+}
+
+function toggleItem(key, item, card) {
+  const isSelected = card.classList.contains('selected');
+  if (isSelected) {
+    card.classList.remove('selected');
+    quantities[key] = 0;
+  } else {
+    card.classList.add('selected');
+    quantities[key] = 1;
+    document.getElementById('qty-' + key).textContent = '1';
+  }
+  updateTotal();
+}
+
+function changeQty(e, key, delta) {
+  e.stopPropagation();
+  const card = document.getElementById('card-' + key);
+  if (!card.classList.contains('selected')) return;
+  quantities[key] = Math.max(1, (quantities[key] || 1) + delta);
+  document.getElementById('qty-' + key).textContent = quantities[key];
+  updateTotal();
+}
+
+function getAllItems() {
+  const all = {};
+  Object.entries(menuData).forEach(([cat, items]) => {
+    items.forEach((item, idx) => {
+      all[cat + '-' + idx] = { ...item, category: cat };
+    });
+  });
+  return all;
+}
+
+function isNoDiscountCat(cat) {
+  return NO_DISCOUNT_CATS.includes(cat) || cat === DRINK_CATEGORY;
+}
+
+function updateTotal() {
+  const allItems = getAllItems();
+  const promoCode = document.getElementById('promo').value.trim();
+  const hasDiscount = isValidPromo(promoCode);
+
+  let discountableSubtotal = 0;
+  let noDiscountSubtotal = 0;
+  const selected = [];
+
+  Object.entries(quantities).forEach(([key, qty]) => {
+    if (qty > 0 && allItems[key]) {
+      const item = allItems[key];
+      const lineTotal = item.price * qty;
+      const excluded = isNoDiscountCat(item.category);
+      if (excluded) {
+        noDiscountSubtotal += lineTotal;
+      } else {
+        discountableSubtotal += lineTotal;
+      }
+      selected.push({ name: item.name, qty, price: item.price, excluded });
+    }
+  });
+
+  const discountAmount = hasDiscount ? Math.round(discountableSubtotal * 0.10 * 100) / 100 : 0;
+  total = Math.round((discountableSubtotal - discountAmount + noDiscountSubtotal) * 100) / 100;
+
+  document.getElementById('totalDisplay').textContent = 'AED ' + total.toFixed(2);
+
+  // Loyalty points preview — only when an office code is entered
+  const refCode = cleanRef(document.getElementById('refcode').value);
+  const pointsRow = document.getElementById('pointsRow');
+  if (refCode && total > 0) {
+    pointsRow.style.display = 'flex';
+    document.getElementById('pointsDisplay').textContent =
+      Math.round(total * POINTS_PER_AED) + ' pts → ' + refCode;
+  } else {
+    pointsRow.style.display = 'none';
+  }
+
+  const summary = document.getElementById('orderSummary');
+  const list = document.getElementById('summaryList');
+
+  if (selected.length > 0) {
+    summary.style.display = 'block';
+    let html = selected.map(s => `
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px;">
+        <span>${s.name} <span style="color:#999;">x${s.qty}</span>${s.excluded ? ' <span style="font-size:11px;color:#888;">(no discount)</span>' : ''}</span>
+        <span style="font-weight:700;">AED ${(s.price * s.qty).toFixed(2)}</span>
+      </div>
+    `).join('');
+
+    if (hasDiscount && discountAmount > 0) {
+      html += `
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#555;">
+          <span>Subtotal (discountable)</span>
+          <span>AED ${discountableSubtotal.toFixed(2)}</span>
+        </div>
+        <div class="discount-row">
+          <span>🎁 10% OFF (${promoCode.toUpperCase()})</span>
+          <span>− AED ${discountAmount.toFixed(2)}</span>
+        </div>
+        ${noDiscountSubtotal > 0 ? `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#555;"><span>Drinks / Cans (no discount)</span><span>AED ${noDiscountSubtotal.toFixed(2)}</span></div>` : ''}
+      `;
+    }
+    list.innerHTML = html;
+  } else {
+    summary.style.display = 'none';
+  }
+}
+
+function buildAndGo(anchor) {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const company = document.getElementById('company').value.trim();
+  const date = document.getElementById('date').value;
+  const timeHour = document.getElementById('timeHour').value;
+  const timeMin = document.getElementById('timeMin').value;
+  const timeAmPm = document.getElementById('timeAmPm').value;
+  const payment = document.getElementById('payment').value;
+  const time = (timeHour && timeMin !== '' && timeAmPm) ? `${timeHour}:${timeMin} ${timeAmPm}` : '';
+
+  if (!name || !phone || !company || !date || !time || !payment) {
+    alert('⚠️ Please fill in all required fields marked with *');
+    return false;
+  }
+
+  const allItems = getAllItems();
+  const selectedItems = [];
+  let discountableSubtotal = 0;
+  let noDiscountSubtotal = 0;
+
+  Object.entries(quantities).forEach(([key, qty]) => {
+    if (qty > 0 && allItems[key]) {
+      const item = allItems[key];
+      const lineTotal = item.price * qty;
+      const excluded = isNoDiscountCat(item.category);
+      selectedItems.push(`${item.name} x${qty} = AED ${lineTotal.toFixed(2)}${excluded ? ' (no discount)' : ''}`);
+      if (excluded) {
+        noDiscountSubtotal += lineTotal;
+      } else {
+        discountableSubtotal += lineTotal;
+      }
+    }
+  });
+
+  if (selectedItems.length === 0) {
+    alert('⚠️ Please select at least one item from the menu!');
+    return false;
+  }
+
+  const promoCode = document.getElementById('promo').value.trim();
+  const hasDiscount = isValidPromo(promoCode);
+  const discountAmount = hasDiscount ? Math.round(discountableSubtotal * 0.10 * 100) / 100 : 0;
+  const finalTotal = Math.round((discountableSubtotal - discountAmount + noDiscountSubtotal) * 100) / 100;
+
+  const notes = document.getElementById('notes').value.trim();
+  const office = document.getElementById('office').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const refCode = cleanRef(document.getElementById('refcode').value);
+  const pointsEarned = refCode ? Math.round(finalTotal * POINTS_PER_AED) : 0;
+  if (refCode) saveRef(refCode);
+
+  const discountLine = hasDiscount
+    ? `\n🎁 Promo: ${promoCode.toUpperCase()} → -AED ${discountAmount.toFixed(2)}`
+    : '';
+  const loyaltyLine = refCode
+    ? `\n🏆 Office Code: ${refCode} (+${pointsEarned} pts)`
+    : '';
+
+  const msg =
+`🍗 *MOZON BROAST — CORPORATE ORDER* 🍗
+
+👤 *Name:* ${name}
+📞 *Phone:* ${phone}
+🏢 *Company:* ${company}${office ? ' | ' + office : ''}${email ? '\n📧 ' + email : ''}
+
+📅 *Date:* ${date}
+⏰ *Time:* ${time}
+💳 *Payment:* ${payment}${discountLine}${loyaltyLine}
+
+🛒 *ITEMS:*
+${selectedItems.join('\n')}
+
+${hasDiscount ? `Subtotal: AED ${discountableSubtotal.toFixed(2)}\n💸 Discount (10%): -AED ${discountAmount.toFixed(2)}\n` : ''}${noDiscountSubtotal > 0 ? `Drinks/Cans: AED ${noDiscountSubtotal.toFixed(2)}\n` : ''}💰 *TOTAL: AED ${finalTotal.toFixed(2)}*
+${notes ? '\n📝 Notes: ' + notes : ''}`;
+
+  anchor.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+
+  // ── SEND TO GOOGLE SHEETS (silent, no popup, never blocks the order) ──
+  const sheetData = {
+    timestamp: new Date().toISOString(),
+    name, phone, company,
+    office: office || '',
+    email: email || '',
+    date, time, payment,
+    items: selectedItems.join(' | '),
+    foodSubtotal: discountableSubtotal.toFixed(2),
+    drinksTotal: noDiscountSubtotal.toFixed(2),
+    promoCode: hasDiscount ? promoCode.toUpperCase() : '',
+    discount: discountAmount.toFixed(2),
+    total: finalTotal.toFixed(2),
+    notes: notes || '',
+    refCode: refCode,
+    points: pointsEarned
+  };
+  if (SCRIPT_URL !== 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sheetData)
+    }).catch(() => {}); // silent fail — never blocks the order
+  }
+
+  return true;
+}
+
+// Set min date to today
+document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+// Build all grids
+buildGrid(menuData.broast, 'grid-broast', 'broast');
+buildGrid(menuData.madhoot, 'grid-madhoot', 'madhoot');
+buildGrid(menuData.burger, 'grid-burger', 'burger');
+buildGrid(menuData.wraps, 'grid-wraps', 'wraps');
+buildGrid(menuData.fries, 'grid-fries', 'fries');
+buildGrid(menuData.drinks, 'grid-drinks', 'drinks');
+buildGrid(menuData.cans_small, 'grid-cans_small', 'cans_small');
+buildGrid(menuData.cans_large, 'grid-cans_large', 'cans_large');
+
+// Activate loyalty code from personal link / previous visit
+initRef();
+</script>
+</body>
+</html>
