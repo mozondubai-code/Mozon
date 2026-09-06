@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Mozon Broast — WhatsApp Broadcast Helper</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+  :root { --red:#D32F2F; --yellow:#FFC107; --dark:#1A1A1A; --bg:#F5F5F5; --border:#E0E0E0; --wa:#25D366; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--dark); min-height:100vh; padding-bottom:60px; }
+  .hero { background:linear-gradient(135deg,#D32F2F 0%,#B71C1C 60%,#1A1A1A 100%); color:#fff; padding:26px 16px; text-align:center; }
+  .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:2px; }
+  .hero h1 span { color:var(--yellow); }
+  .hero p { font-size:13px; opacity:.85; margin-top:4px; }
+  .wrap { max-width:640px; margin:0 auto; padding:16px; }
+  .card { background:#fff; border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+  .card h2 { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1px; color:var(--red); margin-bottom:10px; border-bottom:2px solid var(--yellow); padding-bottom:5px; }
+  label { display:block; font-size:12px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.5px; margin:10px 0 5px; }
+  input, select, textarea { width:100%; padding:12px 14px; border:2px solid var(--border); border-radius:10px; font-size:15px; font-family:'Inter',sans-serif; background:#FAFAFA; outline:none; color:var(--dark); }
+  input:focus, select:focus, textarea:focus { border-color:var(--red); background:#fff; }
+  textarea { min-height:160px; font-size:13.5px; line-height:1.5; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius:10px; padding:12px 16px; font-size:14px; font-weight:800; font-family:'Inter',sans-serif; cursor:pointer; touch-action:manipulation; text-decoration:none; }
+  .btn-red { background:var(--red); color:#fff; width:100%; margin-top:12px; }
+  .btn-wa { background:var(--wa); color:#fff; }
+  .btn-ghost { background:#fff; color:#888; border:1.5px solid var(--border); padding:8px 10px; font-size:12px; }
+  .contact { border:2px solid var(--border); border-radius:12px; padding:14px; margin-bottom:10px; background:#FAFAFA; }
+  .contact.sent { border-color:#A5D6A7; background:#F1F8E9; }
+  .contact .top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .contact b { font-size:15px; }
+  .contact .meta { font-size:12px; color:#777; margin-top:2px; line-height:1.5; }
+  .contact .badge { font-size:11px; font-weight:800; color:#2E7D32; }
+  .contact .actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+  .hint { font-size:11.5px; color:#999; margin-top:6px; line-height:1.5; }
+  .pill-tabs { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+  .pill-tabs button { flex:1; min-width:100px; padding:10px 6px; border-radius:100px; border:2px solid var(--border); background:#fff; font-weight:700; font-size:12px; cursor:pointer; font-family:'Inter',sans-serif; }
+  .pill-tabs button.active { background:var(--dark); color:var(--yellow); border-color:var(--dark); }
+  .counter { text-align:center; font-size:12.5px; color:#777; margin:4px 0 10px; font-weight:600; }
+  .empty { text-align:center; color:#999; font-size:13.5px; padding:18px 8px; }
+  .err { color:#C62828; font-size:12px; font-weight:700; margin-top:6px; display:none; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🍗 MOZON <span>BROADCAST</span></h1>
+  <p>Personal WhatsApp invites for the Corporate Free Trial — one tap per contact</p>
+</div>
+
+<div class="wrap">
+
+  <!-- YOUR NAME -->
+  <div class="card">
+    <h2>👤 Your name (shown in the message)</h2>
+    <input type="text" id="myName" placeholder="e.g. your name at Mozon Broast" oninput="saveMyName()">
+  </div>
+
+  <!-- ADD CONTACT -->
+  <div class="card">
+    <h2>➕ Add a contact</h2>
+    <div class="row">
+      <div><label>Name *</label><input type="text" id="cName" placeholder="e.g. Ahmed"></div>
+      <div><label>Mobile *</label><input type="tel" id="cPhone" placeholder="0501234567 or 9715…"></div>
+    </div>
+    <div class="row">
+      <div><label>Company</label><input type="text" id="cCompany" placeholder="e.g. Al Falah Factory"></div>
+      <div><label>Office Code (loyalty)</label><input type="text" id="cCode" placeholder="e.g. ALFA01" style="text-transform:uppercase;"></div>
+    </div>
+    <div class="err" id="addErr"></div>
+    <button class="btn btn-red" onclick="addContact()">➕ SAVE CONTACT</button>
+    <p class="hint">🔒 Contacts are saved only on THIS phone (browser storage). Nothing is uploaded anywhere. If you clear your browser data, the list is gone — keep your paper list as backup.</p>
+  </div>
+
+  <!-- MESSAGE TEMPLATE -->
+  <div class="card">
+    <h2>💬 Message</h2>
+    <div class="pill-tabs">
+      <button id="tab-en" class="active" onclick="pickTemplate('en')">🇬🇧 First msg</button>
+      <button id="tab-ar" onclick="pickTemplate('ar')">🇦🇪 عربي</button>
+      <button id="tab-fu" onclick="pickTemplate('fu')">🔁 Follow-up</button>
+    </div>
+    <textarea id="template" oninput="saveTemplate()"></textarea>
+    <p class="hint">Placeholders replaced per contact: <b>[NAME]</b> [COMPANY] [CODE] [YOURNAME]. Edit freely — your edits are saved on this phone. </p>
+    <button class="btn btn-ghost" style="margin-top:8px;" onclick="resetTemplate()">↩️ Reset this message to default</button>
+  </div>
+
+  <!-- CONTACT LIST -->
+  <div class="card">
+    <h2>📇 Your contacts</h2>
+    <div class="counter" id="counter"></div>
+    <div id="list"></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  DEFAULT MESSAGE TEMPLATES
+// ─────────────────────────────────────────────
+const DEFAULT_TEMPLATES = {
+  en:
+`Assalamu alaikum [NAME] 👋
+
+This is [YOURNAME] from *Mozon Broast* 🍗 — we met at your office and spoke about our fresh broasted chicken, burgers & juices.
+
+Good news — your company is selected for our *FREE Corporate Trial Run* 🎁
+We deliver a free tasting to your office so your team can try our food before ordering — no cost, no obligation.
+
+To book your trial, just reply with:
+1️⃣ Company name:
+2️⃣ Best day & time for delivery:
+3️⃣ How many people will taste:
+4️⃣ Any food preference (spicy / not spicy / no beef):
+
+📋 See our full menu here: madax.ae/mozonbroast-alnahda/
+
+We'll confirm your slot the same day. Thank you! 🚚`,
+  ar:
+`السلام عليكم [NAME] 👋
+معك [YOURNAME] من *مطعم مزون بروست* 🍗 — التقينا في مكتبكم.
+
+يسعدنا إبلاغكم: شركتكم مختارة لعرض *التجربة المجانية للشركات* 🎁 — نوصل تذوق مجاني لفريقكم بدون أي تكلفة.
+
+للحجز، فقط أرسل لنا:
+1️⃣ اسم الشركة:
+2️⃣ اليوم والوقت المناسب:
+3️⃣ عدد الأشخاص:
+4️⃣ أي تفضيلات للطعام:
+
+📋 قائمتنا الكاملة: madax.ae/mozonbroast-alnahda/
+شكراً لكم! 🚚`,
+  fu:
+`Hi [NAME] 👋 Just checking — would your team like their *free Mozon Broast tasting* this week? 🍗
+Only reply with your *company name + best day & time*, and we handle everything else. 🚚`
+};
+
+let currentTab = 'en';
+
+// ─────────────────────────────────────────────
+//  STORAGE (all data stays on this device only)
+// ─────────────────────────────────────────────
+function load(key, fallback) {
+  try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); }
+  catch (e) { return fallback; }
+}
+function store(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+}
+
+let contacts = load('mzContacts', []);
+let templates = load('mzTemplates', {});
+let myName = load('mzMyName', '');
+
+// ─────────────────────────────────────────────
+//  PHONE NORMALIZATION  (UAE / Qatar mobiles)
+// ─────────────────────────────────────────────
+function normalizePhone(raw) {
+  let p = (raw || '').replace(/[^0-9]/g, '');
+  if (p.startsWith('00')) p = p.slice(2);
+  if (p.startsWith('05') && p.length === 10) p = '971' + p.slice(1);   // 0501234567 → 971501234567
+  if (p.startsWith('5') && p.length === 9) p = '971' + p;              // 501234567 → 971501234567
+  if (p.startsWith('9715') && p.length === 12) return p;               // UAE mobile
+  if (p.startsWith('974') && p.length === 11) return p;                // Qatar mobile
+  if (p.startsWith('971') && p.length === 12 && !p.startsWith('9715')) return null; // UAE landline — no WhatsApp
+  return null;
+}
+
+// ─────────────────────────────────────────────
+//  CONTACTS
+// ─────────────────────────────────────────────
+function addContact() {
+  const name = document.getElementById('cName').value.trim();
+  const rawPhone = document.getElementById('cPhone').value.trim();
+  const company = document.getElementById('cCompany').value.trim();
+  const code = document.getElementById('cCode').value.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+  const err = document.getElementById('addErr');
+  err.style.display = 'none';
+
+  if (!name || !rawPhone) { err.textContent = '⚠️ Name and mobile are required.'; err.style.display = 'block'; return; }
+  const phone = normalizePhone(rawPhone);
+  if (!phone) { err.textContent = '⚠️ "' + rawPhone + '" is not a valid UAE/Qatar MOBILE (need 05… / 9715… / 974…). Landlines have no WhatsApp.'; err.style.display = 'block'; return; }
+  if (contacts.some(c => c.phone === phone)) { err.textContent = '⚠️ This number is already in your list.'; err.style.display = 'block'; return; }
+
+  contacts.push({ name, phone, company, code, sentAt: null });
+  store('mzContacts', contacts);
+  ['cName','cPhone','cCompany','cCode'].forEach(id => document.getElementById(id).value = '');
+  render();
+}
+
+function removeContact(i) {
+  if (!confirm('Remove ' + contacts[i].name + ' (' + contacts[i].phone + ') from the list?')) return;
+  contacts.splice(i, 1);
+  store('mzContacts', contacts);
+  render();
+}
+
+function buildMessage(c) {
+  const t = getTemplate(currentTab);
+  return t
+    .replaceAll('[NAME]', c.name)
+    .replaceAll('[COMPANY]', c.company || 'your company')
+    .replaceAll('[CODE]', c.code || '')
+    .replaceAll('[YOURNAME]', (document.getElementById('myName').value.trim() || 'the team'));
+}
+
+// iPhone-safe pattern: set the anchor href, let the browser follow it natively
+function sendWA(anchor, i) {
+  const c = contacts[i];
+  anchor.href = 'https://wa.me/' + c.phone + '?text=' + encodeURIComponent(buildMessage(c));
+  c.sentAt = new Date().toLocaleString('en-AE');
+  store('mzContacts', contacts);
+  setTimeout(render, 600); // re-render after navigation kicks off
+  return true;
+}
+
+function render() {
+  const list = document.getElementById('list');
+  const total = contacts.length;
+  const sent = contacts.filter(c => c.sentAt).length;
+  document.getElementById('counter').textContent =
+    total === 0 ? '' : '📊 ' + sent + ' of ' + total + ' contacted';
+
+  if (total === 0) {
+    list.innerHTML = '<div class="empty">No contacts yet — add the names & numbers you collected 👆</div>';
+    return;
+  }
+  list.innerHTML = contacts.map((c, i) => `
+    <div class="contact ${c.sentAt ? 'sent' : ''}">
+      <div class="top">
+        <div>
+          <b>${esc(c.name)}</b>${c.code ? ' · <span style="color:#B8860B;font-weight:800;font-size:12px;">' + esc(c.code) + '</span>' : ''}
+          <div class="meta">${esc(c.company) || '—'}<br>📱 ${c.phone}${c.sentAt ? '<br><span class="badge">✅ Sent: ' + esc(c.sentAt) + '</span>' : ''}</div>
+        </div>
+        <button class="btn btn-ghost" onclick="removeContact(${i})">🗑</button>
+      </div>
+      <div class="actions">
+        <a class="btn btn-wa" href="#" onclick="return sendWA(this, ${i})">📲 ${c.sentAt ? 'Send again' : 'Send on WhatsApp'}</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─────────────────────────────────────────────
+//  TEMPLATES
+// ─────────────────────────────────────────────
+function getTemplate(tab) {
+  return (templates[tab] !== undefined && templates[tab] !== '') ? templates[tab] : DEFAULT_TEMPLATES[tab];
+}
+function pickTemplate(tab) {
+  currentTab = tab;
+  ['en','ar','fu'].forEach(t => document.getElementById('tab-' + t).classList.toggle('active', t === tab));
+  const ta = document.getElementById('template');
+  ta.value = getTemplate(tab);
+  ta.dir = (tab === 'ar') ? 'rtl' : 'ltr';
+}
+function saveTemplate() {
+  templates[currentTab] = document.getElementById('template').value;
+  store('mzTemplates', templates);
+}
+function resetTemplate() {
+  delete templates[currentTab];
+  store('mzTemplates', templates);
+  pickTemplate(currentTab);
+}
+function saveMyName() {
+  store('mzMyName', document.getElementById('myName').value);
+}
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+document.getElementById('myName').value = myName || '';
+pickTemplate('en');
+render();
+</script>
+</body>
+</html>
